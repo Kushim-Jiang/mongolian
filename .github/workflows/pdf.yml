@@ -3,7 +3,7 @@
 # The pages of the built site in `dist/` are merged into one document, in the order
 # of the `sidebar` array in `astro.config.ts`, and handed to WeasyPrint. What it
 # prints is the site's own print styling: the `@media print` rules in
-# `web/src/custom.css`.
+# `src/custom.css`.
 #
 # The PDF is an artifact of the run and nothing else: it is written to the runner's
 # temporary directory and uploaded for download, so a run never leaves a file in the
@@ -33,7 +33,7 @@ jobs:
 
             - uses: actions/setup-python@v7
               with:
-                  python-version-file: .python-version
+                  python-version-file: mongfontbuilder/.python-version
 
             - uses: astral-sh/setup-uv@v10.1.0
 

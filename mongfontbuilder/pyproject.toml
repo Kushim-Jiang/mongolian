@@ -30,15 +30,12 @@ dev = [
     "uharfbuzz>=0.42.0",
 ]
 
-[tool.uv.build-backend]
-module-root = "lib"
-
 [build-system]
 requires = ["uv_build>=0.8.11,<0.9.0"]
 build-backend = "uv_build"
 
 [tool.ruff]
-src = [".", "lib", "tests"] # Treat as first-party for sorting imports
+src = [".", "src", "tests"] # Treat as first-party for sorting imports
 line-length = 100
 lint.select = [
     "E4",
@@ -62,8 +59,9 @@ lint.ignore = [
 ]
 
 [tool.pyright]
-include = ["lib", "tests"]
-extraPaths = ["lib"]
+include = ["src", "tests"]
+extraPaths = ["src"]
 
 [tool.pytest.ini_options]
-addopts = "lib tests --doctest-modules --doctest-report ndiff --color=yes"
+testpaths = ["src", "tests"]
+addopts = "--doctest-modules --doctest-report ndiff --color=yes"

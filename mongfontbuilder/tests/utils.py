@@ -14,8 +14,9 @@ from mongfontbuilder.data import LocaleID, aliases
 from mongfontbuilder.utils import namespaceFromLocale
 
 testsDir = Path(__file__).parent
-repo = testsDir / ".."
-tempDir = repo / "temp"
+project = testsDir.parent  # the mongfontbuilder project this suite belongs to
+repo = project.parent  # the repository, where the templates live
+tempDir = project / "temp"
 tempDir.mkdir(exist_ok=True)
 
 writingSystemToLocaleID: dict[str, LocaleID] = {

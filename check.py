@@ -1,17 +1,23 @@
 #!/usr/bin/env python3
-"""Unified check entry point for the mongfontbuilder repository.
+"""Unified check entry point for the mongolian repository.
 
-Runs all linters / type checkers for the Python library and the web docs site:
+Runs all linters / type checkers of both projects of the repository:
 
   - Python  : ruff (lint + format), pyright (type check; CLI equivalent of Pylance)
+              — the `mongfontbuilder` project in `mongfontbuilder/`
   - Web     : astro check (TypeScript + .astro), svelte-check (Svelte components)
+              — the documentation site, which is the repository root
 
-Usage:
-  uv run check.py            # run all checks
-  uv run check.py --fix      # auto-fix fixable issues (ruff --fix, ruff format) first
-  uv run check.py --json     # also write reports/check.json with per-tool results
-  uv run check.py --fast     # skip slow checks (astro check)
-  uv run check.py --only ruff,pyright
+Both projects have to be installed first: `uv sync` in `mongfontbuilder/`, and
+`npm install` at the repository root. Then, from the repository root:
+
+  uv run --project mongfontbuilder python check.py [option]
+
+  (no option)   run all checks
+  --fix         auto-fix fixable issues (ruff --fix, ruff format) first
+  --json        also write reports/check.json with per-tool results
+  --fast        skip slow checks (astro check)
+  --only LIST   comma-separated subset: ruff,ruff-format,pyright,astro,svelte
 
 Exit code is non-zero if any check fails (safe for CI / pre-commit).
 """
@@ -27,15 +33,16 @@ from collections.abc import Sequence
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent
+PROJECT = REPO / "mongfontbuilder"
 PY = (
-    REPO / ".venv" / "Scripts" / "python.exe"
+    PROJECT / ".venv" / "Scripts" / "python.exe"
     if sys.platform == "win32"
-    else REPO / ".venv" / "bin" / "python"
+    else PROJECT / ".venv" / "bin" / "python"
 )
 RUFF = (
-    REPO / ".venv" / "Scripts" / "ruff.exe"
+    PROJECT / ".venv" / "Scripts" / "ruff.exe"
     if sys.platform == "win32"
-    else REPO / ".venv" / "bin" / "ruff"
+    else PROJECT / ".venv" / "bin" / "ruff"
 )
 NPM_BIN = REPO / "node_modules" / ".bin"
 RUFF_RULES = "E4,E7,E9,F,I"
@@ -100,16 +107,22 @@ def main() -> int:
 
     if args.fix and wanted("ruff"):
         results.append(
-            run("ruff --fix", [RUFF, "check", "--select", RUFF_RULES, "--fix", "lib", "tests"])
+            run(
+                "ruff --fix",
+                [RUFF, "check", "--select", RUFF_RULES, "--fix", "src", "tests"],
+                cwd=PROJECT,
+            )
         )
-        results.append(run("ruff format", [RUFF, "format", "lib", "tests"]))
+        results.append(run("ruff format", [RUFF, "format", "src", "tests"], cwd=PROJECT))
 
     if wanted("ruff"):
-        results.append(run("ruff check", [RUFF, "check", "--select", RUFF_RULES, "lib", "tests"]))
+        results.append(
+            run("ruff check", [RUFF, "check", "--select", RUFF_RULES, "src", "tests"], PROJECT)
+        )
     if wanted("ruff-format"):
-        results.append(run("ruff format --check", [RUFF, "format", "--check", "lib", "tests"]))
+        results.append(run("ruff format --check", [RUFF, "format", "--check", "src", "tests"], PROJECT))
     if wanted("pyright"):
-        results.append(run("pyright", [PY, "-m", "pyright", "lib"]))
+        results.append(run("pyright", [PY, "-m", "pyright", "src"], PROJECT))
     if wanted("astro") and not args.fast:
         results.append(run("astro check", npm("astro", "check"), timeout=900))
     if wanted("svelte"):
