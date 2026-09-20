@@ -19,13 +19,14 @@
     }
   },
   "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
   "python.testing.pytestEnabled": true,
   "python.testing.autoTestDiscoverOnSaveEnabled": false,
   "[toml]": {
     "editor.defaultFormatter": "bodil.prettier-toml"
   },
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
@@ -34,5 +35,8 @@
   "python.testing.unittestEnabled": false,
   "[astro]": {
     "editor.defaultFormatter": "astro-build.astro-vscode"
-  }
+  },
+  "problems.decorations.enabled": true,
+  "css.lint.unknownProperties": "ignore",
+  "css.lint.unknownAtRules": "ignore"
 }
