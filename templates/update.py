@@ -1,12 +1,18 @@
 from pathlib import Path
 
-from glyphsLib import GSFeaturePrefix, GSFont, GSFontMaster, GSGlyph, GSInstance, GSLayer
+from glyphsLib import (
+    GSFeaturePrefix,
+    GSFont,
+    GSFontMaster,
+    GSGlyph,
+    GSInstance,
+    GSLayer,
+)
 from glyphsLib.builder import GlyphsBuilder
-from ufoLib2 import Font
-
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
+from ufoLib2 import Font
 
 templatesDir = Path(__file__).parent
 repo = templatesDir / ".."
