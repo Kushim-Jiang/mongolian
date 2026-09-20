@@ -6,7 +6,7 @@
   "files.exclude": {
     ".astro": true,
     ".svelte-kit": true,
-    ".venv": true,
+    "**/.venv": true,
     "node_modules": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",

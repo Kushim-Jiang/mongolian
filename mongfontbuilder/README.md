@@ -14,7 +14,7 @@ The library includes various utilities, including:
 - Dynamic generation of OpenType Layout rules.
 - Construction of a complete font from a minimal glyph set.
 
-A CLI is also available — it reads a source UFO font and writes a complete font with the generated OTL rules:
+A CLI is also available — it reads a source UFO font and writes a complete font with the generated OTL rules. Run from this project directory:
 
 ```sh
 uv run python -m mongfontbuilder input.ufo output.otf --locales MNG
