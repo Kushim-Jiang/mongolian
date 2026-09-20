@@ -6,14 +6,14 @@
   }
   let { locale, outside = [] }: Props = $props();
 
-  import type { LocaleID } from "../../data/locales";
-  import type { JoiningPosition } from "../../data/misc";
-  import type { FVS, VariantData } from "../../data/variants";
-  import type { WrittenUnitID } from "../../data/writtenUnits";
+  import type { LocaleID } from "../data/locales";
+  import type { JoiningPosition } from "../data/misc";
+  import type { FVS, VariantData } from "../data/variants";
+  import type { WrittenUnitID } from "../data/writtenUnits";
   import type { OutsideLetter } from "./outsideLetters";
-  import { joiningPositions } from "../../data/misc";
-  import { variants } from "../../data/variants";
-  import { aliases } from "../../data/aliases";
+  import { joiningPositions } from "../data/misc";
+  import { variants } from "../data/variants";
+  import { aliases } from "../data/aliases";
   import LetterVariant from "./LetterVariant.svelte";
   import { hexFromCP, nameToCP } from "./utils";
   import { localeNS, orderedAliases, resolveCharName, mapGetOrCreate, isVariantRef, sortedFVSKeys } from "./utils";

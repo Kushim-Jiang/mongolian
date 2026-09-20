@@ -1,5 +1,5 @@
-import type { JoiningPosition } from "../../data/misc";
-import type { WrittenUnitID } from "../../data/writtenUnits";
+import type { JoiningPosition } from "../data/misc";
+import type { WrittenUnitID } from "../data/writtenUnits";
 
 /**
  * A letter that lies outside every writing system: no character of the data is written
