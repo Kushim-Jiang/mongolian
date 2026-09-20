@@ -29,3 +29,5 @@ jobs:
         working-directory: mongfontbuilder
 
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: mongfontbuilder/dist
