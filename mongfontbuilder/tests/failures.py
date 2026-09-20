@@ -31,7 +31,7 @@ sys.path.insert(0, str(HERE))
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
 
-from test_unified import (  # noqa: E402
+from unified import (  # noqa: E402
     CASES,
     LANGUAGE,
     caseIsXfail,
@@ -51,7 +51,7 @@ def composeIfNeeded() -> None:
     if composedOTF.exists():
         return
 
-    from test_unified import buildUnifiedFont
+    from unified import buildUnifiedFont
 
     buildUnifiedFont()
 

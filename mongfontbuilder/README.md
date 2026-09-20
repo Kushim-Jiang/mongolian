@@ -42,11 +42,11 @@ uv run pytest
 
 The harness builds each test font on the fly using the package API, shapes the test strings with [HarfBuzz](https://harfbuzz.github.io/), and compares the resulting glyph sequence with the expected output. The tests are organized per writing system, each with its own UFO test font and test cases under `tests/data/`:
 
-- **Hudum** (`MNG`), from `tests/hudum.ufo`, is validated against the EAC and core suites (`eac-hud`, `core-hud`);
-- **Manchu** (`MCH`), from `tests/manchu.ufo` and `tests/manchu-ag.ufo`, is validated against the core suite (`core-man`);
-- **Sibe** (`SIB`), from `tests/sibe.ufo`, is validated against the core suite (`core-sib`).
+- **Hudum** (`MNG`), from `tests/fonts/hudum.ufo`, is validated against the EAC and core suites (`eac-hud`, `core-hud`);
+- **Manchu** (`MCH`), from `tests/fonts/manchu.ufo` and `tests/fonts/manchu-ag.ufo`, is validated against the core suite (`core-man`);
+- **Sibe** (`SIB`), from `tests/fonts/sibe.ufo`, is validated against the core suite (`core-sib`).
 
-A font that writes with every writing system at once, from `tests/unified.ufo`, is validated against the same cases by `tests/test_unified.py`.
+A font that writes with every writing system at once, from `tests/fonts/unified.ufo`, is validated against the same cases by `tests/test_unified.py`; the font it composes and the cases it runs are in `tests/unified.py`.
 
 ### Cases the EAC expects differently
 

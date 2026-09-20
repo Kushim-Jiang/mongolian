@@ -12,9 +12,7 @@ fontPath = tempDir / "HudumTemplate-Regular.otf"
 if targeted and not fontPath.exists():
     run(["uv", "run", "glyphs", "export", "--output", tempDir, repo / "templates" / "hudum.glyphs"])
 
-testCases = (
-    loadRawTestCases({"eac": ["hud"], "core": ["hud"]}, "MNG") if fontPath.exists() else []
-)
+testCases = loadRawTestCases({"eac": ["hud"], "core": ["hud"]}, "MNG") if fontPath.exists() else []
 
 
 @pytest.mark.skipif(not targeted, reason="The test font can only be built on macOS.")

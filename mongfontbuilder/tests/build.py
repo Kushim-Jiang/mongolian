@@ -28,11 +28,11 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from fixtures import buildFontForLocales  # noqa: E402
 from mongfontbuilder.data.types import LocaleID  # noqa: E402
-from test_unified import buildUnifiedFont  # noqa: E402
+from unified import buildUnifiedFont  # noqa: E402
 from utils import tempDir  # noqa: E402
 
 # The fonts that write with one writing system, by the name of the font. The unified font
-# writes with every writing system at once and is composed by `test_unified.py`.
+# writes with every writing system at once and is composed by `unified.py`.
 LOCALES: dict[str, list[LocaleID]] = {
     "hudum": ["MNG"],
     "sibe": ["SIB"],

@@ -68,10 +68,11 @@ mongolian/
    ├─ src/mongfontbuilder/   the Python package
    │  ├─ otl/                the OpenType Layout composer (one module per shaping phase)
    │  ├─ data/               the JSON data, exported by data/export.ts
-   │  └─ …                   the data model, the glyph descriptors, and the CLI
+   │  └─ ...                 the data model, the glyph descriptors, and the CLI
    └─ tests/                 the pytest suite
-      ├─ *.ufo               the per-writing-system test fonts
-      └─ data/               the shaping test cases (core-*, eac-*)
+      ├─ fonts/              the test fonts (one .ufo per writing system)
+      ├─ data/               the shaping test cases (core-*, eac-*)
+      └─ ...                 the harness, and the tools that build and trace
 ```
 
 The group begins with the JSON data, which are the form in which the specification data reach the Python package; the package generates the OpenType Layout rules of a font, and the test suite checks them.
@@ -105,7 +106,7 @@ uv run python -m mongfontbuilder input.ufo output.otf --locales MNG
 Both `.ufo` and `.otf` output formats are supported, and one or more locales may be given from `MNG`, `TOD`, `SIB`, `MCH`. For example, to build a Hudum font from the Hudum test font of the project:
 
 ```sh
-uv run python -m mongfontbuilder tests/hudum.ufo temp/hudum.otf --locales MNG
+uv run python -m mongfontbuilder tests/fonts/hudum.ufo temp/hudum.otf --locales MNG
 ```
 
 #### Tests
@@ -118,9 +119,9 @@ uv run pytest
 
 The harness builds each test font on the fly using the package API, shapes the test strings with [HarfBuzz](https://harfbuzz.github.io/), and compares the resulting glyph sequence with the expected output. The tests are organized per writing system, each with its own UFO test font and test cases under `tests/data/`:
 
-- **Hudum** (`MNG`), from `tests/hudum.ufo`, is validated against the EAC and core suites;
-- **Manchu** (`MCH`), from `tests/manchu.ufo` and `tests/manchu-ag.ufo`, is validated against the core suite;
-- **Sibe** (`SIB`), from `tests/sibe.ufo`, is validated against the core suite.
+- **Hudum** (`MNG`), from `tests/fonts/hudum.ufo`, is validated against the EAC and core suites;
+- **Manchu** (`MCH`), from `tests/fonts/manchu.ufo` and `tests/fonts/manchu-ag.ufo`, is validated against the core suite;
+- **Sibe** (`SIB`), from `tests/fonts/sibe.ufo`, is validated against the core suite.
 
 A small number of cases are expected to fail; the reasons are documented in the README of the `mongfontbuilder` project.
 
@@ -144,7 +145,7 @@ The template update script `templates/update.py` builds the Glyphs templates fro
 uv run --directory mongfontbuilder python ../templates/update.py
 ```
 
-It regenerates `hudum.glyphs` and `manchu.glyphs` (together with their `.fea` sources) from `mongfontbuilder/tests/hudum.ufo` and `mongfontbuilder/tests/manchu.ufo`. The templates let type designers open and work with the generated glyph layout in the Glyphs app. The template tests in `mongfontbuilder/tests/test_templates.py` require the Glyphs app and run on macOS only.
+It regenerates `hudum.glyphs` and `manchu.glyphs` (together with their `.fea` sources) from `mongfontbuilder/tests/fonts/hudum.ufo` and `mongfontbuilder/tests/fonts/manchu.ufo`. The templates let type designers open and work with the generated glyph layout in the Glyphs app. The template tests in `mongfontbuilder/tests/test_templates.py` require the Glyphs app and run on macOS only.
 
 ### Development workflow
 
