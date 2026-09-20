@@ -69,12 +69,7 @@ Images can be added to [src/](src/) and embedded in Markdown using relative link
 
 ## Checking Both Projects
 
-[`check.py`](check.py) at the repository root runs every checker of both projects — ruff and pyright for the Python package, `astro check` and `svelte-check` for the documentation site:
+Each project is checked by the tooling it carries, and the [`.vscode/`](.vscode) settings have the editors report the problems of the whole workspace rather than of the files that happen to be open:
 
-```sh
-uv run --no-project python check.py            # every check
-uv run --no-project python check.py --fix      # auto-fix fixable issues first
-uv run --no-project python check.py --only ruff,pyright   # a subset of the tools
-```
-
-Both projects have to be installed first: `uv sync` in `mongfontbuilder/`, and `npm install` at the root.
+- the Python package: ruff and pyright, both configured in [`mongfontbuilder/pyproject.toml`](mongfontbuilder/pyproject.toml);
+- the documentation site: `npm run check` (`astro check`) for the TypeScript and `.astro` files, and `svelte-check` for the components.

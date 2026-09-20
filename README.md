@@ -15,8 +15,7 @@ mongolian/
 ├─ src/                 site styles and configuration
 ├─ templates/           the Glyphs templates and the script that updates them
 ├─ mongfontbuilder/     the Python project: the library, its CLI, and the tests
-├─ astro.config.ts      documentation site configuration and sidebar
-└─ check.py             the unified check entry point (ruff, pyright, astro, svelte)
+└─ astro.config.ts      documentation site configuration and sidebar
 ```
 
 This repository consists of:
@@ -70,8 +69,4 @@ Where the UTN model answers a case of the EAC suite differently, the case is kep
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md) covers the development environment of each part of the repository, and [`check.py`](check.py) at the root runs every checker of both projects:
-
-```sh
-uv run --no-project python check.py
-```
+[CONTRIBUTING.md](CONTRIBUTING.md) covers the development environment of each part of the repository.

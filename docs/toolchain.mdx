@@ -150,13 +150,7 @@ A typical change flows through the three groups described above.
 2. **Change the code library or the tests**: edit `mongfontbuilder/src/` or `mongfontbuilder/tests/`, then run the tests.
 3. **Change the documentation**: add or edit `.mdx` files under `docs/` and check the result with `npm run dev`.
 4. **Regenerate fonts and templates**: when glyph data change, rebuild sample fonts with the CLI and refresh the templates with the template update script.
-5. **Validate everything**: run the unified check at the repository root
-
-```sh
-uv run --no-project python check.py            # ruff, pyright, astro check, svelte-check
-uv run --no-project python check.py --fix      # auto-fix fixable issues first
-uv run --no-project python check.py --only pyright   # run a single tool
-```
+5. **Check what changed**: each project is checked by the tooling it carries, and the repository's [`.vscode/`](https://github.com/Kushim-Jiang/mongolian/tree/main/.vscode) settings have the editors report those problems for the whole workspace rather than for the files that happen to be open. ruff and pyright take the configuration in `mongfontbuilder/pyproject.toml`, and `npm run check` checks the TypeScript and `.astro` files of the site.
 
 ### Continuous integration and publishing
 
