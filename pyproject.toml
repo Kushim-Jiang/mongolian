@@ -1,7 +1,7 @@
 [project]
 name = "mongfontbuilder"
 version = "0.12.2"
-description = "Mongolian Font Builder."
+description = "Python library for building standard-compatible Mongolian script fonts."
 license = { text = "MIT" }
 readme = "README.md"
 authors = [

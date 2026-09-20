@@ -82,7 +82,7 @@ from weasyprint import HTML  # noqa: E402
 def parse_site_title() -> str:
     text = ASTRO_CONFIG.read_text(encoding="utf-8")
     m = re.search(r'title:\s*"([^"]+)"', text)
-    return m.group(1) if m else "Mongolian Font Builder"
+    return m.group(1) if m else "Encoding and Shaping of the Mongolian Script"
 
 
 def parse_sidebar_slugs() -> list[str]:
@@ -328,7 +328,7 @@ def build_document(slugs: list[str], site_title: str) -> tuple[str, int]:
             '<section class="doc-front">',
             '  <div class="doc-title">',
             f"    <h1>{html.escape(site_title)}</h1>",
-            '    <p class="doc-subtitle">Documentation &amp; draft of the Mongolian UTN (UTN #57)</p>',
+            '    <p class="doc-subtitle">Documentation of the working draft of UTN #57 (the Mongolian UTN)</p>',
             "  </div>",
             '  <nav class="toc">',
             '    <h2 class="toc-title">Contents</h2>',

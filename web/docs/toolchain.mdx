@@ -4,7 +4,7 @@ title: Toolchain
 
 The preceding chapters specify how Mongolian text is represented and shaped in each writing system. This chapter describes the repository that maintains those specifications as working resources. Together they form the toolchain that accompanies this UTN (see [Introduction](/introduction/#content)).
 
-The toolchain is organized in three groups, which correspond to the parts of the model described in [Architecture](/architecture/). The _specification data and the documentation site_—the TypeScript files in `data/` and the Astro site in `web/`—state the model: they keep the characters and written units of each writing system as data and present them as the tables of the per-writing-system chapters. The _code library and the JSON data_—the Python package in `lib/mongfontbuilder/`, the test suite in `tests/`, and the JSON that `data/` exports for them—realize and verify the model: the package turns a minimal glyph set into a font whose shaping rules are generated from the data, and the tests check those rules against the expected output. The _font templates_ in `templates/` are the part of the toolchain that faces the type designer.
+The toolchain is organized in three groups, which correspond to the parts of the model described in [Architecture](/architecture/). The _specification data and the documentation site_—the TypeScript files in `data/` and the Astro site in `web/`—state the model: they keep the characters and written units of each writing system as data and present them as the tables of the per-writing-system chapters. The _code library and the JSON data_—the `mongfontbuilder` Python library in `lib/mongfontbuilder/`, the test suite in `tests/`, and the JSON that `data/` exports for them—realize and verify the model: the library turns a minimal glyph set into a font whose shaping rules are generated from the data, and the tests check those rules against the expected output. The _font templates_ in `templates/` are the part of the toolchain that faces the type designer.
 
 ### The specification data and the documentation site
 
@@ -162,4 +162,6 @@ The repository uses GitHub Actions:
 
 - `.github/workflows/test.yml` runs `uv sync --locked` and `uv run pytest` on pushes to `main`;
 - `.github/workflows/pypi.yml` builds the package and publishes it to PyPI when a release is published;
-- the documentation site is deployed to [mongfontbuilder.pages.dev](https://mongfontbuilder.pages.dev/).
+- the documentation site is deployed to [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/).
+
+That site is the working draft of this document. Stable revisions are periodically published and archived by the Unicode Consortium as versions of the Mongolian UTN (see [Introduction](/introduction/)).

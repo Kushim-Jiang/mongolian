@@ -12,7 +12,7 @@ export default defineConfig({
   integrations: [
     svelte(),
     starlight({
-      title: "Mongolian Font Builder",
+      title: "Encoding and Shaping of the Mongolian Script",
       sidebar: [
         "index",
         "introduction",

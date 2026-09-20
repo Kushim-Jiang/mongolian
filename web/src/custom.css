@@ -53,6 +53,23 @@ table.punc td:nth-child(3) {
   text-align: center;
 }
 
+/* ── Header brand ── */
+
+/* The site title is as long as the UTN’s own title, so let it truncate instead
+   of crowding the search box, which keeps a workable width of its own. */
+
+.site-title > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 50rem) {
+  .header > div:nth-child(2) {
+    min-width: 11rem;
+  }
+}
+
 /* ── Sidebar toggle ── */
 
 .sidebar-pane {

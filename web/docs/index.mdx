@@ -1,20 +1,20 @@
 ---
 title: Home
 hero:
-  tagline: "Documentation home of the Mongolian Font Builder project. Also acts as the editor’s draft of the Mongolian UTN."
-  actions:
-    - text: Data files
-      link: https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/data
-      icon: seti:json
-      variant: minimal
-    - text: mongfontbuilder
-      link: https://pypi.org/project/mongfontbuilder/
-      icon: seti:python
-      variant: minimal
-    - text: Project Repo
-      link: https://github.com/Kushim-Jiang/mongfontbuilder
-      icon: github
-    - text: Mongolian UTN
-      link: https://unicode.org/notes/tn57/
-      icon: external
+  tagline: "The working draft of UTN #57, Encoding and Shaping of the Mongolian Script."
 ---
+
+This document specifies how the Mongolian script is encoded and shaped. It treats the writing systems in which the script is written—Hudum, Todo, Sibe, and Manchu, together with their Ali Gali extensions—and for each of them fixes the characters that represent its written units and the layered, sequential steps by which a sequence of characters is shaped into the written units it is rendered with. Those steps are aligned with the Unicode Standard and with China’s national standard GB/T 25914—2023: they take the variant-selection conditions of those standards, which are stated flatly and leave the order of application open, and reorganize them into the order in which a text shaping engine executes them.
+
+The repository maintains more than the text of the rules. The rule data are kept as TypeScript files in `data/`—the source of truth for the characters, written units, variants, aliases, ligatures, and particles of every writing system. `mongfontbuilder`, the Python library, reads those data and generates the OpenType Layout rules of a font, so that a minimal glyph set becomes a complete font; it is also the reference implementation of this document. The Glyphs templates in `templates/` carry its output into the type designer’s hands, and the test suite in `tests/` shapes the test cases of the national standards with [HarfBuzz](https://harfbuzz.github.io/) and checks the result against what those standards expect.
+
+Four links lead out of this site; together they run from the standard to the code that implements it.
+
+| Link                                                                   | What it is                                                                                       | How it relates to this document                                                                                                                                             |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Mongolian UTN](https://unicode.org/notes/tn57/)                       | UTN #57, maintained by the Unicode Consortium                                                    | This site is the working draft of it. The Consortium periodically publishes and archives stable revisions of the draft, and those archived revisions are the official ones. |
+| [Project Repo](https://github.com/Kushim-Jiang/mongolian)              | The repository that maintains this document, the data, the library, the templates, and the tests | Everything described here lives in it—the document in `web/docs/`, the data in `data/`, the library in `lib/`.                                                              |
+| [Data files](https://github.com/Kushim-Jiang/mongolian/blob/main/data) | The rule data themselves, as the TypeScript files in `data/`                                     | They are the source of truth: the tables of this site are rendered from them, and the library reads their exported JSON.                                                    |
+| [mongfontbuilder](https://pypi.org/project/mongfontbuilder/)           | The Python library, released on PyPI from that repository                                        | It generates a font’s OpenType Layout rules from the data; it is the reference implementation of this document.                                                             |
+
+Begin with [Introduction](/introduction/) and [Architecture](/architecture/) for the model and the history behind it, or with [Toolchain](/toolchain/) for the repository that maintains it.
