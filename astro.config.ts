@@ -6,9 +6,6 @@ export default defineConfig({
   srcDir: "./web/src",
   publicDir: "./web/public",
   trailingSlash: "always",
-  server: {
-    host: "0.0.0.0",
-  },
   integrations: [
     svelte(),
     starlight({
