@@ -16,7 +16,7 @@ This repository consists of:
 
 The documentation is maintained in [web/docs/](https://github.com/Kushim-Jiang/mongolian/blob/main/web/docs) and deployed to [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/). For contribution guidelines, refer to [CONTRIBUTING.md](https://github.com/Kushim-Jiang/mongolian/blob/main/CONTRIBUTING.md).
 
-The source-of-truth data files are maintained as TypeScript files in [data/](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/data). They’re exported to JSON in [lib/mongfontbuilder/data/](https://github.com/Kushim-Jiang/mongfontbuilder/tree/main/lib/mongfontbuilder/data) for consumption of the Python API.
+The source-of-truth data files are maintained as TypeScript files in [data/](https://github.com/Kushim-Jiang/mongolian/blob/main/data). They’re exported to JSON in [lib/mongfontbuilder/data/](https://github.com/Kushim-Jiang/mongolian/tree/main/lib/mongfontbuilder/data) for consumption of the Python API.
 
 ## The `mongfontbuilder` library
 
@@ -42,20 +42,20 @@ Both `.ufo` and `.otf` output formats are supported. See `--help` for available 
 
 ## Templates
 
-Maintained in [templates/](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/templates).
+Maintained in [templates/](https://github.com/Kushim-Jiang/mongolian/blob/main/templates).
 
 `mongfontbuilder` can generate [Glyphs](https://glyphsapp.com/) templates (`.glyphs` files) from the UFO test fonts and the OTL composer output. These templates let type designers open and work with the generated glyph layout directly in Glyphs app.
 
-The template update script is at [`templates/update.py`](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/templates/update.py). Currently available templates:
+The template update script is at [`templates/update.py`](https://github.com/Kushim-Jiang/mongolian/blob/main/templates/update.py). Currently available templates:
 
 - `hudum.glyphs` — Hudum (MNG) template.
 - `manchu.glyphs` — Manchu (MCH) template.
 
-Template tests are macOS-only (require Glyphs app) and located in [`tests/test_templates.py`](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/tests/test_templates.py).
+Template tests are macOS-only (require Glyphs app) and located in [`tests/test_templates.py`](https://github.com/Kushim-Jiang/mongolian/blob/main/tests/test_templates.py).
 
 ## Tests
 
-Maintained in [tests/](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/tests).
+Maintained in [tests/](https://github.com/Kushim-Jiang/mongolian/blob/main/tests).
 
 Tests are organized per writing system with separate test fonts:
 
@@ -67,7 +67,7 @@ The test harness builds each font on the fly using `mongfontbuilder`’s Python 
 
 ### Cases the EAC expects differently
 
-The EAC suite is settled by the Hudum standard alone. Where the UTN model disagrees with it, the case is marked as an expected failure — it is kept in the suite, and the reason is kept in [`tests/fixtures.py`](https://github.com/Kushim-Jiang/mongfontbuilder/blob/main/tests/fixtures.py) — so that the run stays green and the disagreement stays visible.
+The EAC suite is settled by the Hudum standard alone. Where the UTN model disagrees with it, the case is marked as an expected failure — it is kept in the suite, and the reason is kept in [`tests/fixtures.py`](https://github.com/Kushim-Jiang/mongolian/blob/main/tests/fixtures.py) — so that the run stays green and the disagreement stays visible.
 
 A font that writes with every writing system at once (`test_unified.py`) is the one that has to be marked for the cases below: the meeting held that the effect of an FVS does not depend on the locale, so the FVS stays valid and selects its variant wherever the character is shared. A font that writes with one writing system answers them as the EAC expects.
 

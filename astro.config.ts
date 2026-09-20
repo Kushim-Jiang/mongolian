@@ -39,11 +39,11 @@ export default defineConfig({
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/Kushim-Jiang/mongfontbuilder",
+          href: "https://github.com/Kushim-Jiang/mongolian",
         },
       ],
       editLink: {
-        baseUrl: "https://github.com/Kushim-Jiang/mongfontbuilder/edit/main/",
+        baseUrl: "https://github.com/Kushim-Jiang/mongolian/edit/main/",
       },
       customCss: ["./web/src/custom.css"],
       components: {

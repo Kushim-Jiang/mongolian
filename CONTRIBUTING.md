@@ -14,7 +14,7 @@
    uv run pytest
    ```
 
-Unfinished tasks or ideas can be added as [issues](https://github.com/Kushim-Jiang/mongfontbuilder/issues).
+Unfinished tasks or ideas can be added as [issues](https://github.com/Kushim-Jiang/mongolian/issues).
 
 ## Contributing to the Data Files
 
