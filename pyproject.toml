@@ -62,7 +62,7 @@ lint.ignore = [
 ]
 
 [tool.pyright]
-include = ["lib", "tests", "tools"]
+include = ["lib", "tests"]
 extraPaths = ["lib"]
 
 [tool.pytest.ini_options]

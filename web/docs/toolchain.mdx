@@ -162,6 +162,7 @@ The repository uses GitHub Actions:
 
 - `.github/workflows/test.yml` runs `uv sync --locked` and `uv run pytest` on pushes to `main`;
 - `.github/workflows/pypi.yml` builds the package and publishes it to PyPI when a release is published;
+- `.github/workflows/pdf.yml` builds the site and renders the documentation PDF, which it uploads as a workflow artifact;
 - the documentation site is deployed to [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/).
 
 That site is the working draft of this document. Stable revisions are periodically published and archived by the Unicode Consortium as versions of the Mongolian UTN (see [Introduction](/introduction/)).

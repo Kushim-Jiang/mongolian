@@ -6,7 +6,6 @@
     "check": "astro check",
     "build": "npm run check && astro build",
     "preview": "astro preview",
-    "pdf": "uv run --no-project --with weasyprint --with lxml python tools/make_pdf.py",
     "format": "prettier --write . !lib/mongfontbuilder/data/*.json !tests/data/*.json"
   },
   "engines": {
