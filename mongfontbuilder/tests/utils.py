@@ -9,7 +9,7 @@ import yaml
 from fontTools import unicodedata
 from fontTools.ttLib import TTFont
 
-import data
+from mongfontbuilder import data as mongData
 from mongfontbuilder.data import LocaleID, aliases
 from mongfontbuilder.utils import namespaceFromLocale
 
@@ -35,9 +35,12 @@ glyphNameMapping: dict[str, str | None] = {
     "uni0020": "uni0020.Widespace.nomi",
     "nbspace": "nbspace.Widespace.nomi",
 }
+# The suites, and the names they are written in, are data of the package rather than of
+# these tests, so that the project and the fonts built from it read the one copy of them.
+suitesDir = files(mongData) / "suites"
+
 for filename in ["marks.yaml", "format-controls.yaml", "bases.yaml"]:
-    path = files(data) / filename
-    with path.open(encoding="utf-8") as f:
+    with (suitesDir / filename).open(encoding="utf-8") as f:
         glyphNameMapping.update(yaml.safe_load(f))
 
 

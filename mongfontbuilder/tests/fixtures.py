@@ -7,15 +7,14 @@ from pathlib import Path
 import pytest
 from _pytest.mark.structures import ParameterSet
 from fontTools.ttLib import TTFont
-from ufo2ft import OTFCompiler
-from ufo2ft.constants import CFFOptimization
 from ufoLib2 import Font
 
-import data
+from mongfontbuilder import data as mongData
 from mongfontbuilder.data.types import LocaleID
+from mongfontbuilder.otf import compileOTF as compileToOTF
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
-from utils import fontsDir, tempDir
+from utils import tempDir, testsDir
 
 FONT_NAME = {
     "MNG": "hudum",
@@ -77,7 +76,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
     if output.exists():
         return output
 
-    font = Font.open(fontsDir / f"{fontName}.ufo")
+    font = Font.open(testsDir / f"{fontName}.ufo")
     c = MongFeaComposer(
         cmap={j: i for i in font.keys() for j in font[i].unicodes},
         glyphs=[*font.keys()],
@@ -97,12 +96,8 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
 
 
 def compileOTF(font: Font) -> TTFont:
-    compiler = OTFCompiler(
-        useProductionNames=False,
-        optimizeCFF=CFFOptimization.NONE,
-    )
     environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"  # For feaLib.builder.Builder
-    return compiler.compile(font)
+    return compileToOTF(font)
 
 
 def loadRawTestCases(
@@ -112,7 +107,7 @@ def loadRawTestCases(
     test_cases = list[tuple[str, str, str, str] | ParameterSet]()
     for testSet, locales in test_info.items():
         for locale in locales:
-            file_path = files(data) / f"{testSet}-{locale}.tsv"
+            file_path = files(mongData) / "suites" / f"{testSet}-{locale}.tsv"
             with open(file_path, encoding="utf-8") as f:  # type: ignore
                 rules = [
                     tuple(i)
