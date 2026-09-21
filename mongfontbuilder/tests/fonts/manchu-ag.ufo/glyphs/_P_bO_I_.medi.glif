@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="_PbOI.medi" format="2">
   <advance width="1178"/>
-  <anchor x="0" y="0" name="baluda"/>
-  <anchor x="0" y="0" name="dagalga"/>
   <outline>
     <contour>
       <point x="990" y="-67" type="curve"/>

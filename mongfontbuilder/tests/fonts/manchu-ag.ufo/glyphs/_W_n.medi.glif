@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glyph name="_Wn.medi" format="2">
   <advance width="458"/>
-  <anchor x="0" y="0" name="baluda"/>
-  <anchor x="0" y="0" name="dagalga"/>
   <outline>
     <contour>
       <point x="299" y="-119" type="curve"/>
