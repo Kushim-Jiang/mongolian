@@ -62,7 +62,7 @@ npm run check
 
 Starlight looks for `.md` or `.mdx` files in the [docs/](docs/) directory. Each file is exposed as a route based on its file name. The `.mdx` files can include Svelte code, and standalone functions can be maintained as reusable components.
 
-Reusable Svelte components that render the data tables (e.g. `LetterTable`, `ParticleTable`, `WrittenUnitTable`) live in [lib/](lib/). They read directly from the TypeScript data files in [data/](data/), so they stay in sync with the exported JSON automatically.
+Reusable Svelte components that render the data tables (e.g. `LetterTable`, `ParticleTable`, `WrittenUnitTable`) live in [src/components/](src/components/). They read directly from the TypeScript data files in [data/](data/), so they stay in sync with the exported JSON automatically.
 
 Images can be added to [src/](src/) and embedded in Markdown using relative links. And static assets, such as favicons, can be placed in [public/](public/).
 

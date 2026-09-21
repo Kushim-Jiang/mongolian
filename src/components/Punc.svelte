@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { punctuation } from "../data/writtenUnits";
+  import { punctuation } from "../../data/writtenUnits";
 
   interface Props {
     name: keyof typeof punctuation;

@@ -10,9 +10,8 @@ The documentation site is the repository root itself; the parts it documents sit
 mongolian/
 ├─ data/                the specification data (TypeScript, the single source of truth)
 ├─ docs/                the documentation pages (.mdx)
-├─ lib/                 the Svelte components (data tables, writing-system tags)
 ├─ public/              the static assets
-├─ src/                 site styles and configuration
+├─ src/                 the site components, styles and configuration
 ├─ templates/           the Glyphs templates and the script that updates them
 ├─ mongfontbuilder/     the Python project: the library, its CLI, and the tests
 ├─ pyproject.toml       the uv workspace: one environment and lockfile for the Python

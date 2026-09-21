@@ -13,9 +13,9 @@ mongolian/                 the repository root, which is the documentation site
 ├─ data/                   the specification data (TypeScript, the single source of truth)
 │  └─ export.ts            exports the JSON copies for the code library
 ├─ docs/                   the documentation pages (.mdx)
-├─ lib/                    the Svelte components (data tables, writing-system tags)
 ├─ public/                 the static assets
-├─ src/                    site styles and configuration
+├─ src/                    the site components, styles and configuration
+│  └─ components/          the Svelte components (data tables, writing-system tags)
 ├─ astro.config.ts         documentation site configuration and sidebar
 ├─ mongfontbuilder/        the Python project: the library, its tests, and the CLI
 ├─ templates/              the Glyphs templates
@@ -36,6 +36,7 @@ The canonical specification data are maintained as TypeScript files in `data/`. 
 - `data/locales.ts` — the writing systems (MNG, TOD, SIB, MCH) together with their shaping conditions and their categories of characters;
 - `data/writtenUnits.ts` — the written units of the letters;
 - `data/variants.ts` — the variants of each letter by cursive position and by FVS, including which variant is the default; this is where the FVS assignments of each writing system are defined;
+- `data/outsideLetters.ts` — the letters that lie outside every writing system, together with the written units that draw them;
 - `data/aliases.ts`, `data/ligatures.ts`, `data/particles.ts` — the aliases, ligatures, and particles used by the data.
 
 The documentation site imports these TypeScript files directly at build time to render the tables of the per-writing-system chapters. Because the TypeScript files are the source of truth, a change to the model begins by editing them and then regenerating the JSON for the code library, as described below.
@@ -58,7 +59,7 @@ npm run preview   # preview the built site
 npm run format    # format sources with prettier
 ```
 
-Each documentation page is an `.mdx` file in `docs/` and is exposed as a route named after the file; pages are ordered and grouped by the `sidebar` list in `astro.config.ts`. The `.mdx` pages may embed Svelte components, which live in `lib/` and `src/`.
+Each documentation page is an `.mdx` file in `docs/` and is exposed as a route named after the file; pages are ordered and grouped by the `sidebar` list in `astro.config.ts`. The `.mdx` pages may embed Svelte components, which live in `src/components/`.
 
 ### The code library, the JSON data, and the tests
 

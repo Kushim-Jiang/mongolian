@@ -1,14 +1,14 @@
 import Names from "@unicode/unicode-17.0.0/Names";
-import type { LocaleID } from "../data/locales";
-import type { LocaleNamespace } from "../data/aliases";
-import type { JoiningPosition } from "../data/misc";
-import type { FVS, VariantData } from "../data/variants";
-import type { WrittenUnitID } from "../data/writtenUnits";
-import { joiningPositions } from "../data/misc";
-import { locales } from "../data/locales";
-import { aliases } from "../data/aliases";
-import { variants } from "../data/variants";
-import { writtenUnits } from "../data/writtenUnits";
+import type { LocaleID } from "../../data/locales";
+import type { LocaleNamespace } from "../../data/aliases";
+import type { JoiningPosition } from "../../data/misc";
+import type { FVS, VariantData } from "../../data/variants";
+import type { WrittenUnitID } from "../../data/writtenUnits";
+import { joiningPositions } from "../../data/misc";
+import { locales } from "../../data/locales";
+import { aliases } from "../../data/aliases";
+import { variants } from "../../data/variants";
+import { writtenUnits } from "../../data/writtenUnits";
 
 export const nameToCP = new Map(
   [...Names].filter(([_, v]) => !v.startsWith("<")).map(([k, v]) => [v, k]),

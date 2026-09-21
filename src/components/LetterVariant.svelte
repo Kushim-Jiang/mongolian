@@ -11,9 +11,9 @@
 
   let { position, ctxPosition, id, written, charName, fvs, aliases = [] }: Props = $props();
 
-  import type { JoiningPosition } from "../data/misc";
-  import type { FVS } from "../data/variants";
-  import type { WrittenUnitID } from "../data/writtenUnits";
+  import type { JoiningPosition } from "../../data/misc";
+  import type { FVS } from "../../data/variants";
+  import type { WrittenUnitID } from "../../data/writtenUnits";
   import { nameToCP, buildWrittenText, niText, ctxBefore, ctxAfter } from "./utils";
 
   const units = $derived(id ? [id] : written);
