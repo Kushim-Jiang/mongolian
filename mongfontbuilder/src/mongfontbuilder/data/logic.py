@@ -5,6 +5,7 @@ from .types import (
     CharacterName,
     JoiningPosition,
     LocaleID,
+    OutsideLetterData,
     VariantData,
     VariantReference,
     WrittenUnitID,
@@ -125,3 +126,40 @@ def localeUnits(
     if isinstance(written, VariantReference):
         return variantFromReference(written, positionToFVSToVariantData)
     return written
+
+
+def resolveOutsideUnits(
+    outsideLetters: dict[CharacterName, dict[JoiningPosition, dict[FVS, OutsideLetterData]]],
+) -> dict[int, dict[JoiningPosition, list[WrittenUnitID]]]:
+    """The written units of every joining position of a letter outside the writing systems, by code point.
+
+    No character of the data is written with the written units of such a letter, so nothing
+    else in the font reaches its joining forms, and the font builder reads here what each of
+    them is written with.
+    """
+
+    codePointToPositionToUnits = dict[int, dict[JoiningPosition, list[WrittenUnitID]]]()
+    for charName, positionToFVSToData in outsideLetters.items():
+        codePointToPositionToUnits[ord(unicodedata.lookup(charName))] = {
+            position: outsideLetterUnits(positionToFVSToData, position)
+            for position in positionToFVSToData
+        }
+    return codePointToPositionToUnits
+
+
+def outsideLetterUnits(
+    positionToFVSToData: dict[JoiningPosition, dict[FVS, OutsideLetterData]],
+    position: JoiningPosition,
+) -> list[WrittenUnitID]:
+    """The written units a joining position of a letter outside the writing systems is written with.
+
+    A letter outside the writing systems has one form for each of its positions, which is the
+    form the data lists for it — it has no FVS variants — and that form either names the
+    written units of the position or borrows the form of another position, whose written units
+    are then the ones to draw with.
+    """
+
+    (data,) = positionToFVSToData[position].values()
+    if isinstance(data.written, VariantReference):
+        return outsideLetterUnits(positionToFVSToData, data.written.position)
+    return data.written

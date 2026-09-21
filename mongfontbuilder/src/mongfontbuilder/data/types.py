@@ -62,3 +62,8 @@ class VariantData:
     written: Written
     default: bool = False
     locales: dict[LocaleID, VariantLocaleData] = field(default_factory=dict)
+
+
+@dataclass
+class OutsideLetterData:
+    written: Written

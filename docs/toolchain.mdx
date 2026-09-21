@@ -36,7 +36,7 @@ The canonical specification data are maintained as TypeScript files in `data/`. 
 - `data/locales.ts` — the writing systems (MNG, TOD, SIB, MCH) together with their shaping conditions and their categories of characters;
 - `data/writtenUnits.ts` — the written units of the letters;
 - `data/variants.ts` — the variants of each letter by cursive position and by FVS, including which variant is the default; this is where the FVS assignments of each writing system are defined;
-- `data/outsideLetters.ts` — the letters that lie outside every writing system, together with the written units that draw them;
+- `data/outsideLetters.ts` — the letters that lie outside every writing system, keyed by character name, by cursive position and by FVS the way the variants of a character are, together with the written units that draw them;
 - `data/aliases.ts`, `data/ligatures.ts`, `data/particles.ts` — the aliases, ligatures, and particles used by the data.
 
 The documentation site imports these TypeScript files directly at build time to render the tables of the per-writing-system chapters. Because the TypeScript files are the source of truth, a change to the model begins by editing them and then regenerating the JSON for the code library, as described below.
@@ -88,7 +88,7 @@ The Python package reads JSON copies of the specification data, exported by
 node data/export.ts
 ```
 
-which writes `locales.json`, `aliases.json`, `writtenUnits.json`, `ligatures.json`, `variants.json`, and `particles.json` into `mongfontbuilder/src/mongfontbuilder/data/`. The export step also validates the data: every variant set must have exactly one default, the conditions and categories of each writing system must be consistent with the variant data, and the national-standard references must match their expected format. The JSON files are generated: edit the TypeScript sources and rerun the export; do not edit the JSON files by hand.
+which writes `locales.json`, `aliases.json`, `writtenUnits.json`, `ligatures.json`, `variants.json`, `particles.json`, and `outsideLetters.json` into `mongfontbuilder/src/mongfontbuilder/data/`. The export step also validates the data: every variant set must have exactly one default, the conditions and categories of each writing system must be consistent with the variant data, and the national-standard references must match their expected format. The JSON files are generated: edit the TypeScript sources and rerun the export; do not edit the JSON files by hand.
 
 #### The Python package
 

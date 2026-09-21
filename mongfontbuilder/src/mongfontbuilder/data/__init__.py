@@ -4,7 +4,7 @@ from typing import Literal
 
 from cattrs import structure
 
-from .logic import resolveCmapVariants
+from .logic import resolveCmapVariants, resolveOutsideUnits
 from .types import (
     FVS,
     AliasData,
@@ -12,6 +12,7 @@ from .types import (
     JoiningPosition,
     LocaleData,
     LocaleID,
+    OutsideLetterData,
     ParticleData,
     VariantData,
     WrittenUnitID,
@@ -53,4 +54,11 @@ with (dir / "particles.json").open(encoding="utf-8") as f:
         dict[LocaleID, dict[str, ParticleData]],
     )
 
+with (dir / "outsideLetters.json").open(encoding="utf-8") as f:
+    outsideLetters = structure(
+        json.load(f),
+        dict[CharacterName, dict[JoiningPosition, dict[FVS, OutsideLetterData]]],
+    )
+
 codePointToCmapVariant = resolveCmapVariants(variants)
+codePointToOutsideUnits = resolveOutsideUnits(outsideLetters)

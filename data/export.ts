@@ -13,6 +13,8 @@ import { writtenUnits } from "./writtenUnits.ts";
 import { ligatures } from "./ligatures.ts";
 import { variants } from "./variants.ts";
 import { particles } from "./particles.ts";
+import { joiningPositions } from "./misc.ts";
+import { outsideLetters } from "./outsideLetters.ts";
 
 const outputDir = join(
   import.meta.dirname,
@@ -98,6 +100,19 @@ for (const [charName, positionToFVSToVariant] of Object.entries(variants)) {
   }
 }
 
+// A letter that lies outside every writing system has one form for each joining position,
+// which the font builder writes with the written units of the position, or of the position
+// it borrows its form from.
+for (const [charName, positionToFVSToData] of Object.entries(outsideLetters)) {
+  for (const position of joiningPositions) {
+    if (Object.keys(positionToFVSToData[position]).length != 1) {
+      throw Error("outside letter position without a single form", {
+        cause: { charName, position },
+      });
+    }
+  }
+}
+
 for (const [name, data] of Object.entries({
   locales,
   aliases,
@@ -105,6 +120,7 @@ for (const [name, data] of Object.entries({
   ligatures,
   variants,
   particles,
+  outsideLetters,
 })) {
   await writeFile(
     join(outputDir, name + ".json"),

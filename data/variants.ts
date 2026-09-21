@@ -1,6 +1,10 @@
 import type { LocaleID, ConditionalMappingType } from "./locales";
 import type { WrittenUnitID } from "./writtenUnits";
-import type { CharacterName, JoiningPosition } from "./misc";
+import {
+  joiningPositions,
+  type CharacterName,
+  type JoiningPosition,
+} from "./misc.ts";
 
 export type FVS = 0 | 1 | 2 | 3 | 4;
 export type VariantData = {
@@ -9,11 +13,22 @@ export type VariantData = {
   locales: Partial<Record<LocaleID, VariantLocaleData>>;
 };
 
-type VariantReference = [
+/**
+ * The form of a written form at another joining position, by FVS, which the position it is
+ * given for is written with.
+ */
+export type VariantReference = [
   position: JoiningPosition,
   fvs: FVS,
   locale?: LocaleID,
 ];
+
+/** Whether a `written` value borrows the form of another position instead of naming written units. */
+export function isVariantRef(
+  written: VariantData["written"],
+): written is VariantReference {
+  return joiningPositions.includes(written[0] as JoiningPosition);
+}
 type VariantLocaleData = {
   written?: VariantData["written"];
   conditions?: ConditionalMappingType[];

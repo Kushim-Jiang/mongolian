@@ -2,15 +2,15 @@
   interface Props {
     locale: LocaleID | LocaleID[];
     /** Letters that lie outside the writing systems, which this table lists in place. */
-    outside?: OutsideLetter[];
+    outside?: OutsideLetters;
   }
-  let { locale, outside = [] }: Props = $props();
+  let { locale, outside = {} }: Props = $props();
 
   import type { LocaleID } from "../../data/locales";
   import type { JoiningPosition } from "../../data/misc";
   import type { FVS, VariantData } from "../../data/variants";
   import type { WrittenUnitID } from "../../data/writtenUnits";
-  import type { OutsideLetter } from "../../data/outsideLetters";
+  import type { OutsideLetters } from "../../data/outsideLetters";
   import { joiningPositions } from "../../data/misc";
   import { variants } from "../../data/variants";
   import { aliases } from "../../data/aliases";
@@ -19,6 +19,8 @@
   import { localeNS, orderedAliases, resolveCharName, mapGetOrCreate, isVariantRef, sortedFVSKeys } from "./utils";
 
   type LocalizedVariant = { written: VariantData["written"]; resolvedWritten?: WrittenUnitID[]; archaic: boolean; unrecommended: boolean };
+  /** The data of one joining position of a letter that lies outside the writing systems. */
+  type OutsideVariant = { fvs: FVS; written: VariantData["written"]; resolvedWritten?: WrittenUnitID[]; unrecommended: boolean };
   const localesToShow = $derived(Array.isArray(locale) ? locale : [locale]);
   /** A unified table merges the writing systems, so each character is listed once. */
   const unified = $derived(localesToShow.length > 1);
@@ -99,26 +101,54 @@
   });
 
   /**
+   * The letters that lie outside the writing systems, each position resolved the way a
+   * position of a character is: a position that borrows the form of another position carries
+   * the written units that position is drawn with. The table shows one form per position,
+   * which is the first the data lists.
+   */
+  const charNameToOutsidePositionToVariant = $derived.by(() => {
+    const map = new Map<string, Map<JoiningPosition, OutsideVariant>>();
+    for (const [charName, positionToFVSToData] of Object.entries(outside)) {
+      const positionToVariant = mapGetOrCreate(map, charName, () => new Map<JoiningPosition, OutsideVariant>());
+      for (const position of joiningPositions) {
+        if (positionToVariant.has(position)) continue;
+        const [fvs, data] = Object.entries(positionToFVSToData[position])[0];
+        if (!data) continue;
+        const variant: OutsideVariant = { fvs: Number(fvs) as FVS, written: data.written, unrecommended: data.unrecommended ?? false };
+        if (isVariantRef(data.written)) {
+          const [refPosition, refFvs] = data.written;
+          const refData = positionToFVSToData[refPosition][refFvs];
+          if (refData && !isVariantRef(refData.written)) variant.resolvedWritten = refData.written;
+        }
+        positionToVariant.set(position, variant);
+      }
+    }
+    return map;
+  });
+
+  /** A row of the table: a character of the writing systems, or a letter outside them. */
+  type Row = {
+    codePoint: number;
+    charName: string;
+    positionToFVSToData?: Map<JoiningPosition, Map<FVS, Map<LocaleID, LocalizedVariant>>>;
+    letter?: Map<JoiningPosition, OutsideVariant>;
+  };
+
+  /**
    * The rows of the table: the characters in the order the data lists them, and the
    * letters that lie outside the writing systems. A unified table lists them by code
    * point instead, which is the order that interleaves the writing systems.
    */
   const rows = $derived.by(() => {
     const unknown = Number.POSITIVE_INFINITY;
-    const rows = [...charNameToPositionToFVSToLocaleToLocalizedVariant].map(([charName, positionToFVSToData]) => ({
+    const rows: Row[] = [...charNameToPositionToFVSToLocaleToLocalizedVariant].map(([charName, positionToFVSToData]) => ({
       codePoint: nameToCP.get(charName) ?? unknown,
       charName,
       positionToFVSToData,
-      letter: undefined as OutsideLetter | undefined,
     }));
     if (!unified) return rows;
-    for (const letter of outside) {
-      rows.push({
-        codePoint: nameToCP.get(letter.charName) ?? unknown,
-        charName: "",
-        positionToFVSToData: undefined,
-        letter,
-      });
+    for (const [charName, letter] of charNameToOutsidePositionToVariant) {
+      rows.push({ codePoint: nameToCP.get(charName) ?? unknown, charName, letter });
     }
     return rows.sort((i, j) => i.codePoint - j.codePoint);
   });
@@ -142,7 +172,7 @@
   <tbody>
     {#each rows as { charName, positionToFVSToData, letter }}
       {#if letter}
-        {@render outsideRow(letter)}
+        {@render outsideRow(charName, letter)}
       {:else if positionToFVSToData}
         {@const codePoint = nameToCP.get(charName)!}
         {@const hex = hexFromCP(codePoint)}
@@ -166,23 +196,24 @@
   </tbody>
 </table>
 
-{#snippet outsideRow(letter: OutsideLetter)}
-  {@const codePoint = nameToCP.get(letter.charName)!}
+{#snippet outsideRow(charName: string, positionToVariant: Map<JoiningPosition, OutsideVariant>)}
+  {@const codePoint = nameToCP.get(charName)!}
   {@const hex = hexFromCP(codePoint)}
   {@const char = String.fromCodePoint(codePoint)}
   <tr>
-    <td id={letter.charName} title="U+{hex} {char} {letter.charName}">{hex}<br />{char}</td>
+    <td id={charName} title="U+{hex} {char} {charName}">{hex}<br />{char}</td>
     <td>-</td>
     {#each joiningPositions as position}
-      {@const from = letter.borrowed[position]}
-      {@const unit = letter.drawn[from ?? position]}
-      <td id={`${letter.charName}-${position}-0`} class={{ variant: true, fabricated: !!from, unrecommended: letter.unrecommended?.includes(position) }}>
-        {#if from}
-          <span><LetterVariant position={from} ctxPosition={position} written={unit ? [unit] : undefined} /></span><br />
-          <a href="#{letter.charName}-{from}-0">→ {from}</a>
+      {@const variant = positionToVariant.get(position)}
+      {@const ref = variant && isVariantRef(variant.written) ? (variant.written as [JoiningPosition, FVS]) : undefined}
+      {@const written = variant && !ref ? (variant.written as WrittenUnitID[]) : undefined}
+      <td id={`${charName}-${position}-${variant?.fvs ?? 0}`} class={{ variant: true, fabricated: !!ref, unrecommended: variant?.unrecommended }}>
+        {#if ref}
+          <span><LetterVariant position={ref[0]} ctxPosition={position} written={variant?.resolvedWritten} /></span><br />
+          <a href="#{charName}-{ref[0]}-{ref[1]}">→ {ref[0]}{ref[1] ? ` ${ref[1]}` : ""}</a>
         {:else}
-          <span><LetterVariant {position} written={unit ? [unit] : undefined} /></span><br />
-          {#if unit}<a href="#{unit}">{unit}</a>{/if}
+          <span><LetterVariant {position} {written} /></span><br />
+          {#each written ?? [] as unit, unitIndex}{unitIndex ? " " : ""}<a href="#{unit}">{unit}</a>{/each}
         {/if}
       </td>
     {/each}

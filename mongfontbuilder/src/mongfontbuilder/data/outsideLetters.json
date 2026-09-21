@@ -1,0 +1,67 @@
+{
+  "MONGOLIAN LETTER CHA WITH TWO DOTS": {
+    "isol": {
+      "0": {
+        "written": [
+          "init",
+          0
+        ]
+      }
+    },
+    "init": {
+      "0": {
+        "written": [
+          "Cx"
+        ]
+      }
+    },
+    "medi": {
+      "0": {
+        "written": [
+          "Cx"
+        ]
+      }
+    },
+    "fina": {
+      "0": {
+        "written": [
+          "Cx"
+        ]
+      }
+    }
+  },
+  "MONGOLIAN LETTER TODO ALI GALI TA": {
+    "isol": {
+      "0": {
+        "written": [
+          "init",
+          0
+        ]
+      }
+    },
+    "init": {
+      "0": {
+        "written": [
+          "Dz"
+        ],
+        "unrecommended": true
+      }
+    },
+    "medi": {
+      "0": {
+        "written": [
+          "Dz"
+        ],
+        "unrecommended": true
+      }
+    },
+    "fina": {
+      "0": {
+        "written": [
+          "medi",
+          0
+        ]
+      }
+    }
+  }
+}
