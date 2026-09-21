@@ -12,6 +12,7 @@ from ufoLib2 import Font
 from mongfontbuilder import data as mongData
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otf import compileOTF as compileToOTF
+from mongfontbuilder.otf import saveUFO
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
 from utils import fontsDir, tempDir
@@ -88,7 +89,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
 
     tempDir.mkdir(parents=True, exist_ok=True)
     intermediate = tempDir / f"{fontName}.ufo"
-    font.save(intermediate, overwrite=True)
+    saveUFO(font, intermediate)
 
     compileOTF(font).save(output)
     print(relpath(output))
