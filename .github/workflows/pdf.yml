@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/setup-python@v7
         with:
-          python-version-file: mongfontbuilder/.python-version
+          python-version-file: .python-version
 
       - uses: astral-sh/setup-uv@v10.1.0
 
