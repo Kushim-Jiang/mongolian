@@ -7,7 +7,7 @@ glyphs the wrong way is read off the output. Compose the font first::
 
     uv run pytest tests/test_unified.py -s
 
-Then, from the repository root::
+Then, from the project directory (``mongfontbuilder/``)::
 
     uv run python tests/trace.py "pX fvs1 ue lvs" tag
 
@@ -27,7 +27,7 @@ from fontTools.ttLib import TTFont
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
-from test_unified import LANGUAGE, composedOTF  # noqa: E402
+from unified import LANGUAGE, composedOTF  # noqa: E402
 from utils import loadHBFont, parseAliases, parseLetter, parseWrittenUnits  # noqa: E402
 
 

@@ -1,6 +1,13 @@
 from pathlib import Path
 
-from glyphsLib import GSFeaturePrefix, GSFont, GSFontMaster, GSGlyph, GSInstance, GSLayer
+from glyphsLib import (
+    GSFeaturePrefix,
+    GSFont,
+    GSFontMaster,
+    GSGlyph,
+    GSInstance,
+    GSLayer,
+)
 from glyphsLib.builder import GlyphsBuilder
 from ufoLib2 import Font
 
@@ -36,7 +43,7 @@ def _build_template(
     glyphs_filename: str,
     family_name: str,
 ) -> None:
-    font = Font.open(repo / "tests" / ufo_name)
+    font = Font.open(repo / "mongfontbuilder" / "tests" / "fonts" / ufo_name)
     font._path = None  # glyphsLib expects str and may load from path
 
     composer = MongFeaComposer(
@@ -111,7 +118,7 @@ def _build_template(
 
 
 def update_hudum() -> None:
-    """Generate Hudum (Mongolian) template from tests/hudum.ufo."""
+    """Generate Hudum (Mongolian) template from mongfontbuilder/tests/fonts/hudum.ufo."""
     _build_template(
         ufo_name="hudum.ufo",
         locales=["MNG"],
@@ -122,7 +129,7 @@ def update_hudum() -> None:
 
 
 def update_manchu() -> None:
-    """Generate Manchu template from tests/manchu.ufo."""
+    """Generate Manchu template from mongfontbuilder/tests/fonts/manchu.ufo."""
     _build_template(
         ufo_name="manchu.ufo",
         locales=["MCH"],

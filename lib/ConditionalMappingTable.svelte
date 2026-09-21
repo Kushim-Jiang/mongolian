@@ -4,14 +4,14 @@
   }
   let { locale }: Props = $props();
 
-  import type { LocaleID, ConditionalMappingType } from "../../data/locales";
-  import type { JoiningPosition } from "../../data/misc";
-  import type { FVS } from "../../data/variants";
-  import type { WrittenUnitID } from "../../data/writtenUnits";
-  import { joiningPositions } from "../../data/misc";
-  import { locales } from "../../data/locales";
-  import { variants } from "../../data/variants";
-  import { aliases } from "../../data/aliases";
+  import type { LocaleID, ConditionalMappingType } from "../data/locales";
+  import type { JoiningPosition } from "../data/misc";
+  import type { FVS } from "../data/variants";
+  import type { WrittenUnitID } from "../data/writtenUnits";
+  import { joiningPositions } from "../data/misc";
+  import { locales } from "../data/locales";
+  import { variants } from "../data/variants";
+  import { aliases } from "../data/aliases";
   import LetterVariant from "./LetterVariant.svelte";
   import { hexFromCP, nameToCP } from "./utils";
   import { localeNS, orderedAliases, resolveCharName, mapGetOrCreate, isVariantRef, resolveRef } from "./utils";

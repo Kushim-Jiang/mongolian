@@ -3,8 +3,6 @@ import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 
 export default defineConfig({
-  srcDir: "./web/src",
-  publicDir: "./web/public",
   trailingSlash: "always",
   integrations: [
     svelte(),
@@ -42,12 +40,12 @@ export default defineConfig({
       editLink: {
         baseUrl: "https://github.com/Kushim-Jiang/mongolian/edit/main/",
       },
-      customCss: ["./web/src/custom.css"],
+      customCss: ["./src/custom.css"],
       components: {
-        Banner: "./web/src/Banner.astro",
-        Footer: "./web/src/Footer.astro",
-        ThemeProvider: "./web/src/ThemeProvider.astro",
-        ThemeSelect: "./web/src/ThemeSelect.astro",
+        Banner: "./src/Banner.astro",
+        Footer: "./src/Footer.astro",
+        ThemeProvider: "./src/ThemeProvider.astro",
+        ThemeSelect: "./src/ThemeSelect.astro",
       },
     }),
   ],

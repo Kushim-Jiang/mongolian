@@ -6,7 +6,7 @@
     "check": "astro check",
     "build": "npm run check && astro build",
     "preview": "astro preview",
-    "format": "prettier --write . !lib/mongfontbuilder/data/*.json !tests/data/*.json"
+    "format": "prettier --write . !mongfontbuilder/src/mongfontbuilder/data/*.json !mongfontbuilder/tests/data/*.json"
   },
   "engines": {
     "node": "^24.11.0"

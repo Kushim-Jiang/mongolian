@@ -15,7 +15,7 @@ import data
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
-from utils import tempDir, testsDir
+from utils import fontsDir, tempDir
 
 FONT_NAME = {
     "MNG": "hudum",
@@ -77,7 +77,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
     if output.exists():
         return output
 
-    font = Font.open(testsDir / f"{fontName}.ufo")
+    font = Font.open(fontsDir / f"{fontName}.ufo")
     c = MongFeaComposer(
         cmap={j: i for i in font.keys() for j in font[i].unicodes},
         glyphs=[*font.keys()],

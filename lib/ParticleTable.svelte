@@ -4,11 +4,11 @@
   }
   let { locale }: Props = $props();
 
-  import type { LocaleID } from "../../data/locales";
-  import type { JoiningPosition } from "../../data/misc";
-  import type { WrittenUnitID } from "../../data/writtenUnits";
-  import { particles } from "../../data/particles";
-  import { writtenUnits } from "../../data/writtenUnits";
+  import type { LocaleID } from "../data/locales";
+  import type { JoiningPosition } from "../data/misc";
+  import type { WrittenUnitID } from "../data/writtenUnits";
+  import { particles } from "../data/particles";
+  import { writtenUnits } from "../data/writtenUnits";
 
   type Atom = { unit: string; text: string; blue: boolean };
   type Row = { nominal: string[]; atoms: Atom[] };

@@ -24,7 +24,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parent
 sys.path.insert(0, str(HERE))
 
 # A case is written with the characters of the script, and a Windows console writes them
@@ -32,7 +31,7 @@ sys.path.insert(0, str(HERE))
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
 
-from test_unified import (  # noqa: E402
+from unified import (  # noqa: E402
     CASES,
     LANGUAGE,
     caseIsXfail,
@@ -40,10 +39,10 @@ from test_unified import (  # noqa: E402
     composedOTF,
     languageOf,
 )
-from utils import parseAliases, parseLetter, parseWrittenUnits  # noqa: E402
+from utils import parseAliases, parseLetter, parseWrittenUnits, tempDir  # noqa: E402
 
-REPORT = REPO / "temp" / "unified-failures.txt"
-COMPACT = REPO / "temp" / "unified-failures-compact.txt"
+REPORT = tempDir / "unified-failures.txt"
+COMPACT = tempDir / "unified-failures-compact.txt"
 
 
 def composeIfNeeded() -> None:
@@ -52,7 +51,7 @@ def composeIfNeeded() -> None:
     if composedOTF.exists():
         return
 
-    from test_unified import buildUnifiedFont
+    from unified import buildUnifiedFont
 
     buildUnifiedFont()
 

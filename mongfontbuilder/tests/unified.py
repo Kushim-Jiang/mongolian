@@ -1,15 +1,17 @@
-"""Compose the unified source font.
+"""The unified font the suite composes: its source, its composer, and its cases.
 
-``tests/unified.ufo`` carries the written units of every writing system at once, so the
-whole block composes from a single source font. This module builds that font for all
-writing systems and leaves the composed UFO and OTF in ``temp/`` for inspection:
+``tests/fonts/unified.ufo`` carries the written units of every writing system at once, so
+the whole block composes from a single source font. This module composes that font, and it
+is where the cases the suite is run with are read and marked, so that the tools of the
+suite reach the font and the cases without going through a test module:
 
-    uv run pytest tests/test_unified.py -s
+    uv run python tests/build.py --only unified
+    uv run python tests/failures.py
+    uv run python tests/trace.py "pX fvs1 ue lvs" tag
 
-The build on its own, without the suites, is ``tests/build.py``.
+The suite itself is ``tests/test_unified.py``.
 """
 
-from collections import Counter
 from collections.abc import Iterator
 from functools import cache
 from pathlib import Path
@@ -29,9 +31,9 @@ from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
 from mongfontbuilder.spec import FontSpec, GlyphSpec, applySpecToFont
 from mongfontbuilder.utils import getAliasesByLocale
-from utils import parseAliases, parseLetter, parseWrittenUnits, tempDir, testsDir
+from utils import fontsDir, tempDir
 
-SOURCE = testsDir / "unified.ufo"
+SOURCE = fontsDir / "unified.ufo"
 composedUFO = tempDir / "unified.ufo"
 composedOTF = tempDir / "unified.otf"
 
@@ -770,22 +772,6 @@ def hasCodePoint(name: str) -> bool:
     return bool(reMatch(r"_?u[0-9A-F]{4,6}(?:_u[0-9A-F]{4,6})*(\.|$)", name))
 
 
-@pytest.fixture(scope="session")
-def unifiedFont() -> Path:
-    """The unified font, composed once for the whole session.
-
-    Composing the font and compiling it takes a while, so the whole session shares one
-    build; the composed UFO and OTF are left in ``temp/``.
-    """
-
-    return buildUnifiedFont()
-
-
-def test_unified(unifiedFont: Path) -> None:
-    assert composedUFO.exists()
-    assert unifiedFont.exists()
-
-
 # A case of the suites: the index, the letters, the locale and what they shape to, or the
 # same, parametrized, with the marks made on it.
 Case = tuple[str, str, str, str] | ParameterSet
@@ -845,37 +831,5 @@ def caseIndexes(cases: list) -> Iterator[str]:
         yield caseValues(case)[0]
 
 
-# The cases of the suites, and how far a run of them has come. There are thousands of
-# cases and each one is shaped against the composed font, so the console is told where the
-# run is; run pytest with `-s` to see it.
+# The cases of the suites, with the marks the answers of this font call for.
 CASES = conformanceCases()
-doneCases = Counter[str]()
-totalCases = Counter[str](index.split(" > ")[0] for index in caseIndexes(CASES))
-
-
-def report(index: str, result: str) -> None:
-    """Tell the console where the run of the suites has come."""
-
-    suite, name = index.split(" > ", 1)
-    doneCases[suite] += 1
-    print(f"{suite} {doneCases[suite]}/{totalCases[suite]} {name}: {result}", flush=True)
-
-
-@pytest.mark.parametrize(
-    ("index", "letters", "locale", "goal"),
-    CASES,
-)
-def test_conformance(
-    index: str,
-    letters: str,
-    locale: str,
-    goal: str,
-    unifiedFont: Path,
-    capsys: pytest.CaptureFixture[str],
-) -> None:
-    parsedText = parseLetter(letters, locale)
-    codes = parseAliases(parsedText, locale)
-    result = parseWrittenUnits(parsedText, unifiedFont, languageOf(LANGUAGE[locale]))
-    with capsys.disabled():
-        report(index, "ok" if result == goal else "failed")
-    assert result == goal, f"ind:  {index}\ncode: {codes}\nres:  {result}\ngoal: {goal}"

@@ -4,6 +4,10 @@ __pycache__
 /.astro
 /.venv
 /dist
+/mongfontbuilder/.pytest_cache
+/mongfontbuilder/.ruff_cache
+/mongfontbuilder/dist
+/mongfontbuilder/temp
 /node_modules
 /temp
 Thumbs.db

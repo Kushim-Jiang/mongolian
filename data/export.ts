@@ -14,7 +14,10 @@ import { ligatures } from "./ligatures.ts";
 import { variants } from "./variants.ts";
 import { particles } from "./particles.ts";
 
-const outputDir = join(import.meta.dirname, "../lib/mongfontbuilder/data");
+const outputDir = join(
+  import.meta.dirname,
+  "../mongfontbuilder/src/mongfontbuilder/data",
+);
 
 const localeToCategorizedAliases = new Map(
   Object.entries(locales).map(([k, { categories }]) => [
