@@ -58,14 +58,14 @@ table.punc td:nth-child(3) {
 /* The site title is as long as the UTN’s own title, so let it truncate instead
    of crowding the search box, which keeps a workable width of its own. */
 
-.site-title > span {
+.site-title>span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 @media (min-width: 50rem) {
-  .header > div:nth-child(2) {
+  .header>div:nth-child(2) {
     min-width: 11rem;
   }
 }
@@ -220,6 +220,7 @@ a {
 }
 
 @media print {
+
   html,
   body {
     font-family: "Segoe UI", "Noto Sans", Arial, sans-serif;
@@ -307,7 +308,7 @@ a {
     vertical-align: -0.15em;
   }
 
-  .starlight-aside__title + .starlight-aside__content {
+  .starlight-aside__title+.starlight-aside__content {
     margin-top: 0.4em;
   }
 
@@ -359,8 +360,13 @@ a {
     text-align: center;
   }
 
+  /* The title is one line of the text block or it is two, and two is what the
+     front matter must never be: the A4 page box leaves 178mm between its
+     margins, which is 504pt, and the title measures 536pt at 26pt, 495pt at
+     24pt, and 452pt at 22pt — the size that leaves room for the fonts the
+     runner may resolve in place of the ones asked for here. */
   .doc-title h1 {
-    font-size: 26pt;
+    font-size: 22pt;
     margin: 0 0 0.25em;
     string-set: doctitle content();
   }
@@ -401,7 +407,7 @@ a {
     color: #888;
   }
 
-  .toc .toc-l0 > a {
+  .toc .toc-l0>a {
     font-weight: 600;
   }
 

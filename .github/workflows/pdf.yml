@@ -13,8 +13,6 @@
 name: Build PDF
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
