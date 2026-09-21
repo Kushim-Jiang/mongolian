@@ -21,7 +21,7 @@
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.extraPaths": ["mongfontbuilder/src"],
-  "python.defaultInterpreterPath": "${workspaceFolder}/mongfontbuilder/.venv",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
   "python.testing.pytestEnabled": true,
   "python.testing.autoTestDiscoverOnSaveEnabled": false,
   "[toml]": {
@@ -33,7 +33,7 @@
   "[svelte]": {
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
-  "python.testing.pytestArgs": ["mongfontbuilder"],
+  "python.testing.pytestArgs": [],
   "python.testing.unittestEnabled": false,
   "[astro]": {
     "editor.defaultFormatter": "astro-build.astro-vscode"

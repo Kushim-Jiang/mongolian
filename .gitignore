@@ -2,10 +2,10 @@ __pycache__
 .DS_Store
 * (Autosaved).glyphs
 /.astro
+/.venv
 /dist
 /mongfontbuilder/.pytest_cache
 /mongfontbuilder/.ruff_cache
-/mongfontbuilder/.venv
 /mongfontbuilder/dist
 /mongfontbuilder/temp
 /node_modules
