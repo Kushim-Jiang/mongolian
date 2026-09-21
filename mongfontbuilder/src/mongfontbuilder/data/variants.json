@@ -12155,7 +12155,8 @@
             "gb": "00F5 mongolian ali gali letter half u final form"
           },
           "TODx": {
-            "gb": "0335 todo ali gali letter wa final form"
+            "gb": "0335 todo ali gali letter wa final form",
+            "lvs": true
           }
         }
       }

@@ -10041,6 +10041,7 @@ export const variants: Record<
           },
           TODx: {
             gb: "0335 todo ali gali letter wa final form",
+            lvs: true,
           },
         },
       },
