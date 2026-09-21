@@ -2,14 +2,13 @@
 
 ## Contributing to the Python Package
 
-The package is the project in [mongfontbuilder/](mongfontbuilder); its own README describes the library, the CLI, and the test suite. Set up the development environment using [uv](https://docs.astral.sh/uv/getting-started/installation/):
+The package is the project in [mongfontbuilder/](mongfontbuilder); its own README describes the library, the CLI, and the test suite. It is a member of the [uv workspace](https://docs.astral.sh/uv/concepts/projects/workspaces/) the repository root declares, so its environment and its lockfile are the ones of the root, and the Python outside the project — the template script, for instance — runs in that same environment. Set up the environment using [uv](https://docs.astral.sh/uv/getting-started/installation/), from the repository root:
 
 ```sh
-cd mongfontbuilder
 uv sync
 ```
 
-Write tests to verify your changes, then run them (from the project directory):
+Write tests to verify your changes, then run them (from the repository root):
 
 ```sh
 uv run pytest
@@ -34,7 +33,7 @@ The export also validates the data (e.g. unique default variants, locale-specifi
 The [Glyphs](https://glyphsapp.com/) templates in [templates/](templates) are generated from the test UFO fonts and the OTL composer output. After changing the data files or the OTL rules, regenerate them:
 
 ```sh
-uv run --directory mongfontbuilder python ../templates/update.py
+uv run python templates/update.py
 ```
 
 This rewrites `hudum.glyphs`/`hudum.fea` and `manchu.glyphs`/`manchu.fea`. Template generation is **macOS-only** (it requires the Glyphs app via `glyphsLib`), and the corresponding tests in [`mongfontbuilder/tests/test_templates.py`](mongfontbuilder/tests/test_templates.py) are skipped on other platforms.
@@ -71,5 +70,5 @@ Images can be added to [src/](src/) and embedded in Markdown using relative link
 
 Each project is checked by the tooling it carries, and the [`.vscode/`](.vscode) settings have the editors report the problems of the whole workspace rather than of the files that happen to be open:
 
-- the Python package: ruff and pyright, both configured in [`mongfontbuilder/pyproject.toml`](mongfontbuilder/pyproject.toml);
+- the Python, package and scripts alike: `uv run ruff check .` and `uv run pyright`, both configured in [`pyproject.toml`](pyproject.toml);
 - the documentation site: `npm run check` (`astro check`) for the TypeScript and `.astro` files, and `svelte-check` for the components.

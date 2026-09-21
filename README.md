@@ -15,6 +15,8 @@ mongolian/
 ├─ src/                 site styles and configuration
 ├─ templates/           the Glyphs templates and the script that updates them
 ├─ mongfontbuilder/     the Python project: the library, its CLI, and the tests
+├─ pyproject.toml       the uv workspace: one environment and lockfile for the Python
+├─ uv.lock              the locked dependencies of that environment
 └─ astro.config.ts      documentation site configuration and sidebar
 ```
 
@@ -42,6 +44,8 @@ pip install mongfontbuilder
 
 Its own README, [`mongfontbuilder/README.md`](mongfontbuilder/README.md), describes the Python API, the CLI, the development environment, and the test suite.
 
+The repository is a [uv workspace](https://docs.astral.sh/uv/concepts/projects/workspaces/), declared by the `pyproject.toml` at its root, and the package is its member. The environment and the lockfile of the workspace are the ones of the repository root, and they are shared by every Python in the repository, the package and the scripts around it alike.
+
 ## Templates
 
 Maintained in [templates/](https://github.com/Kushim-Jiang/mongolian/blob/main/templates).
@@ -57,7 +61,7 @@ Template tests are macOS-only (require Glyphs app) and located in [`mongfontbuil
 
 ## Tests
 
-Maintained in [mongfontbuilder/tests/](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/tests), and run with `uv run pytest` from the `mongfontbuilder/` project.
+Maintained in [mongfontbuilder/tests/](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/tests), and run with `uv run pytest` from the repository root.
 
 The test harness builds each font on the fly using `mongfontbuilder`’s Python API directly, then shapes the test input strings with [HarfBuzz](https://harfbuzz.github.io/) and compares the resulting glyph sequence against expected output. Tests are organized per writing system with separate test fonts:
 

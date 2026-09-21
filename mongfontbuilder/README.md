@@ -14,7 +14,7 @@ The library includes various utilities, including:
 - Dynamic generation of OpenType Layout rules.
 - Construction of a complete font from a minimal glyph set.
 
-A CLI is also available — it reads a source UFO font and writes a complete font with the generated OTL rules. Run from this project directory:
+A CLI is also available — it reads a source UFO font and writes a complete font with the generated OTL rules. Run from the repository root:
 
 ```sh
 uv run python -m mongfontbuilder input.ufo output.otf --locales MNG
@@ -26,7 +26,7 @@ The documentation, the specification data, and the Glyphs templates are maintain
 
 ## Development
 
-The project is developed with [uv](https://docs.astral.sh/uv/getting-started/installation/). The commands below are run from this project directory, `mongfontbuilder/`. Set up the environment and install the development tools (pytest, ruff, pyright, uharfbuzz, glyphsLib) with:
+The project is developed with [uv](https://docs.astral.sh/uv/getting-started/installation/). It is a member of the [uv workspace](https://docs.astral.sh/uv/concepts/projects/workspaces/) the repository root declares, so the environment and the lockfile it is developed with are the ones of the repository root, and the commands below are run from there. Set up the environment and install the development tools (pytest, ruff, pyright, uharfbuzz, glyphsLib) with:
 
 ```sh
 uv sync
@@ -65,10 +65,10 @@ The cases below are marked for every font, because the UTN model answers them di
 
 ## Glyphs templates
 
-The [Glyphs](https://glyphsapp.com/) templates in the repository's [`templates/`](../templates) directory are generated from the test UFO fonts and the output of the OTL composer, and are updated from this project with:
+The [Glyphs](https://glyphsapp.com/) templates in the repository's [`templates/`](../templates) directory are generated from the test UFO fonts and the output of the OTL composer, and are updated from the repository root with:
 
 ```sh
-uv run python ../templates/update.py
+uv run python templates/update.py
 ```
 
 This rewrites `hudum.glyphs`/`hudum.fea` and `manchu.glyphs`/`manchu.fea`. Template generation is **macOS-only** (it requires the Glyphs app via `glyphsLib`), and the corresponding tests in [`tests/test_templates.py`](tests/test_templates.py) are skipped on other platforms.
