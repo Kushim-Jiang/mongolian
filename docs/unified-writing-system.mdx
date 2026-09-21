@@ -28,6 +28,14 @@ This table collects every character of all supported writing systems, with its v
 
 **[MONGOLIAN LETTER TODO ALI GALI TA (U+1898)](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1898)**. This letter is not used in any writing system. It may have been coined by Quejingzhabu. It is conjectured that in one scheme the Todo Ali Gali letter _ta_ was analyzed as <TODx links="Dp" />, but the letter _da_ is also shown as <TODx links="Dp" />, so the creator added a distinguishing stroke to produce the letter for _da_. All of its glyphs are fabricated.
 
-This letter belongs to the Todo Ali Gali letters, which supplement the Todo alphabet for transliterating Sanskrit and Tibetan,
+## Fonts of a unified writing system
+
+The fonts described below are the reference implementations of the unified writing system: each of them has to serve the whole Mongolian block, so each of them has to settle the cross-writing-system ambiguity that this chapter is about, and the way each settles it is a reading of the model above.
+
+**[Mongolian Baiti](https://learn.microsoft.com/en-us/typography/font-list/mongolian-baiti)** (`Monbaiti.ttf`). Designed by Founder of Beijing and supplied with Windows since Vista, and with Office beside it, so that it is the Mongolian font most users have without installing anything. Its script tags declare `Mong` and `Latn`.
+
+**[Noto Sans Mongolian](https://github.com/notofonts/mongolian)**. The Noto project’s Mongolian family, designed by the Monotype design team and released under the SIL Open Font License, which is what makes its sources readable alongside this document: the repository carries the UFO sources, the OpenType Layout features that its build composes, and the FontBakery runs that check the result. A specimen and a glyph list are on [Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans+Mongolian/glyphs). This document’s own reference implementation, [mongfontbuilder](https://pypi.org/project/mongfontbuilder/), was developed alongside it—the test fonts of the [Toolchain](/toolchain/) chapter are its sources—so the two agree by construction on the written units of the block, and the disagreement between them is the place where this document is still open to question.
+
+Both are examples of what this chapter calls a unified writing system rather than of a single writing system, and the [FVS](/architecture/#format-controls) allocation is the sharpest case: a font that serves the whole block cannot serve two writing systems that disagree on whether a sequence is valid, so the two fonts above have had to choose, and this document says how that choice is made.
 
 </div>

@@ -87,3 +87,21 @@ GB/T 36649—2018 introduces MONGOLIAN LETTER ALI-GALI HALF U SECOND MEDIAL FORM
 Quejingzhabu (2013) introduces MONGOLIAN LETTER ALI-GALI I SECOND FINAL FORM. This presentation form is equivalent to the final <MCHx links="Iy" /> of letter <MCHx links="i" />, so this written form is not included in the Manchu Ali Gali part of this document.
 
 **Comparison with [GB/T 36645—2018](https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=67DA394E47B970F80BBABE5511B9AAE2)**. For the same reasons as in comparison with Quejingzhabu (2013) in this section, the MONGOLIAN LETTER ALI-GALI I SECOND FINAL FORM is not included in the Manchu Ali Gali part of this document.
+
+## Implementations
+
+This document is the model; a font is one thing that renders it, and a normalizer is another. Both have to answer the same question—which written unit does this text produce—but they are asked it in different circumstances, and reading how each of them answers it is a way to test whether the model is stated clearly enough to be followed.
+
+Where they meet is the shaping process. A font carries the process into the [glyph image layer](/introduction/#structure): it draws the written units and writes the substitution and positioning rules that the process prescribes. An engine that has no font to ask still has the same question to answer whenever it compares two texts, and the model answers it without a font, because the written unit a text produces is decided by the characters and the rules alone.
+
+**[mongfontbuilder](https://pypi.org/project/mongfontbuilder/)**. The reference implementation that this repository maintains. It reads the rule data of this document, composes the [glyph image layer](/introduction/#structure) of a font from a minimal glyph set, and validates the result by shaping the test cases of the national standards with [HarfBuzz](https://harfbuzz.github.io/).
+
+**[mongol-norm](https://pypi.org/project/mongol-norm/)**. A shape-aware normalizer, independent of this repository, by [Satsrag](https://pypi.org/user/satsrag/). It runs the shaping rules of this document without a font, so that two texts which look alike are found to be alike: it maps every encoding of a word—the same word typed with _a_ or _e_, with _o_ or _u_, with an FVS or a joiner—to one key, for search, deduplication, and indexing. Its engine is written in Rust and reaches Python as a thin binding, with a command line beside it.
+
+The normalizer is not a font, and the difference is the point of comparing them. A font is asked for the written units of the text in front of it and stops there; the normalizer is asked whether two texts are the same, so it must also decide what to do with the freedoms that the model leaves to the text. Two things in it are worth a reader’s attention, because they are readings of this document rather than restatements of it.
+
+_Reduction without a glyph set._ The lower layers of the process name glyphs—the basic mapping of phase Ia is a `cmap`, and the cursive joining of phase IIa assigns a joining position to the glyph of a letter. The normalizer has no glyph set, so it holds the written units a font would draw as names of its own, and the phases act on those names. This is what a font-independent implementation has to do, and the data of this document are what makes it possible.
+
+_Normalization is not identity._ The output of its `normalize` is a key, not a recommended spelling. It encodes by glyph shape, so a word can come back written with different characters than it went in with—the normalizer’s own documentation gives <MNG links="m o ng g o l" /> becoming <MNG links="m o a g fvs2 n fvs1 n fvs1 o l" />—and it publishes a `canonical_version` for the key so that a caller can rebuild its index when the encoding changes. A reader who wants the standard spelling of a word should read the shape the normalizer reports, not the key it stores.
+
+**Adding an implementation.** The list above is not closed. An implementation that follows this document is a reading of it, and a disagreement between the model and an implementation is usually a place where the model is not yet stated clearly enough to be followed—which is a report this document wants. If you have one, [open an issue](https://github.com/Kushim-Jiang/mongolian/issues) or send a revision to the UTN.
