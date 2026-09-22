@@ -28,6 +28,15 @@
   // that names one is linked there whatever the writing system it was written for.
   const FORMAT_CONTROLS = new Set(["fvs", "fvs1", "fvs2", "fvs3", "fvs4", "mvs", "nnbsp", "nirugu", "zwj", "zwnj"]);
 
+  // The free variation selectors are named by their number; render it as a superscript
+  // (FVS1 → ¹) so the label reads as a variation of the selector rather than a separate unit.
+  const CONTROL_LABELS: Record<string, string> = {
+    fvs1: "¹",
+    fvs2: "²",
+    fvs3: "³",
+    fvs4: "⁴",
+  };
+
   const categoryItems = $derived(category ? locales[locale]?.categories?.[category as keyof (typeof locales)[typeof locale]["categories"]] || [] : []);
 </script>
 
@@ -40,7 +49,7 @@
   {@const isUnit = unit in writtenUnits}
   {@const isControl = FORMAT_CONTROLS.has(unit.toLowerCase())}
   {@const href = isControl ? `/architecture/#format-controls` : !isPos ? `/${prefix}/#${item}` : fvs === undefined ? (isUnit ? `/${prefix}/#${unit}-${pos}` : `/${prefix}/#${unit}-${pos}-0`) : `/${prefix}/#${unit}-${pos}-${fvs}`}
-  {@const label = fvs === undefined ? item : fvs === "0" ? `${unit}.${pos} (default)` : `${unit}.${pos}.${fvs}`}
+  {@const label = CONTROL_LABELS[unit.toLowerCase()] ?? (fvs === undefined ? item : fvs === "0" ? `${unit}.${pos} (default)` : `${unit}.${pos}.${fvs}`)}
   <a {href} style="font-style: {unit[0] === unit[0].toLowerCase() ? 'italic' : 'normal'}">{label}</a>
 {/each}{#if categoryItems.length > 0}
   <span>
