@@ -1,15 +1,4 @@
-# Test data
-
-## The cases
-
-- `core-*.tsv` — the core test suite of the Chinese national standard, one file per writing system: `hud` and `hag` (Hudum and its Ali Gali), `tod` and `tag` (Todo and its Ali Gali), `sib` (Sibe), and `man` and `mag` (Manchu and its Ali Gali);
-- `eac-hud.tsv` — the EAC test suite, which is settled by the Hudum standard alone, in the form the suite reads it.
-
-## The names the cases and the fonts are written with
-
-`bases.yaml`, `marks.yaml`, and `format-controls.yaml` map the names the test fonts carry — the bases and the signs, the marks, the format controls — to the names of the written units they stand for. `utils.py` reads them into the mapping it parses the shaped fonts with.
-
-## Files kept for reference
+# References
 
 Nothing reads these; they are kept as the material the cases and the names above came from.
 

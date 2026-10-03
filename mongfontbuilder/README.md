@@ -48,6 +48,11 @@ The harness builds each test font on the fly using the package API, shapes the t
 
 A font that writes with every writing system at once, from `tests/fonts/unified.ufo`, is validated against the same cases by `tests/test_unified.py`; the font it composes and the cases it runs are in `tests/unified.py`.
 
+### Test suites
+
+- `core-*.tsv` — the core test suite of the Chinese national standard, one file per writing system: `hud` and `hag` (Hudum and its Ali Gali), `tod` and `tag` (Todo and its Ali Gali), `sib` (Sibe), and `man` and `mag` (Manchu and its Ali Gali);
+- `eac-hud.tsv` — the EAC test suite, which is settled by the Hudum standard alone, in the form the suite reads it.
+
 ### Cases the EAC expects differently
 
 The EAC suite is settled by the Hudum standard alone. Where the UTN model disagrees with it, the case is marked as an expected failure — it is kept in the suite, and the reason is kept in [`tests/fixtures.py`](tests/fixtures.py) — so that the run stays green and the disagreement stays visible.

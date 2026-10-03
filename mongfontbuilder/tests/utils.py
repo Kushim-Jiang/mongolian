@@ -5,12 +5,12 @@ from importlib.resources import files
 from pathlib import Path
 
 import uharfbuzz
-import yaml
 from fontTools import unicodedata
 from fontTools.ttLib import TTFont
 
-from mongfontbuilder import data as mongData
+import mongfontbuilder.testSuites
 from mongfontbuilder.data import LocaleID, aliases
+from mongfontbuilder.testSuites import glyphNameMapping
 from mongfontbuilder.utils import namespaceFromLocale
 
 testsDir = Path(__file__).parent
@@ -30,18 +30,9 @@ writingSystemToLocaleID: dict[str, LocaleID] = {
     "mag": "MCHx",
 }
 
-glyphNameMapping: dict[str, str | None] = {
-    "space": "uni0020.Widespace.nomi",
-    "uni0020": "uni0020.Widespace.nomi",
-    "nbspace": "nbspace.Widespace.nomi",
-}
 # The suites, and the names they are written in, are data of the package rather than of
 # these tests, so that the project and the fonts built from it read the one copy of them.
-suitesDir = files(mongData) / "suites"
-
-for filename in ["marks.yaml", "format-controls.yaml", "bases.yaml"]:
-    with (suitesDir / filename).open(encoding="utf-8") as f:
-        glyphNameMapping.update(yaml.safe_load(f))
+testSuitesDir = files(mongfontbuilder.testSuites)
 
 
 @dataclass

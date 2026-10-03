@@ -1,5 +1,4 @@
 import csv
-from importlib.resources import files
 from os import environ
 from os.path import relpath
 from pathlib import Path
@@ -9,13 +8,12 @@ from _pytest.mark.structures import ParameterSet
 from fontTools.ttLib import TTFont
 from ufoLib2 import Font
 
-from mongfontbuilder import data as mongData
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otf import compileOTF as compileToOTF
 from mongfontbuilder.otf import saveUFO
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
-from utils import fontsDir, tempDir
+from utils import fontsDir, tempDir, testSuitesDir
 
 FONT_NAME = {
     "MNG": "hudum",
@@ -108,7 +106,7 @@ def loadRawTestCases(
     test_cases = list[tuple[str, str, str, str] | ParameterSet]()
     for testSet, locales in test_info.items():
         for locale in locales:
-            file_path = files(mongData) / "suites" / f"{testSet}-{locale}.tsv"
+            file_path = testSuitesDir / f"{testSet}-{locale}.tsv"
             with open(file_path, encoding="utf-8") as f:  # type: ignore
                 rules = [
                     tuple(i)

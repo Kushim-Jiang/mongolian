@@ -21,11 +21,6 @@ from ufo2ft import OTFCompiler
 from ufo2ft.constants import CFFOptimization
 from ufoLib2 import Font
 
-# How the compiler is asked to remove overlaps: a boolean operation over every glyph's
-# contours, after the components have been decomposed. `pathops` is the backend that
-# handles the quadratic curves the drawings use, and the one ufo2ft recommends.
-OVERLAPS_BACKEND = "pathops"
-
 # What `fontTools` writes, and what this project writes instead.
 SINGLE_QUOTED_DECLARATION = b"<?xml version='1.0' encoding='UTF-8'?>"
 DOUBLE_QUOTED_DECLARATION = b'<?xml version="1.0" encoding="UTF-8"?>'
@@ -44,7 +39,6 @@ def compileOTF(font: Font, *, featureWriters: Any = None, removeOverlaps: bool =
     }
     if removeOverlaps:
         options["removeOverlaps"] = True
-        options["overlapsBackend"] = OVERLAPS_BACKEND
     if featureWriters is not None:
         options["featureWriters"] = featureWriters
     return OTFCompiler(**options).compile(font)
