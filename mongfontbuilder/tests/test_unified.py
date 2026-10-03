@@ -13,6 +13,8 @@ from pathlib import Path
 
 import pytest
 
+from mongfontbuilder.data.types import LocaleID
+
 from unified import (
     CASES,
     LANGUAGE,
@@ -62,7 +64,7 @@ def report(index: str, result: str) -> None:
 def test_conformance(
     index: str,
     letters: str,
-    locale: str,
+    locale: LocaleID,
     goal: str,
     unifiedFont: Path,
     capsys: pytest.CaptureFixture[str],

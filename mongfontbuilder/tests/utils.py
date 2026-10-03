@@ -1,16 +1,14 @@
 import re
 from dataclasses import dataclass
 from functools import cache
-from importlib.resources import files
 from pathlib import Path
 
 import uharfbuzz
 from fontTools import unicodedata
 from fontTools.ttLib import TTFont
 
-import mongfontbuilder.testSuites
 from mongfontbuilder.data import LocaleID, aliases
-from mongfontbuilder.testSuites import glyphNameMapping
+from mongfontbuilder.testSuites import glyphNameMapping, testSuitesDir
 from mongfontbuilder.utils import namespaceFromLocale
 
 testsDir = Path(__file__).parent
@@ -19,20 +17,6 @@ project = testsDir.parent  # the mongfontbuilder project this suite belongs to
 repo = project.parent  # the repository, where the templates live
 tempDir = project / "temp"
 tempDir.mkdir(exist_ok=True)
-
-writingSystemToLocaleID: dict[str, LocaleID] = {
-    "hud": "MNG",
-    "hag": "MNGx",
-    "tod": "TOD",
-    "tag": "TODx",
-    "sib": "SIB",
-    "man": "MCH",
-    "mag": "MCHx",
-}
-
-# The suites, and the names they are written in, are data of the package rather than of
-# these tests, so that the project and the fonts built from it read the one copy of them.
-testSuitesDir = files(mongfontbuilder.testSuites)
 
 
 @dataclass
@@ -83,22 +67,19 @@ def getWrittenUnits(utnName: UTNGlyphName) -> str:
     return "".join(units)
 
 
-def parseAliases(text: str, writing_system: str) -> str:
-    localeID = writingSystemToLocaleID[writing_system]
-
+def parseAliases(text: str, locale: LocaleID) -> str:
     result = []
     for char in text:
         alias = aliases[unicodedata.name(char)]
         if isinstance(alias, str):
             result.append(alias)
         else:
-            result.append(alias[namespaceFromLocale(localeID)])
+            result.append(alias[namespaceFromLocale(locale)])
 
     return " ".join(result)
 
 
-def parseLetter(names: str, writing_system: str) -> str:
-    localeID = writingSystemToLocaleID[writing_system]
+def parseLetter(names: str, locale: LocaleID) -> str:
     result = []
 
     for name in names.split():
@@ -106,7 +87,7 @@ def parseLetter(names: str, writing_system: str) -> str:
             charName = next(
                 k
                 for k, v in aliases.items()
-                if (isinstance(v, dict) and v.get(namespaceFromLocale(localeID)) == name)
+                if (isinstance(v, dict) and v.get(namespaceFromLocale(locale)) == name)
                 or v == name
             )
             result.append(unicodedata.lookup(charName))

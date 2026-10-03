@@ -20,6 +20,7 @@ register_structure_hook(AliasData, lambda x, _: x)
 
 @dataclass
 class LocaleData:
+    name: str
     conditions: list[Condition]
     categories: dict[str, list[str]]
 

@@ -9,11 +9,11 @@ glyphs the wrong way is read off the output. Compose the font first::
 
 Then, from the project directory (``mongfontbuilder/``)::
 
-    uv run python tests/trace.py "pX fvs1 ue lvs" tag
+    uv run python tests/trace.py "pX fvs1 ue lvs" TODx
 
 The case is written the way a suite writes it — alias names, `space` between words — and
-the writing system is the one the case belongs to: `hud`, `hag`, `tod`, `tag`, `sib`,
-`man` or `mag`. The case is shaped under the language system the suite shapes it under.
+the writing system is the one the case belongs to: `MNG`, `MNGx`, `TOD`, `TODx`, `SIB`,
+`MCH` or `MCHx`. The case is shaped under the language system the suite shapes it under.
 """
 
 from __future__ import annotations
@@ -99,7 +99,7 @@ def main() -> None:
         print("writing systems:", ", ".join(LANGUAGE))
         raise SystemExit(2)
 
-    system = sys.argv[2] if len(sys.argv) > 2 else "hud"
+    system = sys.argv[2] if len(sys.argv) > 2 else "MNG"
     if system not in LANGUAGE:
         raise SystemExit(f"unknown writing system {system!r}; one of {', '.join(LANGUAGE)}")
     if not composedOTF.exists():

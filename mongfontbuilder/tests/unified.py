@@ -7,7 +7,7 @@ suite reach the font and the cases without going through a test module:
 
     uv run python tests/build.py --only unified
     uv run python tests/failures.py
-    uv run python tests/trace.py "pX fvs1 ue lvs" tag
+    uv run python tests/trace.py "pX fvs1 ue lvs" TODx
 
 The suite itself is ``tests/test_unified.py``.
 """
@@ -24,14 +24,14 @@ from fontTools.feaLib import ast
 from ufoLib2 import Font
 from ufoLib2.objects import Glyph
 
-from fixtures import EAC_UNIFIED_XFAIL, compileOTF, loadRawTestCases
 from mongfontbuilder import GlyphDescriptor, data
 from mongfontbuilder.data.types import LocaleID
-from mongfontbuilder.otf import saveUFO
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
 from mongfontbuilder.spec import FontSpec, GlyphSpec, applySpecToFont
 from mongfontbuilder.utils import getAliasesByLocale
+
+from fixtures import EAC_UNIFIED_XFAIL, compileOTF, loadRawTestCases
 from utils import fontsDir, tempDir
 
 SOURCE = fontsDir / "unified.ufo"
@@ -41,20 +41,20 @@ composedOTF = tempDir / "unified.otf"
 # The language system each writing system is shaped under: a writing system and its Ali
 # Gali extension are declared in the same language system.
 LANGUAGE = {
-    "hud": "MNG ",
-    "hag": "MNG ",
-    "tod": "TOD ",
-    "tag": "TOD ",
-    "sib": "SIB ",
-    "man": "MCH ",
-    "mag": "MCH ",
+    "MNG": "MNG ",
+    "MNGx": "MNG ",
+    "TOD": "TOD ",
+    "TODx": "TOD ",
+    "SIB": "SIB ",
+    "MCH": "MCH ",
+    "MCHx": "MCH ",
 }
 
 # The test suites to shape the composed font with: the EAC suite of Hudum, which is the
 # only writing system the EAC documents, and the suites of the Chinese national standard.
-TEST_SUITES = {
-    "eac": ["hud"],
-    "core": ["hud", "hag", "tod", "tag", "sib", "man", "mag"],
+TEST_SUITES: dict[str, list[LocaleID]] = {
+    "eac": ["MNG"],
+    "core": ["MNG", "MNGx", "TOD", "TODx", "SIB", "MCH", "MCHx"],
 }
 
 # How this font carries out the stretching of the stem at Phase IIb.4. A bowed written form
@@ -702,7 +702,7 @@ def buildUnifiedFont() -> Path:
     font = composeUnified()
     tempDir.mkdir(parents=True, exist_ok=True)
     print(f"  composed {len(font)} glyphs, writing the UFO …", flush=True)
-    saveUFO(font, composedUFO)
+    font.save(composedUFO, overwrite=True)
     print("  wrote the UFO, compiling the OTF …", flush=True)
     compileOTF(font).save(composedOTF)
     print(f"composed {composedOTF}", flush=True)
@@ -775,7 +775,7 @@ def hasCodePoint(name: str) -> bool:
 
 # A case of the suites: the index, the letters, the locale and what they shape to, or the
 # same, parametrized, with the marks made on it.
-Case = tuple[str, str, str, str] | ParameterSet
+Case = tuple[str, str, LocaleID, str] | ParameterSet
 
 
 @cache
@@ -785,7 +785,7 @@ def languageOf(tag: str) -> str:
     return hb.ot_tag_to_language(tag)  # type: ignore
 
 
-def caseValues(case: Case) -> tuple[str, str, str, str]:
+def caseValues(case: Case) -> tuple[str, str, LocaleID, str]:
     """The index, letters, locale and goal of *case*.
 
     A case is a plain tuple, or a parametrized case that carries the marks made on it.

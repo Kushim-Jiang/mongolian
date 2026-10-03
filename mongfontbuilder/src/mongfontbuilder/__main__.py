@@ -6,11 +6,12 @@ from argparse import ArgumentParser
 from os import environ
 from pathlib import Path
 
+from ufo2ft import OTFCompiler
+from ufo2ft.constants import CFFOptimization
 from ufoLib2 import Font
 
 from . import data
 from .data.types import LocaleID
-from .otf import compileOTF
 from .otl import MongFeaComposer
 from .spec import applySpecToFont
 
@@ -58,7 +59,12 @@ if suffix == ".ufo":
     font.save(output, overwrite=True)
 elif suffix == ".otf":
     environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"
-    compileOTF(font, featureWriters=[]).save(output)
+    OTFCompiler(
+        useProductionNames=False,
+        optimizeCFF=CFFOptimization.NONE,
+        removeOverlaps=True,
+        featureWriters=[],
+    ).compile(font).save(output)
     print(f"Generated: {output}")
 else:
     msg = f"unsupported output format: {suffix} (use .ufo or .otf)"

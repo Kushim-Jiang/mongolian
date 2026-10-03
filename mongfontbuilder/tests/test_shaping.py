@@ -2,15 +2,17 @@ from pathlib import Path
 
 import pytest
 
+from mongfontbuilder.data.types import LocaleID
+
 from fixtures import loadRawTestCases
 from utils import parseAliases, parseLetter, parseWrittenUnits
 
 
 @pytest.mark.parametrize(
     ("index", "letters", "locale", "goal"),
-    loadRawTestCases({"eac": ["hud"], "core": ["hud"]}, "MNG"),
+    loadRawTestCases({"eac": ["MNG"], "core": ["MNG"]}, "MNG"),
 )
-def test_MNG(index: str, letters: str, locale: str, goal: str, hudum_font: Path) -> None:
+def test_MNG(index: str, letters: str, locale: LocaleID, goal: str, hudum_font: Path) -> None:
     parsedText = parseLetter(letters, locale)
     codes = parseAliases(parsedText, locale)
     result = parseWrittenUnits(parsedText, hudum_font)
@@ -19,9 +21,9 @@ def test_MNG(index: str, letters: str, locale: str, goal: str, hudum_font: Path)
 
 @pytest.mark.parametrize(
     ("index", "letters", "locale", "goal"),
-    loadRawTestCases({"core": ["man"]}, "MCH"),
+    loadRawTestCases({"core": ["MCH"]}, "MCH"),
 )
-def test_MCH(index: str, letters: str, locale: str, goal: str, manchu_font: Path) -> None:
+def test_MCH(index: str, letters: str, locale: LocaleID, goal: str, manchu_font: Path) -> None:
     parsedText = parseLetter(letters, locale)
     codes = parseAliases(parsedText, locale)
     result = parseWrittenUnits(parsedText, manchu_font)
@@ -30,9 +32,9 @@ def test_MCH(index: str, letters: str, locale: str, goal: str, manchu_font: Path
 
 @pytest.mark.parametrize(
     ("index", "letters", "locale", "goal"),
-    loadRawTestCases({"core": ["sib"]}, "SIB"),
+    loadRawTestCases({"core": ["SIB"]}, "SIB"),
 )
-def test_SIB(index: str, letters: str, locale: str, goal: str, sibe_font: Path) -> None:
+def test_SIB(index: str, letters: str, locale: LocaleID, goal: str, sibe_font: Path) -> None:
     parsedText = parseLetter(letters, locale)
     codes = parseAliases(parsedText, locale)
     result = parseWrittenUnits(parsedText, sibe_font)

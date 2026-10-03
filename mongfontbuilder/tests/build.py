@@ -26,17 +26,21 @@ sys.path.insert(0, str(HERE))
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
 
-from fixtures import buildFontForLocales  # noqa: E402
+from mongfontbuilder import data  # noqa: E402
 from mongfontbuilder.data.types import LocaleID  # noqa: E402
+
+from fixtures import buildFontForLocales  # noqa: E402
 from unified import buildUnifiedFont  # noqa: E402
 from utils import tempDir  # noqa: E402
+
+# The writing systems whose font is built on its own: a writing system and its Ali Gali
+# extension share a font, so the base writing system names it.
+SINGLE_SYSTEM_LOCALES: tuple[LocaleID, ...] = ("MNG", "SIB", "MCH")
 
 # The fonts that write with one writing system, by the name of the font. The unified font
 # writes with every writing system at once and is composed by `unified.py`.
 LOCALES: dict[str, list[LocaleID]] = {
-    "hudum": ["MNG"],
-    "sibe": ["SIB"],
-    "manchu": ["MCH"],
+    data.locales[locale].name: [locale] for locale in SINGLE_SYSTEM_LOCALES
 }
 
 # The fonts this builds, and the order they are built in.

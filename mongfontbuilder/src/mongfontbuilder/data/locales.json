@@ -1,5 +1,6 @@
 {
   "MNG": {
+    "name": "hudum",
     "conditions": [
       "chachlag",
       "marked",
@@ -72,6 +73,7 @@
     }
   },
   "MNGx": {
+    "name": "hudum-ali-gali",
     "conditions": [
       "chachlag",
       "marked",
@@ -129,6 +131,7 @@
     }
   },
   "TOD": {
+    "name": "todo",
     "conditions": [
       "onset",
       "devsger",
@@ -201,6 +204,7 @@
     }
   },
   "TODx": {
+    "name": "todo-ali-gali",
     "conditions": [
       "devsger",
       "feminine",
@@ -280,6 +284,7 @@
     }
   },
   "SIB": {
+    "name": "sibe",
     "conditions": [
       "marked",
       "onset",
@@ -347,6 +352,7 @@
     }
   },
   "MCH": {
+    "name": "manchu",
     "conditions": [
       "marked",
       "onset",
@@ -415,6 +421,7 @@
     }
   },
   "MCHx": {
+    "name": "manchu-ali-gali",
     "conditions": [
       "marked",
       "onset",

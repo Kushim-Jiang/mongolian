@@ -9,17 +9,7 @@
   import { locales, type LocaleID } from "../../../data/locales";
   import { writtenUnits } from "../../../data/writtenUnits";
 
-  const localeToPrefix: Record<string, string> = {
-    MNG: "hudum",
-    MNGx: "hudum-ali-gali",
-    TOD: "todo",
-    TODx: "todo-ali-gali",
-    SIB: "sibe",
-    MCH: "manchu",
-    MCHx: "manchu-ali-gali",
-  };
-
-  const prefix = $derived(localeToPrefix[locale] || "");
+  const prefix = $derived(locales[locale].name);
   const items = $derived(links.split(" ").filter(Boolean));
 
   // The format controls take part in the shaping of the letters around them rather than

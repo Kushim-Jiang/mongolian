@@ -3,12 +3,14 @@ export type ConditionalMappingType =
   (typeof locales)[LocaleID]["conditions"][number];
 
 type LocaleData = {
+  name: string;
   conditions: string[];
   categories: Record<string, string[]>;
 };
 
 export const locales = {
   MNG: {
+    name: "hudum",
     conditions: [
       "chachlag",
       "marked",
@@ -61,6 +63,7 @@ export const locales = {
     },
   },
   MNGx: {
+    name: "hudum-ali-gali",
     conditions: [
       "chachlag",
       "marked",
@@ -112,6 +115,7 @@ export const locales = {
     },
   },
   TOD: {
+    name: "todo",
     conditions: [
       "onset",
       "devsger",
@@ -160,6 +164,7 @@ export const locales = {
     },
   },
   TODx: {
+    name: "todo-ali-gali",
     conditions: [
       "devsger",
       "feminine",
@@ -218,6 +223,7 @@ export const locales = {
     },
   },
   SIB: {
+    name: "sibe",
     conditions: [
       "marked",
       "onset",
@@ -268,6 +274,7 @@ export const locales = {
     },
   },
   MCH: {
+    name: "manchu",
     conditions: [
       "marked",
       "onset",
@@ -319,6 +326,7 @@ export const locales = {
     },
   },
   MCHx: {
+    name: "manchu-ali-gali",
     conditions: [
       "marked",
       "onset",

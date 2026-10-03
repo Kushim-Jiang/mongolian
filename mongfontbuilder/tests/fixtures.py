@@ -2,24 +2,31 @@ import csv
 from os import environ
 from os.path import relpath
 from pathlib import Path
+from typing import cast
 
 import pytest
 from _pytest.mark.structures import ParameterSet
 from fontTools.ttLib import TTFont
+from ufo2ft import OTFCompiler
+from ufo2ft.constants import CFFOptimization
 from ufoLib2 import Font
 
+from mongfontbuilder import data
 from mongfontbuilder.data.types import LocaleID
-from mongfontbuilder.otf import compileOTF as compileToOTF
-from mongfontbuilder.otf import saveUFO
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
+
 from utils import fontsDir, tempDir, testSuitesDir
 
-FONT_NAME = {
-    "MNG": "hudum",
-    "SIB": "sibe",
-    "MCH": "manchu",
-}
+
+def baseLocale(locale: LocaleID) -> LocaleID:
+    """The writing system a locale belongs to: an Ali Gali extension's base writing system.
+
+    A writing system and its Ali Gali extension are written with the same test font.
+    """
+
+    return cast(LocaleID, locale.removesuffix("x"))
+
 
 # The EAC cases the font answers differently from the EAC spec. The UTN model is taken as
 # the correct one, so such a case is marked as an expected failure rather than being taken
@@ -51,25 +58,25 @@ EAC_XFAIL: dict[str, str] = {
 }
 
 EAC_UNIFIED_XFAIL: dict[str, str] = {
-    "eac-hud > MND11-2": FVS_LOCALE,
-    "eac-hud > MNM10-2": FVS_LOCALE,
-    "eac-hud > MNM11-2": FVS_LOCALE,
-    "eac-hud > MNS11-26": FVS_LOCALE,
-    "eac-hud > MNZ11-3": FVS_LOCALE,
-    "eac-hud > MNZ21-5": FVS_LOCALE,
-    "eac-hud > XIM11-11": FVS_LOCALE,
-    "eac-hud > XIM11-675": FVS_LOCALE,
-    "eac-hud > XIM11-678": FVS_LOCALE,
-    "eac-hud > XIM11-681": FVS_LOCALE,
-    "eac-hud > XIM11-684": FVS_LOCALE,
-    "eac-hud > XIM11-687": FVS_LOCALE,
-    "eac-hud > XIM11-690": FVS_LOCALE,
-    "eac-hud > XIM11-694": FVS_LOCALE,
+    "eac-hudum > MND11-2": FVS_LOCALE,
+    "eac-hudum > MNM10-2": FVS_LOCALE,
+    "eac-hudum > MNM11-2": FVS_LOCALE,
+    "eac-hudum > MNS11-26": FVS_LOCALE,
+    "eac-hudum > MNZ11-3": FVS_LOCALE,
+    "eac-hudum > MNZ21-5": FVS_LOCALE,
+    "eac-hudum > XIM11-11": FVS_LOCALE,
+    "eac-hudum > XIM11-675": FVS_LOCALE,
+    "eac-hudum > XIM11-678": FVS_LOCALE,
+    "eac-hudum > XIM11-681": FVS_LOCALE,
+    "eac-hudum > XIM11-684": FVS_LOCALE,
+    "eac-hudum > XIM11-687": FVS_LOCALE,
+    "eac-hudum > XIM11-690": FVS_LOCALE,
+    "eac-hudum > XIM11-694": FVS_LOCALE,
 }
 
 
 def buildFontForLocales(locales: list[LocaleID]) -> Path:
-    fontName = FONT_NAME[locales[0].removesuffix("x")]
+    fontName = data.locales[baseLocale(locales[0])].name
     output = tempDir / f"{fontName}.otf"
 
     if output.exists():
@@ -87,7 +94,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
 
     tempDir.mkdir(parents=True, exist_ok=True)
     intermediate = tempDir / f"{fontName}.ufo"
-    saveUFO(font, intermediate)
+    font.save(intermediate, overwrite=True)
 
     compileOTF(font).save(output)
     print(relpath(output))
@@ -96,17 +103,22 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
 
 def compileOTF(font: Font) -> TTFont:
     environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"  # For feaLib.builder.Builder
-    return compileToOTF(font)
+    return OTFCompiler(
+        useProductionNames=False,
+        optimizeCFF=CFFOptimization.NONE,
+        removeOverlaps=True,
+    ).compile(font)
 
 
 def loadRawTestCases(
-    test_info: dict[str, list[str]],
+    test_info: dict[str, list[LocaleID]],
     font_type: str,
-) -> list[tuple[str, str, str, str] | ParameterSet]:
-    test_cases = list[tuple[str, str, str, str] | ParameterSet]()
+) -> list[tuple[str, str, LocaleID, str] | ParameterSet]:
+    test_cases = list[tuple[str, str, LocaleID, str] | ParameterSet]()
     for testSet, locales in test_info.items():
         for locale in locales:
-            file_path = testSuitesDir / f"{testSet}-{locale}.tsv"
+            name = data.locales[locale].name
+            file_path = testSuitesDir / f"{testSet}-{name}.tsv"
             with open(file_path, encoding="utf-8") as f:  # type: ignore
                 rules = [
                     tuple(i)
@@ -114,8 +126,8 @@ def loadRawTestCases(
                     if i and not i[0].startswith("#")
                 ]
             for index, letters, goal in rules:
-                test_case = (f"{testSet}-{locale} > {index}", letters, locale, goal)
-                if font_type == "MNG" and testSet == "eac" and locale == "hud":
+                test_case = (f"{testSet}-{name} > {index}", letters, locale, goal)
+                if font_type == "MNG" and testSet == "eac" and locale == "MNG":
                     reason = EAC_XFAIL.get(index)
                     if reason:
                         test_cases.append(
