@@ -6,7 +6,6 @@
     "charliermarsh.ruff",
     "esbenp.prettier-vscode",
     "ms-python.python",
-    "redhat.vscode-yaml",
     "unifiedjs.vscode-mdx"
   ]
 }
