@@ -1,6 +1,9 @@
 {
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "^24.11.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
@@ -8,22 +11,23 @@
     "preview": "astro preview",
     "format": "prettier --write . !mongfontbuilder/src/mongfontbuilder/data/*.json !mongfontbuilder/tests/data/*.json"
   },
-  "engines": {
-    "node": "^24.11.0"
-  },
   "dependencies": {
     "@astrojs/check": "0.9.10",
-    "@astrojs/starlight": "^0.42.0",
-    "@astrojs/svelte": "^9.0.1",
-    "@types/node": "26.4.1",
-    "@unicode/unicode-18.0.0": "2.0.2",
-    "astro": "^7.2.10",
-    "prettier-plugin-astro": "0.14.1",
+    "@astrojs/starlight": "0.42.5",
+    "@astrojs/svelte": "9.0.1",
+    "@types/node": "26.6.4",
+    "@unicode/unicode-18.0.0": "2.0.7",
+    "astro": "7.3.5",
+    "prettier": "3.9.9",
+    "prettier-plugin-astro": "1.1.0",
     "prettier-plugin-svelte": "4.1.1",
-    "prettier": "3.9.6",
-    "svelte-check": "^4.7.6",
-    "svelte": "5.57.0",
+    "svelte": "5.57.1",
+    "svelte-check": "4.7.6",
     "typescript": "6.0.3"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true
   },
   "prettier": {
     "overrides": [
