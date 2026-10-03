@@ -33,7 +33,7 @@ Because the specification data are the single source of truth, the documentation
 
 The canonical specification data are maintained as TypeScript files in `data/`. They correspond to the entities of the character layer described in [Architecture](/architecture/#character-set):
 
-- `data/locales.ts` — the writing systems (MNG, TOD, SIB, MCH) together with their shaping conditions and their categories of characters;
+- `data/locales.ts` — the writing systems (MNG, TOD, SIB, MCH) together with their name, their shaping conditions and their categories of characters;
 - `data/writtenUnits.ts` — the written units of the letters;
 - `data/variants.ts` — the variants of each letter by cursive position and by FVS, including which variant is the default; this is where the FVS assignments of each writing system are defined;
 - `data/outsideLetters.ts` — the letters that lie outside every writing system, keyed by character name, by cursive position and by FVS the way the variants of a character are, together with the written units that draw them;
@@ -124,7 +124,7 @@ uv run pytest
 The harness builds each test font on the fly using the package API, shapes the test strings with [HarfBuzz](https://harfbuzz.github.io/), and compares the resulting glyph sequence with the expected output. The tests are organized per writing system, each with its own UFO test font and test cases under `tests/data/`:
 
 - **Hudum** (`MNG`), from `tests/fonts/hudum.ufo`, is validated against the EAC and core suites;
-- **Manchu** (`MCH`), from `tests/fonts/manchu.ufo` and `tests/fonts/manchu-ag.ufo`, is validated against the core suite;
+- **Manchu** (`MCH`), from `tests/fonts/manchu.ufo`, is validated against the core suite;
 - **Sibe** (`SIB`), from `tests/fonts/sibe.ufo`, is validated against the core suite.
 
 A small number of cases are expected to fail; the reasons are documented in the README of the `mongfontbuilder` project.

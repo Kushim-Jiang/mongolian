@@ -64,9 +64,9 @@ Maintained in [mongfontbuilder/tests/](https://github.com/Kushim-Jiang/mongolian
 
 The test harness builds each font on the fly using `mongfontbuilder`’s Python API directly, then shapes the test input strings with [HarfBuzz](https://harfbuzz.github.io/) and compares the resulting glyph sequence against expected output. Tests are organized per writing system with separate test fonts:
 
-- **Hudum** (`MNG`): validated against the EAC and core test suites (`eac-hud`, `core-hud`).
-- **Manchu** (`MCH`): validated against the core test suite (`core-man`).
-- **Sibe** (`SIB`): validated against the core test suite (`core-sib`).
+- **Hudum** (`MNG`): validated against the EAC and core test suites (`eac-hudum`, `core-hudum`).
+- **Manchu** (`MCH`): validated against the core test suite (`core-manchu`).
+- **Sibe** (`SIB`): validated against the core test suite (`core-sibe`).
 
 Where the UTN model answers a case of the EAC suite differently, the case is kept in the suite as an expected failure and its reason is written down; the cases are listed in [`mongfontbuilder/README.md`](mongfontbuilder/README.md).
 
