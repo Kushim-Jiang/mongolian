@@ -31,7 +31,7 @@ from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
 from mongfontbuilder.spec import FontSpec, GlyphSpec, applySpecToFont
 from mongfontbuilder.utils import getAliasesByLocale
-from utils import fontsDir, tempDir
+from utils import cachedBuild, fontsDir, libraryDir, recordBuild, sourceStamp, tempDir, testsDir
 
 SOURCE = fontsDir / "unified.ufo"
 composedUFO = tempDir / "unified.ufo"
@@ -693,8 +693,15 @@ def buildUnifiedFont() -> Path:
 
     The suites compose the font on the way to shaping it, which is a run of thousands of
     cases; this is the build by itself, which ``tests/build.py`` and ``tests/failures.py``
-    are run for.
+    are run for. The build is repeated only when one of its sources changes, so a run that
+    means to compose the font again sets `MONGFONTBUILDER_REBUILD`.
     """
+
+    stamp = sourceStamp(libraryDir, SOURCE, testsDir / "unified.py", testsDir / "fixtures.py")
+    stampFile = tempDir / "unified.stamp"
+    if cachedBuild(stamp, [composedUFO, composedOTF], stampFile):
+        print(f"reusing {composedOTF}", flush=True)
+        return composedOTF
 
     print("composing the unified font …", flush=True)
     font = composeUnified()
@@ -703,6 +710,7 @@ def buildUnifiedFont() -> Path:
     font.save(composedUFO, overwrite=True)
     print("  wrote the UFO, compiling the OTF …", flush=True)
     compileOTFForDebugging(font).save(composedOTF)
+    recordBuild(stamp, stampFile)
     print(f"composed {composedOTF}", flush=True)
     return composedOTF
 

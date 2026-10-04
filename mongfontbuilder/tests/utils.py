@@ -1,6 +1,8 @@
 import re
 from dataclasses import dataclass
 from functools import cache
+from hashlib import sha256
+from os import environ
 from pathlib import Path
 
 import uharfbuzz
@@ -16,6 +18,50 @@ project = testsDir.parent  # the mongfontbuilder project this suite belongs to
 repo = project.parent  # the repository, where the templates live
 tempDir = project / "temp"
 tempDir.mkdir(exist_ok=True)
+libraryDir = project / "src" / "mongfontbuilder"  # the code and the data a font is composed from
+
+
+def sourceStamp(*paths: Path, extra: str = "") -> str:
+    """A digest of everything a built test font is made of.
+
+    A build is reused while its sources are the same, and is repeated when any of them
+    changes. The digest is taken of the file contents rather than of their timestamps, so
+    a build is not reused after a file is put back to an earlier state either. *paths* are
+    read whole when they are files, and walked when they are directories; *extra* is
+    anything else the build depends on, such as the writing systems it targets.
+    """
+
+    digest = sha256(extra.encode())
+    for path in sorted(paths, key=lambda i: i.as_posix()):
+        digest.update(path.as_posix().encode())
+        files = sorted(path.rglob("*"), key=lambda i: i.as_posix()) if path.is_dir() else [path]
+        for file in files:
+            if file.is_file():
+                digest.update(file.relative_to(path).as_posix().encode() if path.is_dir() else b"")
+                digest.update(file.read_bytes())
+    return digest.hexdigest()
+
+
+def cachedBuild(stamp: str, artifacts: list[Path], stampFile: Path) -> bool:
+    """Whether *artifacts* are still the build *stamp* describes.
+
+    `MONGFONTBUILDER_REBUILD` in the environment asks for every build to be repeated, which
+    is what a run that means to test the composition itself sets.
+    """
+
+    if environ.get("MONGFONTBUILDER_REBUILD"):
+        return False
+    return (
+        all(i.exists() for i in artifacts)
+        and stampFile.is_file()
+        and stampFile.read_text(encoding="utf-8") == stamp
+    )
+
+
+def recordBuild(stamp: str, stampFile: Path) -> None:
+    """Record that the artifacts just written are the build *stamp* describes."""
+
+    stampFile.write_text(stamp, encoding="utf-8")
 
 
 @dataclass

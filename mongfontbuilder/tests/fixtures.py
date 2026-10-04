@@ -16,7 +16,16 @@ from mongfontbuilder import data
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
-from utils import fontsDir, tempDir, testSuitesDir
+from utils import (
+    cachedBuild,
+    fontsDir,
+    libraryDir,
+    recordBuild,
+    sourceStamp,
+    tempDir,
+    testSuitesDir,
+    testsDir,
+)
 
 
 def baseLocale(locale: LocaleID) -> LocaleID:
@@ -78,8 +87,13 @@ EAC_UNIFIED_XFAIL: dict[str, str] = {
 def buildFontForLocales(locales: list[LocaleID]) -> Path:
     fontName = data.locales[baseLocale(locales[0])].name
     output = tempDir / f"{fontName}.otf"
+    stampFile = tempDir / f"{fontName}.stamp"
+    stamp = sourceStamp(
+        libraryDir, fontsDir / f"{fontName}.ufo", testsDir / "fixtures.py", extra=",".join(locales)
+    )
 
-    if output.exists():
+    if cachedBuild(stamp, [output], stampFile):
+        print(relpath(output))
         return output
 
     font = Font.open(fontsDir / f"{fontName}.ufo")
@@ -97,6 +111,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
     font.save(intermediate, overwrite=True)
 
     compileOTFForDebugging(font).save(output)
+    recordBuild(stamp, stampFile)
     print(relpath(output))
     return output
 
