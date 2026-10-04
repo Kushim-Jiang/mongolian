@@ -25,7 +25,7 @@ from unified import (
     composedUFO,
     languageOf,
 )
-from utils import parseAliases, parseLetter, parseWrittenUnits
+from utils import assertWrittenUnits
 
 
 @pytest.fixture(scope="session")
@@ -78,9 +78,10 @@ def test_conformance(
     unifiedFont: Path,
     capsys: pytest.CaptureFixture[str],
 ) -> None:
-    parsedText = parseLetter(letters, locale)
-    codes = parseAliases(parsedText, locale)
-    result = parseWrittenUnits(parsedText, unifiedFont, languageOf(LANGUAGE[locale]))
-    with capsys.disabled():
-        report(index, "ok" if result == goal else "failed")
-    assert result == goal, f"ind:  {index}\ncode: {codes}\nres:  {result}\ngoal: {goal}"
+    def tell(index: str, answer: str) -> None:
+        with capsys.disabled():
+            report(index, answer)
+
+    assertWrittenUnits(
+        index, letters, locale, goal, unifiedFont, languageOf(LANGUAGE[locale]), tell
+    )

@@ -6,6 +6,7 @@ import pytest
 from mongfontbuilder.data.types import LocaleID
 
 from fixtures import loadRawTestCases
+from unified import LANGUAGE, languageOf
 from utils import assertWrittenUnits, repo, tempDir
 
 targeted = sys.platform == "darwin"
@@ -17,10 +18,10 @@ if targeted and not fontPath.exists():
         check=True,
     )
 
-testCases = loadRawTestCases({"eac": ["MNG"], "core": ["MNG"]}, "MNG") if fontPath.exists() else []
+testCases = loadRawTestCases({"eac": ["MNG"], "core": ["MNG"]}) if fontPath.exists() else []
 
 
 @pytest.mark.skipif(not targeted, reason="The test font can only be built on macOS.")
 @pytest.mark.parametrize(("index", "letters", "locale", "goal"), testCases)
 def test_MNG(index: str, letters: str, locale: LocaleID, goal: str) -> None:
-    assertWrittenUnits(index, letters, locale, goal, fontPath)
+    assertWrittenUnits(index, letters, locale, goal, fontPath, languageOf(LANGUAGE[locale]))

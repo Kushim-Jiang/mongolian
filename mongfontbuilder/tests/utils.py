@@ -1,14 +1,18 @@
 import re
-from dataclasses import dataclass
+from collections.abc import Callable
 from functools import cache
 from hashlib import sha256
 from os import environ
 from pathlib import Path
+from typing import TypeVar
 
 import uharfbuzz
 from fontTools import unicodedata
+from ufoLib2 import Font
 
 from mongfontbuilder.data import LocaleID, aliases
+from mongfontbuilder.otl import MongFeaComposer
+from mongfontbuilder.spec import applySpecToFont
 from mongfontbuilder.testSuites import glyphNameMapping
 from mongfontbuilder.testSuites import testSuitesDir as testSuitesDir  # re-exported for fixtures
 from mongfontbuilder.utils import getCharNameByAlias, namespaceFromLocale
@@ -20,6 +24,8 @@ repo = project.parent  # the repository, where the templates live
 tempDir = project / "temp"
 tempDir.mkdir(exist_ok=True)
 libraryDir = project / "src" / "mongfontbuilder"  # the code and the data a font is composed from
+
+Composer = TypeVar("Composer", bound=MongFeaComposer)
 
 
 def sourceStamp(*paths: Path, extra: str = "") -> str:
@@ -67,7 +73,6 @@ def recordBuild(stamp: str, stampFile: Path) -> None:
     stampFile.write_text(stamp, encoding="utf-8")
 
 
-@dataclass
 class UTNGlyphName(str):
     """
     Besides the graphical .joining_position, there’s also a joining position in terms of shaping logic that may appear in a glyph name. For example, uni1828.N.init._isol is an isol glyph in terms of shaping, but graphically it’s actually N.init.
@@ -172,20 +177,47 @@ def parseWrittenUnits(text: str, font: Path, language: str | None = None) -> str
     )
 
 
+def composeInto(
+    font: Font,
+    locales: list[LocaleID],
+    composerClass: type[Composer] = MongFeaComposer,
+) -> Composer:
+    """Compose *font* with *composerClass*, apply the spec to it, and answer the composer.
+
+    The composer is built from the code points and the glyphs *font* carries, so every
+    builder of the suites reaches the composition the same way.
+    """
+
+    composer = composerClass(
+        cmap={j: i for i in font.keys() for j in font[i].unicodes},
+        glyphs=[*font.keys()],
+        locales=locales,
+    )
+    applySpecToFont(composer.compose(), font)
+    return composer
+
+
 def assertWrittenUnits(
     index: str,
     letters: str,
     locale: LocaleID,
     goal: str,
     font: Path,
+    language: str | None = None,
+    report: Callable[[str, str], None] | None = None,
 ) -> None:
     """Shape one case of a suite against *font*, and assert the written units it answers.
 
     *letters* is the case as the suite writes it, in aliases; *goal* is the written units
-    the suite expects, as `getWrittenUnits` reads them off a shape.
+    the suite expects, as `getWrittenUnits` reads them off a shape. *language* is the
+    language of the writing system, which a font that answers for several of them is shaped
+    with; *report* is told the index and the answer before the assertion, for a run that
+    prints where it has come.
     """
 
     parsedText = parseLetter(letters, locale)
     codes = parseAliases(parsedText, locale)
-    result = parseWrittenUnits(parsedText, font)
+    result = parseWrittenUnits(parsedText, font, language)
+    if report:
+        report(index, "ok" if result == goal else "failed")
     assert result == goal, f"ind:  {index}\ncode: {codes}\nres:  {result}\ngoal: {goal}"

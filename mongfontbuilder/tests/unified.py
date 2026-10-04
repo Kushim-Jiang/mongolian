@@ -27,11 +27,20 @@ from ufoLib2.objects import Glyph
 from fixtures import EAC_UNIFIED_XFAIL, compileOTFForDebugging, loadRawTestCases
 from mongfontbuilder import GlyphDescriptor, data
 from mongfontbuilder.data.types import LocaleID
-from mongfontbuilder.otl import MongFeaComposer
+from mongfontbuilder.otl import MARK_GLYPHS, MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
-from mongfontbuilder.spec import FontSpec, GlyphSpec, applySpecToFont
+from mongfontbuilder.spec import FontSpec, GlyphSpec
 from mongfontbuilder.utils import getAliasesByLocale
-from utils import cachedBuild, fontsDir, libraryDir, recordBuild, sourceStamp, tempDir, testsDir
+from utils import (
+    cachedBuild,
+    composeInto,
+    fontsDir,
+    libraryDir,
+    recordBuild,
+    sourceStamp,
+    tempDir,
+    testsDir,
+)
 
 SOURCE = fontsDir / "unified.ufo"
 composedUFO = tempDir / "unified.ufo"
@@ -166,7 +175,6 @@ VERTICAL_HEIGHT = 1000
 # writing systems that write with them. Hudum and Manchu write with them, and so do their
 # Ali Gali extensions; a mark of another writing system is not anchored, because whether a
 # mark is written over a written form is a choice each writing system makes.
-MARK_GLYPHS = ["u1885", "u1886", "u18A9"]
 MARK_CLASS_NAME = "Mongolian"
 
 # How this font draws the written form of a letter and the long vowel sign, one rule per
@@ -671,13 +679,8 @@ def composeUnified(locales: list[LocaleID] | None = None) -> Font:
     # The names the source font carries are taken before the composition adds to them:
     # a glyph the source font draws is not a generated one.
     sourceNames = frozenset(font.keys())
-    composer = UnifiedMongFeaComposer(
-        cmap={j: i for i in font.keys() for j in font[i].unicodes},
-        glyphs=[*font.keys()],
-        locales=locales,
-    )
-    spec = composer.compose()
-    applySpecToFont(spec, font)
+    composer = composeInto(font, locales, UnifiedMongFeaComposer)
+    spec = composer.spec
     # The marks are positioned against every glyph of the font that carries an advance, and a
     # glyph the composition built knows its advance only once the spec is applied, so the
     # lookup is written here rather than during the composition.
@@ -821,7 +824,7 @@ def conformanceCases() -> list:
     """
 
     cases = []
-    for case in loadRawTestCases(TEST_SUITES, "MNG"):
+    for case in loadRawTestCases(TEST_SUITES):
         values = caseValues(case)
         marks = caseMarks(case)
         if reason := EAC_UNIFIED_XFAIL.get(values[0]):

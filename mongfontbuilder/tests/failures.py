@@ -29,10 +29,11 @@ COMPACT = tempDir / "unified-failures-compact.txt"
 
 
 def composeIfNeeded() -> None:
-    """Compose the unified font when one has not been built already."""
+    """Compose the unified font, or find the one the stamp of its sources describes.
 
-    if composedOTF.exists():
-        return
+    The build is asked for through the same stamp the suites build with, so the report is
+    not written against a font the sources have moved on from.
+    """
 
     from unified import buildUnifiedFont
 

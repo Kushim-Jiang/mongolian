@@ -23,6 +23,11 @@ from ..spec import FontSpec, GlyphSpec
 from ..utils import getAliasesByLocale, getCharNameByAlias, getVariants, namespaceFromLocale
 
 
+# The marks that are written over the written form they follow rather than beside it, which
+# the font anchors at the origin so that they stay where they were drawn.
+MARK_GLYPHS = ["u1885", "u1886", "u18A9"]
+
+
 @dataclass
 class MongFeaComposer(FeaComposer):
     cmap: dict[int, str]
@@ -72,7 +77,7 @@ class MongFeaComposer(FeaComposer):
         self.constructPredefinedGlyphs()
         self.initControls()
         self.initVariants()
-        for name in ["u1885", "u1886", "u18A9"]:
+        for name in MARK_GLYPHS:
             processedName = self.glyphNameProcessor(name)
             if processedName in self.glyphs:
                 self.spec.openTypeCategories[processedName] = "mark"

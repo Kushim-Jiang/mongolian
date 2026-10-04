@@ -14,10 +14,9 @@ from ufoLib2 import Font
 
 from mongfontbuilder import data
 from mongfontbuilder.data.types import LocaleID
-from mongfontbuilder.otl import MongFeaComposer
-from mongfontbuilder.spec import applySpecToFont
 from utils import (
     cachedBuild,
+    composeInto,
     fontsDir,
     libraryDir,
     recordBuild,
@@ -55,9 +54,10 @@ MVS_FINA = (
     "before an MVS is in the fina position, so the FVS after it selects the fina variant."
 )
 
-# The cases every font this project builds answers differently, marked where the suites are
-# loaded. A font that writes with one writing system alone answers the cases below it as
-# the EAC expects, which is why they are marked by `test_unified.py` instead.
+# The cases the EAC spec answers differently from the UTN model, marked where the suites are
+# loaded: the model is taken as the correct one, so what the EAC expects of a case below is
+# an expected failure for every font this project builds. `EAC_UNIFIED_XFAIL` marks the ones
+# that only a font writing with every writing system at once answers differently.
 EAC_XFAIL: dict[str, str] = {
     "XIM11-39": NNBSP,
     "XIM11-40": NNBSP,
@@ -97,13 +97,7 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
         return output
 
     font = Font.open(fontsDir / f"{fontName}.ufo")
-    c = MongFeaComposer(
-        cmap={j: i for i in font.keys() for j in font[i].unicodes},
-        glyphs=[*font.keys()],
-        locales=locales,
-    )
-    spec = c.compose()
-    applySpecToFont(spec, font)
+    c = composeInto(font, locales)
     font.features.text = c.asFeatureFile().asFea()
 
     tempDir.mkdir(parents=True, exist_ok=True)
@@ -128,7 +122,6 @@ def compileOTFForDebugging(font: Font) -> TTFont:
 
 def loadRawTestCases(
     test_info: dict[str, list[LocaleID]],
-    font_type: str,
 ) -> list[tuple[str, str, LocaleID, str] | ParameterSet]:
     test_cases = list[tuple[str, str, LocaleID, str] | ParameterSet]()
     for testSet, locales in test_info.items():
@@ -143,7 +136,7 @@ def loadRawTestCases(
                 ]
             for index, letters, goal in rules:
                 test_case = (f"{testSet}-{name} > {index}", letters, locale, goal)
-                if font_type == "MNG" and testSet == "eac" and locale == "MNG":
+                if testSet == "eac" and locale == "MNG":
                     reason = EAC_XFAIL.get(index)
                     if reason:
                         test_cases.append(
