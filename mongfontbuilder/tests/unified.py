@@ -167,7 +167,6 @@ VERTICAL_HEIGHT = 1000
 # Ali Gali extensions; a mark of another writing system is not anchored, because whether a
 # mark is written over a written form is a choice each writing system makes.
 MARK_GLYPHS = ["u1885", "u1886", "u18A9"]
-MARK_LOCALES: list[LocaleID] = ["MNG", "MNGx", "MCH", "MCHx"]
 MARK_CLASS_NAME = "Mongolian"
 
 # How this font draws the written form of a letter and the long vowel sign, one rule per

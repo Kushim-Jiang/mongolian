@@ -763,9 +763,7 @@ def iii2f(c: MongFeaComposer) -> None:
             feminine = c.input(c.variants("MNG", ["h", "g"], init), c.conditions["MNG:feminine"])
             c.sub(feminine, c.classes["MNG-consonant"], by=None)
 
-        for index in [0, 1]:
-            step = ["A", "B"][index]
-            genderMarker = [MARKER_MASCULINE, MARKER_FEMININE][index]
+        for step, genderMarker in (("A", MARKER_MASCULINE), ("B", MARKER_FEMININE)):
             postprocessGender(c, step, genderMarker)
 
 

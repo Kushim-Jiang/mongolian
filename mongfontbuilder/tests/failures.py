@@ -49,8 +49,8 @@ class Failure:
     goal: str
     codes: str = ""
     result: str = ""
-    error: str = field(default="")
-    expected: bool = field(default=False)
+    error: str = ""
+    expected: bool = False
 
     @property
     def suite(self) -> str:

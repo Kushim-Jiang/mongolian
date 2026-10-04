@@ -6,7 +6,7 @@ import pytest
 from mongfontbuilder.data.types import LocaleID
 
 from fixtures import loadRawTestCases
-from utils import parseAliases, parseLetter, parseWrittenUnits, repo, tempDir
+from utils import assertWrittenUnits, repo, tempDir
 
 targeted = sys.platform == "darwin"
 fontPath = tempDir / "HudumTemplate-Regular.otf"
@@ -20,7 +20,4 @@ testCases = loadRawTestCases({"eac": ["MNG"], "core": ["MNG"]}, "MNG") if fontPa
 @pytest.mark.skipif(not targeted, reason="The test font can only be built on macOS.")
 @pytest.mark.parametrize(("index", "letters", "locale", "goal"), testCases)
 def test_MNG(index: str, letters: str, locale: LocaleID, goal: str) -> None:
-    parsedText = parseLetter(letters, locale)
-    codes = parseAliases(parsedText, locale)
-    result = parseWrittenUnits(parsedText, fontPath)
-    assert result == goal, f"ind:  {index}\ncode: {codes}\nres:  {result}\ngoal: {goal}"
+    assertWrittenUnits(index, letters, locale, goal, fontPath)

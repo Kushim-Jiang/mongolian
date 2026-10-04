@@ -1,7 +1,6 @@
 import re
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, replace
-from typing import cast
 
 from fontTools import unicodedata
 from fontTools.feaLib import ast
@@ -17,6 +16,7 @@ from ..data.types import (
     LocaleID,
     VariantData,
     WrittenUnitID,
+    fina,
     joiningPositions,
 )
 from ..spec import FontSpec, GlyphSpec
@@ -50,15 +50,7 @@ class MongFeaComposer(FeaComposer):
 
         # Every writing system keeps its own namespace (glyph classes, lookups and
         # conditions are all prefixed with the locale), so several writing systems can
-        # be composed into one font. `self.locale` is the primary writing system; it is
-        # only used where the output can carry a single answer for a character that is
-        # shared between writing systems (see `iia`).
-        self.writingSystems: list[LocaleID] = [
-            cast(LocaleID, locale.removesuffix("x"))
-            for locale in dict.fromkeys(locale.removesuffix("x") for locale in self.locales)
-        ]
-        self.locale: LocaleID = self.writingSystems[0]
-
+        # be composed into one font.
         self.classes = {}
         self.conditions = {}
 
@@ -291,8 +283,7 @@ class MongFeaComposer(FeaComposer):
                 self.sub(original, by=variant)
                 self.spec.newGlyphs[self.glyphNameProcessor(variant)] = GlyphSpec([])
 
-            for name in ["nirugu"]:
-                self.spec.openTypeCategories[self.glyphNameProcessor(name)] = "base"
+            self.spec.openTypeCategories[self.glyphNameProcessor("nirugu")] = "base"
             for name in ["nirugu.ignored", "zwj", "zwj.ignored", "zwnj", "zwnj.ignored"]:
                 self.spec.openTypeCategories[self.glyphNameProcessor(name)] = "mark"
 
@@ -517,8 +508,9 @@ class MongFeaComposer(FeaComposer):
         sign form is that written form with an `Lv` unit appended.
         """
 
+        lvs = GlyphDescriptor.fromData(getCharNameByAlias("TOD", "lvs"), fina)
         return [
-            GlyphDescriptor([*v.codePoints, 0x1843], [*v.units, "Lv"], v.position)
+            GlyphDescriptor([*v.codePoints, *lvs.codePoints], [*v.units, "Lv"], v.position)
             for v in self.variantDescriptors(
                 locale, charName, position, [i for i in variants if choosesLvs(locale, i)]
             )
@@ -639,24 +631,8 @@ class MongFeaComposer(FeaComposer):
                 return str(candidate)
         return str(candidates[0])
 
-    def getDefault(
-        self,
-        alias: str,
-        position: JoiningPosition,
-        *,
-        marked: bool = False,
-    ) -> str:
-        name = str(
-            GlyphDescriptor.fromData(
-                getCharNameByAlias("MNG", alias),
-                position,
-                suffixes=["marked"] if marked else [],
-            )
-        )
-        processedName = self.glyphNameProcessor(name)
-        if marked and processedName not in self.glyphs:
-            self.spec.newGlyphs[processedName] = GlyphSpec([])
-        return name
+    def getDefault(self, alias: str, position: JoiningPosition) -> str:
+        return str(GlyphDescriptor.fromData(getCharNameByAlias("MNG", alias), position))
 
 
 def categoryClasses(

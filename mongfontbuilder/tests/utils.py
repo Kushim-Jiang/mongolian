@@ -5,11 +5,10 @@ from pathlib import Path
 
 import uharfbuzz
 from fontTools import unicodedata
-from fontTools.ttLib import TTFont
 
 from mongfontbuilder.data import LocaleID, aliases
 from mongfontbuilder.testSuites import glyphNameMapping, testSuitesDir
-from mongfontbuilder.utils import namespaceFromLocale
+from mongfontbuilder.utils import getCharNameByAlias, namespaceFromLocale
 
 testsDir = Path(__file__).parent
 fontsDir = testsDir / "fonts"  # the test fonts the suites shape
@@ -49,9 +48,6 @@ class UTNGlyphName(str):
         else:
             return None
 
-    def codePointAgnostic(self) -> str:
-        return ".".join(i for i in ["".join(self.writtenUnits), self.joiningPosition] if i)
-
 
 def getWrittenUnits(utnName: UTNGlyphName) -> str:
     position = utnName.joiningPosition or ""
@@ -84,14 +80,10 @@ def parseLetter(names: str, locale: LocaleID) -> str:
 
     for name in names.split():
         try:
-            charName = next(
-                k
-                for k, v in aliases.items()
-                if (isinstance(v, dict) and v.get(namespaceFromLocale(locale)) == name) or v == name
-            )
-            result.append(unicodedata.lookup(charName))
-        except StopIteration:
+            charName = getCharNameByAlias(locale, name)
+        except ValueError:
             raise ValueError(f"No alias found for name: {name}") from None
+        result.append(unicodedata.lookup(charName))
 
     return "".join(result)
 
@@ -137,12 +129,20 @@ def parseWrittenUnits(text: str, font: Path, language: str | None = None) -> str
     )
 
 
-def makeFontFilename(font: TTFont) -> str:
-    from fontTools.ttLib.tables._n_a_m_e import table__n_a_m_e
+def assertWrittenUnits(
+    index: str,
+    letters: str,
+    locale: LocaleID,
+    goal: str,
+    font: Path,
+) -> None:
+    """Shape one case of a suite against *font*, and assert the written units it answers.
 
-    table: table__n_a_m_e = font["name"]  # type: ignore
-    postScriptName = table.getDebugName(6)
-    assert postScriptName
+    *letters* is the case as the suite writes it, in aliases; *goal* is the written units
+    the suite expects, as `getWrittenUnits` reads them off a shape.
+    """
 
-    suffix = ".otf" if {"CFF ", "CFF2"}.intersection(font.keys()) else ".ttf"
-    return postScriptName + suffix
+    parsedText = parseLetter(letters, locale)
+    codes = parseAliases(parsedText, locale)
+    result = parseWrittenUnits(parsedText, font)
+    assert result == goal, f"ind:  {index}\ncode: {codes}\nres:  {result}\ngoal: {goal}"

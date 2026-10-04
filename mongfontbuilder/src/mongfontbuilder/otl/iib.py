@@ -153,12 +153,6 @@ def iib1(c: MongFeaComposer) -> None:
             c.sub("u18A6.Wp.medi", "u1820.A.fina", by="u18A6_u1820.WpA.fina")
             c.sub("u188A.NG.init", "u1820.Aa.fina", by="u188A_u1820.NGAa.isol")
             c.sub("u188A.NG.medi", "u1820.Aa.fina", by="u188A_u1820.NGAa.fina")
-        if "TODx" in c.locales:
-            # TODO
-            ...
-        if "MCH" in c.locales:
-            # TODO
-            ...
 
 
 def iterLigatureSubstitutions(
