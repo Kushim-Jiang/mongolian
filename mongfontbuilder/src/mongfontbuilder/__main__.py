@@ -4,6 +4,7 @@ uv run python -m mongfontbuilder input output --locales LOCALE [LOCALE ...]
 
 from argparse import ArgumentParser
 from pathlib import Path
+from typing import cast
 
 from ufoLib2 import Font
 
@@ -35,7 +36,8 @@ parser.add_argument(
 args = parser.parse_args()
 input: Path = args.input
 output: Path = args.output
-locales: list[LocaleID] = args.locales
+# `--locales` is checked against `data.locales`, so the parsed strings are LocaleIDs.
+locales = cast(list[LocaleID], args.locales)
 
 font = Font.open(input)
 
