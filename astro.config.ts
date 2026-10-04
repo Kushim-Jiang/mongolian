@@ -26,7 +26,6 @@ export default defineConfig({
       title: "Encoding and Shaping of the Mongolian Script",
       sidebar: [
         "index",
-        "toolchain",
         "architecture",
         {
           label: "Writing systems",
@@ -44,7 +43,7 @@ export default defineConfig({
         "single-font-implementation",
         {
           label: "Appendices",
-          items: ["background", "unicode-standard", "comparison"],
+          items: ["background", "phonology", "unicode-standard", "comparison"],
         },
       ],
       social: [

@@ -29,7 +29,7 @@ Four links lead out of this site; together they run from the standard to the cod
 | [Data files](https://github.com/Kushim-Jiang/mongolian/blob/main/data) | The rule data themselves, as the TypeScript files in `data/`                                     | They are the source of truth: the tables of this site are rendered from them, and the library reads their exported JSON. |
 | [mongfontbuilder](https://pypi.org/project/mongfontbuilder/)           | The Python library, released on PyPI from that repository                                        | It generates a font’s OpenType Layout rules from the data; it is the reference implementation of this document.          |
 
-Begin with [Introduction](/introduction/) and [Architecture](/architecture/) for the model and the history behind it, or with [Toolchain](/toolchain/) for the repository that maintains it.
+Begin with [Introduction](/) and [Architecture](/architecture/) for the model and the history behind it, or with [Toolchain](#toolchain) for the repository that maintains it.
 
 ### Content
 
@@ -43,24 +43,15 @@ The UTN will cover the following four sections, as outlined in the background in
 
 **An introduction to the standardized, structured datasets and automated toolchains maintained alongside the UTN version.** This UTN maintains datasets, shaping rules, font templates, test modules, and web pages related to the encoding of the Mongolian script. It also provides clear instructions on how to use these resources for the work.
 
-### Structure
+### Toolchain
 
-The specifications provided in this document are oriented towards the first three layers of a five-layer system of text processing techniques, that is:
+The repository maintains the toolchain that accompanies this document. It is organized in three groups, which correspond to the parts of the model described in [Architecture](/architecture/). Each group is carried by a part of the repository, and each part is documented by its own README.
 
-**Character Layer**. The code charts of the Unicode Standard and ISO/IEC 10646 specify the code points, names, with annotation about characters and character sequences. The characters specified in this document correspond to the characters in the code charts (see [UTR \#54](https://www.unicode.org/reports/tr54/)).
+**The specification data and the documentation site** state the model. The TypeScript files in `data/` keep the characters and written units of each writing system as data, and the Astro site that is the repository root itself presents them as the tables of the per-writing-system chapters. See [`data/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/data/README.md), [`docs/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/docs/README.md), and [`src/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/src/README.md).
 
-**Glyph Layer**. The Unicode Standard and its various supplementary standards further provide the characters with additional behavioral specifications, including character properties (general category, cursive joining type, etc.) and algorithms (normalization, collation, line breaking, text segmentation, bidirectional, vertical text layout, etc.), thus specifying the association of characters with glyphs and showing how this association is affected by factors such as character properties, contextual environment and localization.
+**The code library, the JSON data, and the tests** realize and verify the model. The `mongfontbuilder` Python library in `mongfontbuilder/` turns a minimal glyph set into a font whose shaping rules are generated from the data, and the test suite it carries checks those rules against the expected output. See [`mongfontbuilder/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/README.md).
 
-**Glyph Image Layer**. The text shaping engine and the font project file implement the rules for associating characters and glyphs as glyph images in the design space, substitution and positioning relations between glyph images, and text shaping operations performed by the text shaping engine. Based on specific design decisions, there is freedom in constructing glyph image sets and writing shaping rules, so this document cannot directly specify the framework of glyph image sets and shaping rules that each font project file should contain. However, the step-by-step shaping rules provided in this document can directly correspond to the shaping rules in the font project file, and therefore can provide a reference for the construction and conversion of the font project files.
+**The font templates** in `templates/` are the part of the toolchain that faces the type designer. See [`templates/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/templates/README.md).
 
-**Typesetting Layer**. The typesetting application invokes the text shaping engine with the font files to render the glyph images in the typeset pages.
+The repository as a whole, and the development environment of each part, is described in [`README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/README.md) and [`CONTRIBUTING.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/CONTRIBUTING.md).
 
-**Physical Layer**. Devices such as monitors and printers convert typeset pages into physical objects.
-
-### Relation
-
-**Relationship to the Unicode Standard.** This UTN provides a detailed description of the characters and their behavior in the Mongolian script as defined by the Unicode Standard. It also lists the variants contained in each Mongolian character and explains the process by which a sequence of Mongolian characters should be converted into a sequence of glyphs. Note that [UTR \#54](https://www.unicode.org/reports/tr54/) only provides a historical version of the Code Charts for the Mongolian block in the Unicode Standard. The variant set has changed significantly from this version. Do not use the variant descriptions and FVS assignments provided in this UTR as a reference during implementation.
-
-**Relationship to Chinese national standards.** This UTN definitively interprets several Chinese national standards. It definitively defines the implementation of the encoding and related data, offering clear guidance on supporting these Chinese national standards. This UTN will be updated promptly as the Chinese national standards are revised.
-
-**Content boundaries.** The current version of UTN does not specify more detailed requirements for [U+1878 MONGOLIAN LETTER CHA WITH TWO DOTS](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1878) and [U+1898 MONGOLIAN LETTER TODO ALI GALI TA](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1898). The former concerns the specifications for Buryat Mongolian; as [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) indicates, this goes beyond the scope of the current version of the UTN. The latter does not appear in any Mongolian writing system; it is a character established by early standards developers, and the current Chinese national standard supports it solely for compatibility purposes. Therefore, this UTN does not impose any requirements on these two characters.
