@@ -520,9 +520,9 @@ def iii2b(c: MongFeaComposer) -> None:
 
 def iii2c(c: MongFeaComposer) -> None:
     """
-    When Hudum _n_, _j_, _w_  follows an MVS that follows chachlag _a_ or _e_, apply `chachlag_onset`. When Hudum _h_, _g_, Hudum Ali Gali _a_ follows an MVS that follows chachlag _a_, apply `chachlag_onset`.
+    When Hudum _n_, _j_, _w_ precede an MVS that precedes chachlag _a_ or _e_, apply `chachlag_onset`. When Hudum _h_, _g_, Hudum Ali Gali _a_ precede an MVS that precedes chachlag _a_, apply `chachlag_onset`.
 
-    According to GB requirements, when Hudum _g_ follows an MVS that follows chachlag _e_, apply `chachlag_devsger`.
+    According to GB requirements, when Hudum _g_ precedes an MVS that precedes chachlag _e_, apply `chachlag_devsger`.
     """
 
     if {"MNG", "MNGx"}.intersection(c.locales):
@@ -624,7 +624,7 @@ def feminineFollowingK(c: MongFeaComposer, locale: LocaleID) -> None:
 
 def iii2e(c: MongFeaComposer) -> None:
     """
-    (1) For Hudum, Todo, Sibe, Manchu and Manchu Ali Gali, when _n_ follows a vowel, apply `onset`; when _n_ follows a consonant, apply `devsger`.
+    (1) For Hudum, Todo, Sibe, Manchu and Manchu Ali Gali, when _n_ precedes a vowel, apply `onset`; when _n_ precedes a consonant, apply `devsger`.
 
     (2) For Hudum, When _t_ or _d_ follows a vowel, apply `onset`; when _t_ or _d_ follows a consonant, apply `devsger`. For Sibe and Manchu, when _t_ or _d_ follows _a_ or _i_ or _o_, apply `masculine_onset`; when _t_ or _d_ follows _e_, _u_, _ue_, apply `feminine`; when _t_ follows a consonant, apply `devsger`; when _t_ precedes a vowel, apply `devsger`. For Manchu Ali Gali, when _tX_ or _dhX_ follows _a_ or _i_ or _o_, apply `masculine_onset`; when _tX_ or _dhX_ follows _e_ or _u_ or _ue_, apply `feminine`.
     """
@@ -1252,10 +1252,9 @@ def iii7(c: MongFeaComposer) -> None:
     """
 
     name = c.glyphNameProcessor("nnbsp")
-    if name not in c.glyphs and name not in c.spec.newGlyphs:
-        return
-    with c.Lookup("III.nnbsp.postprocessing", feature="rclt"):
-        c.sub("nnbsp", by=name)
+    if name in c.glyphs or name in c.spec.newGlyphs:
+        with c.Lookup("III.nnbsp.postprocessing", feature="rclt"):
+            c.sub("nnbsp", by=name)
 
     with c.Lookup("III.controls.postprocessing", feature="rclt"):
         c.sub(
