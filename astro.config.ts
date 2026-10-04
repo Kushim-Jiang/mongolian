@@ -1,8 +1,17 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 
 export default defineConfig({
+  env: {
+    schema: {
+      UTN: envField.boolean({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+    },
+  },
   trailingSlash: "always",
   integrations: [
     svelte(),
