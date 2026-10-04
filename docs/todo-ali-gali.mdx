@@ -5,7 +5,7 @@ title: Todo Ali Gali
 import WrittenUnitTable from "../src/components/WrittenUnitTable.svelte";
 import LetterTable from "../src/components/LetterTable.svelte";
 import ConditionalMappingTable from "../src/components/ConditionalMappingTable.svelte";
-import TODx from "../src/components/tags/TODx.svelte";
+import Mong from "../src/components/Mong.svelte";
 
 export const locale = "TODx";
 
@@ -19,7 +19,7 @@ The punctuation, digits, and other characters of this writing system that lie ou
 
 <LetterTable locale={locale} />
 
-**Final <TODx links="Yp" /> and <TODx links="Ir" /> in letter <TODx links="yX" />**. The written units <TODx links="Yp" /> and <TODx links="Ir" /> record entirely different phonemes and correspond to entirely different letters. The former comes from [U+0FB1 TIBETAN SUBJOINED LETTER YA](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0fb1) and borrows its glyph directly; the latter is in fact a mirrored <TODx links="Ip" />, just as [U+0F80 TIBETAN VOWEL SIGN REVERSED I](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f80) is the mirror of [U+0F72 TIBETAN VOWEL SIGN I](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f72). Earlier Chinese national standards did not distinguish the two glyphs, which gave rise to misunderstanding; the revised standard distinguishes the two but still places them under the same character.
+**Final <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> in letter <Mong TODx links="yX" />**. The written units <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> record entirely different phonemes and correspond to entirely different letters. The former comes from [U+0FB1 TIBETAN SUBJOINED LETTER YA](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0fb1) and borrows its glyph directly; the latter is in fact a mirrored <Mong TODx links="Ip" />, just as [U+0F80 TIBETAN VOWEL SIGN REVERSED I](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f80) is the mirror of [U+0F72 TIBETAN VOWEL SIGN I](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f72). Earlier Chinese national standards did not distinguish the two glyphs, which gave rise to misunderstanding; the revised standard distinguishes the two but still places them under the same character.
 
 ## Shaping process
 
@@ -36,43 +36,43 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td> _masculine vowel_ </td>
       <td>
-        <TODx category="vowelMasculine" />
+        <Mong TODx category="vowelMasculine" />
       </td>
     </tr>
     <tr>
       <td> _feminine vowel_ </td>
       <td>
-        <TODx category="vowelFeminine" />
+        <Mong TODx category="vowelFeminine" />
       </td>
     </tr>
     <tr>
       <td> _neuter vowel_ </td>
       <td>
-        <TODx category="vowelNeuter" />
+        <Mong TODx category="vowelNeuter" />
       </td>
     </tr>
     <tr>
       <td> _vowel_ </td>
       <td>
-        <TODx category="vowel" />
+        <Mong TODx category="vowel" />
       </td>
     </tr>
     <tr>
       <td> _long vowel_ </td>
       <td>
-        <TODx category="lvs" />
+        <Mong TODx category="lvs" />
       </td>
     </tr>
     <tr>
       <td> _consonant_ </td>
       <td>
-        <TODx category="consonant" />
+        <Mong TODx category="consonant" />
       </td>
     </tr>
     <tr>
       <td> _bowed written unit_ </td>
       <td>
-        <TODx links="K2" />, <TODx links="K" />, <TODx links="G" />, <TODx links="Bh" />, <TODx links="Ph" />, <TODx links="B" />
+        <Mong TODx links="K2" />, <Mong TODx links="K" />, <Mong TODx links="G" />, <Mong TODx links="Bh" />, <Mong TODx links="Ph" />, <Mong TODx links="B" />
       </td>
     </tr>
   </tbody>
@@ -93,7 +93,7 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td rowspan="3">2. Syllabic</td>
       <td rowspan="3">
-        <TODx links="g" />
+        <Mong TODx links="g" />
       </td>
       <td>__if__ precedes a _masculine vowel_ or a _masculine long vowel_:</td>
       <td>`masculine_onset`</td>
@@ -104,14 +104,14 @@ The punctuation, digits, and other characters of this writing system that lie ou
     </tr>
     <tr>
       <td>
-        __else if__ <TODx links="g" /> follows a _vowel_ or a _long vowel_:
+        __else if__ <Mong TODx links="g" /> follows a _vowel_ or a _long vowel_:
       </td>
       <td>`masculine_devsger`</td>
     </tr>
     <tr>
       <td rowspan>5. Post-bowed</td>
       <td>
-        <TODx links="a" />, <TODx links="i" />, <TODx links="ue" />
+        <Mong TODx links="a" />, <Mong TODx links="i" />, <Mong TODx links="ue" />
       </td>
       <td>__if__ follows a _bowed written unit_:</td>
       <td>`post_bowed`</td>

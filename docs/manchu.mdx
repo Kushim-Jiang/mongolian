@@ -6,7 +6,7 @@ import WrittenUnitTable from "../src/components/WrittenUnitTable.svelte";
 import LetterTable from "../src/components/LetterTable.svelte";
 import ConditionalMappingTable from "../src/components/ConditionalMappingTable.svelte";
 import ParticleTable from "../src/components/ParticleTable.svelte";
-import MCH from "../src/components/tags/MCH.svelte";
+import Mong from "../src/components/Mong.svelte";
 
 export const locale = "MCH";
 
@@ -35,49 +35,49 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td> _masculine vowel_ </td>
       <td>
-        <MCH category="vowelMasculine" />
+        <Mong MCH category="vowelMasculine" />
       </td>
     </tr>
     <tr>
       <td> _feminine vowel_ </td>
       <td>
-        <MCH category="vowelFeminine" />
+        <Mong MCH category="vowelFeminine" />
       </td>
     </tr>
     <tr>
       <td> _neuter vowel_ </td>
       <td>
-        <MCH category="vowelNeuter" />
+        <Mong MCH category="vowelNeuter" />
       </td>
     </tr>
     <tr>
       <td> _vowel_ </td>
       <td>
-        <MCH category="vowel" />
+        <Mong MCH category="vowel" />
       </td>
     </tr>
     <tr>
       <td> _consonant_ </td>
       <td>
-        <MCH category="consonant" />
+        <Mong MCH category="consonant" />
       </td>
     </tr>
     <tr>
       <td> _masculine bowed written unit_ </td>
       <td>
-        <MCH links="K2" />, <MCH links="Kh" />, <MCH links="Kc" />
+        <Mong MCH links="K2" />, <Mong MCH links="Kh" />, <Mong MCH links="Kc" />
       </td>
     </tr>
     <tr>
       <td> _feminine bowed written unit_ </td>
       <td>
-        <MCH links="G" />, <MCH links="Gh" />, <MCH links="Gc" />, <MCH links="Gx" />
+        <Mong MCH links="G" />, <Mong MCH links="Gh" />, <Mong MCH links="Gc" />, <Mong MCH links="Gx" />
       </td>
     </tr>
     <tr>
       <td> _neuter bowed written unit_ </td>
       <td>
-        <MCH links="B" />, <MCH links="Pb" />
+        <Mong MCH links="B" />, <Mong MCH links="Pb" />
       </td>
     </tr>
   </tbody>
@@ -98,48 +98,48 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td rowspan="17">2. Syllabic</td>
       <td>
-        <MCH links="o" />, <MCH links="u" />
+        <Mong MCH links="o" />, <Mong MCH links="u" />
       </td>
       <td>__if__ follows an initial _consonant_:</td>
       <td>`marked`</td>
     </tr>
     <tr>
       <td>
-        <MCH links="f" />
+        <Mong MCH links="f" />
       </td>
       <td>
-        __if__ precedes <MCH links="i" /> or <MCH links="o" /> or <MCH links="u" /> or <MCH links="ue" />:
-      </td>
-      <td>`marked`</td>
-    </tr>
-    <tr>
-      <td>
-        <MCH links="i" />
-      </td>
-      <td>
-        __if__ follows <MCH links="z" />:
+        __if__ precedes <Mong MCH links="i" /> or <Mong MCH links="o" /> or <Mong MCH links="u" /> or <Mong MCH links="ue" />:
       </td>
       <td>`marked`</td>
     </tr>
     <tr>
       <td>
-        <MCH links="e" />, <MCH links="u" />
+        <Mong MCH links="i" />
       </td>
       <td>
-        __if__ follows <MCH links="t" /> or <MCH links="d" /> or <MCH links="k" /> or <MCH links="g" /> or <MCH links="h" />:
+        __if__ follows <Mong MCH links="z" />:
+      </td>
+      <td>`marked`</td>
+    </tr>
+    <tr>
+      <td>
+        <Mong MCH links="e" />, <Mong MCH links="u" />
+      </td>
+      <td>
+        __if__ follows <Mong MCH links="t" /> or <Mong MCH links="d" /> or <Mong MCH links="k" /> or <Mong MCH links="g" /> or <Mong MCH links="h" />:
       </td>
       <td>`feminine`, `feminine_marked`</td>
     </tr>
     <tr>
       <td>
-        <MCH links="e" />, <MCH links="u" />
+        <Mong MCH links="e" />, <Mong MCH links="u" />
       </td>
       <td>__if__ follows a _vowel_:</td>
       <td>`feminine`</td>
     </tr>
     <tr>
       <td rowspan="2">
-        <MCH links="n" />
+        <Mong MCH links="n" />
       </td>
       <td>__if__ precedes a _vowel_:</td>
       <td>`onset`</td>
@@ -150,16 +150,16 @@ The punctuation, digits, and other characters of this writing system that lie ou
     </tr>
     <tr>
       <td rowspan="4">
-        <MCH links="t" />, <MCH links="d" />
+        <Mong MCH links="t" />, <Mong MCH links="d" />
       </td>
       <td>
-        __if__ precedes <MCH links="a" /> or <MCH links="i" /> or <MCH links="o" />:
+        __if__ precedes <Mong MCH links="a" /> or <Mong MCH links="i" /> or <Mong MCH links="o" />:
       </td>
       <td>`masculine_onset`</td>
     </tr>
     <tr>
       <td>
-        __else if__ precedes <MCH links="e" /> or <MCH links="u" /> or <MCH links="ue" />:
+        __else if__ precedes <Mong MCH links="e" /> or <Mong MCH links="u" /> or <Mong MCH links="ue" />:
       </td>
       <td>`feminine`</td>
     </tr>
@@ -170,14 +170,14 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       {" "}
       <td>
-        __else if__ a _vowel_ precedes <MCH links="t" />:
+        __else if__ a _vowel_ precedes <Mong MCH links="t" />:
       </td>
       <td>`devsger`</td>
     </tr>
     <tr>
       {" "}
       <td rowspan="6">
-        <MCH links="k" />, <MCH links="g" />, <MCH links="h" />
+        <Mong MCH links="k" />, <Mong MCH links="g" />, <Mong MCH links="h" />
       </td>
       <td>__if__ precedes a _masculine vowel_:</td>
       <td>`masculine_onset`</td>
@@ -188,32 +188,32 @@ The punctuation, digits, and other characters of this writing system that lie ou
     </tr>
     <tr>
       <td>
-        __else if__ <MCH links="k" /> follows <MCH links="e" /> that follows <MCH links="t" />:
+        __else if__ <Mong MCH links="k" /> follows <Mong MCH links="e" /> that follows <Mong MCH links="t" />:
       </td>
       <td>`masculine_devsger`</td>
     </tr>
     <tr>
       <td>
-        __else if__ <MCH links="k" /> follows <MCH links="u" /> that follows <MCH links="k" /> or <MCH links="g" /> or <MCH links="h" />:
+        __else if__ <Mong MCH links="k" /> follows <Mong MCH links="u" /> that follows <Mong MCH links="k" /> or <Mong MCH links="g" /> or <Mong MCH links="h" />:
       </td>
       <td>`feminine`</td>
     </tr>
     <tr>
       <td>
-        __else if__ <MCH links="k" /> follows <MCH links="e" /> or <MCH links="ue" />:
+        __else if__ <Mong MCH links="k" /> follows <Mong MCH links="e" /> or <Mong MCH links="ue" />:
       </td>
       <td>`feminine`</td>
     </tr>
     <tr>
       <td>
-        __else__ <MCH links="k" />:
+        __else__ <Mong MCH links="k" />:
       </td>
       <td>`masculine_devsger`</td>
     </tr>
     <tr>
       <td>3. Particle</td>
       <td>
-        <MCH links="i" />
+        <Mong MCH links="i" />
       </td>
       <td>__if__ follows an MVS:</td>
       <td>`particle`</td>
@@ -221,7 +221,7 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td>4. Devsger</td>
       <td>
-        <MCH links="i" />
+        <Mong MCH links="i" />
       </td>
       <td>__if__ follows a _vowel_:</td>
       <td>`vowel_devsger`</td>
@@ -229,14 +229,14 @@ The punctuation, digits, and other characters of this writing system that lie ou
     <tr>
       <td rowspan="2">5. Post-bowed</td>
       <td>
-        <MCH links="a" />, <MCH links="o" />
+        <Mong MCH links="a" />, <Mong MCH links="o" />
       </td>
       <td>__if__ follows a _neuter bowed written unit_ or a _masculine bowed written unit_:</td>
       <td>`post_bowed`</td>
     </tr>
     <tr>
       <td>
-        <MCH links="e" />, <MCH links="u" />
+        <Mong MCH links="e" />, <Mong MCH links="u" />
       </td>
       <td>__if__ follows a _neuter bowed written unit_ or a _feminine bowed written unit_:</td>
       <td>`post_bowed`, `post_bowed_feminine`</td>
@@ -266,4 +266,4 @@ When the nominal spelling of a particle in the table below occurs in text, its l
 
 - Liu Jingxian, Zhao Aping, Zhao Jinchun. (1997). [满语研究通论](https://search.worldcat.org/zh-cn/title/55851865?oclcNum=55851865). Mudanjiang: Heilongjiang Chaoxian Ethnic Publishing House.
 
-- Huang Xihui. (2012). “Research on the initial form and medial form of <MCH links="z i" /> in Manchu writing system”, in: _Manchu Studies_, 28(2), pp. 5–10.
+- Huang Xihui. (2012). “Research on the initial form and medial form of <Mong MCH links="z i" /> in Manchu writing system”, in: _Manchu Studies_, 28(2), pp. 5–10.

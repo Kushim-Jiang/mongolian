@@ -4,7 +4,7 @@ title: Single-font implementation
 
 import WrittenUnitTable from "../src/components/WrittenUnitTable.svelte";
 import LetterTable from "../src/components/LetterTable.svelte";
-import TODx from "../src/components/tags/TODx.svelte";
+import Mong from "../src/components/Mong.svelte";
 import { outsideLetters, outsideUnits } from "../data/outsideLetters";
 
 export const locales = ["MNG", "MNGx", "TOD", "TODx", "SIB", "MCH", "MCHx"];
@@ -35,7 +35,7 @@ Two characters lie at the boundary of the scope of this document, and the curren
 
 **[MONGOLIAN LETTER CHA WITH TWO DOTS (U+1878)](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1878)**. This letter is used in Buryat Mongolian, and was proposed for encoding by Andrew West, Amgalan Zhamsoev and Viacheslav Zaytsev in [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) and was added to the Unicode Standard version 14.0. Only its medial form is attested in the historical Buryat sources; the initial and final forms are not attested, but were also proposed for fabricated glyphs.
 
-**[MONGOLIAN LETTER TODO ALI GALI TA (U+1898)](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1898)**. This letter is not used in any writing system. It may have been coined by Quejingzhabu. It is conjectured that in one scheme the Todo Ali Gali letter _ta_ was analyzed as <TODx links="Dp" />, but the letter _da_ is also shown as <TODx links="Dp" />, so the creator added a distinguishing stroke to produce the letter for _da_. All of its glyphs are fabricated.
+**[MONGOLIAN LETTER TODO ALI GALI TA (U+1898)](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1898)**. This letter is not used in any writing system. It may have been coined by Quejingzhabu. It is conjectured that in one scheme the Todo Ali Gali letter _ta_ was analyzed as <Mong TODx links="Dp" />, but the letter _da_ is also shown as <Mong TODx links="Dp" />, so the creator added a distinguishing stroke to produce the letter for _da_. All of its glyphs are fabricated.
 
 This UTN therefore imposes no requirements on either of them: the first concerns the specifications for Buryat Mongolian and, as [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) indicates, goes beyond the scope of the current version of the UTN; the second does not appear in any Mongolian writing system, and the current Chinese national standard supports it solely for compatibility purposes.
 

@@ -1,13 +1,24 @@
 <script lang="ts">
+  import { locales, type LocaleID } from "../../data/locales";
+  import { writtenUnits } from "../../data/writtenUnits";
+
   interface Props {
-    locale: LocaleID;
-    links: string;
+    MNG?: boolean;
+    MNGx?: boolean;
+    TOD?: boolean;
+    TODx?: boolean;
+    SIB?: boolean;
+    MCH?: boolean;
+    MCHx?: boolean;
+    links?: string;
     category?: string;
   }
-  let { locale, links = "", category = "" }: Props = $props();
 
-  import { locales, type LocaleID } from "../../../data/locales";
-  import { writtenUnits } from "../../../data/writtenUnits";
+  let { MNG, MNGx, TOD, TODx, SIB, MCH, MCHx, links = "", category = "" }: Props = $props();
+
+  // The writing system is named by the attribute that is set, so that a citation reads
+  // <Mong MNG links="..." /> rather than a component per writing system.
+  const locale = $derived<LocaleID>(MNG ? "MNG" : MNGx ? "MNGx" : TOD ? "TOD" : TODx ? "TODx" : SIB ? "SIB" : MCH ? "MCH" : MCHx ? "MCHx" : "MNG");
 
   const prefix = $derived(locales[locale].name);
   const items = $derived(links.split(" ").filter(Boolean));
