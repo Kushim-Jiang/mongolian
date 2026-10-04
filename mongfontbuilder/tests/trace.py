@@ -24,11 +24,8 @@ from pathlib import Path
 import uharfbuzz as hb
 from fontTools.ttLib import TTFont
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-
-from unified import LANGUAGE, composedOTF  # noqa: E402
-from utils import loadHBFont, parseAliases, parseLetter, parseWrittenUnits  # noqa: E402
+from unified import LANGUAGE, composedOTF
+from utils import loadHBFont, parseAliases, parseLetter, parseWrittenUnits
 
 
 def lookupNames(path: Path) -> dict[int, str]:

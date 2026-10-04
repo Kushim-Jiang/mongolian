@@ -15,7 +15,6 @@ from mongfontbuilder import data
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.spec import applySpecToFont
-
 from utils import fontsDir, tempDir, testSuitesDir
 
 

@@ -87,8 +87,7 @@ def parseLetter(names: str, locale: LocaleID) -> str:
             charName = next(
                 k
                 for k, v in aliases.items()
-                if (isinstance(v, dict) and v.get(namespaceFromLocale(locale)) == name)
-                or v == name
+                if (isinstance(v, dict) and v.get(namespaceFromLocale(locale)) == name) or v == name
             )
             result.append(unicodedata.lookup(charName))
         except StopIteration:

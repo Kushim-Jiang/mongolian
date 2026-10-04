@@ -19,27 +19,10 @@ compose it::
 
 from __future__ import annotations
 
-import sys
 from dataclasses import dataclass, field
-from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-
-# A case is written with the characters of the script, and a Windows console writes them
-# in its own code page unless it is told otherwise.
-if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
-
-from unified import (  # noqa: E402
-    CASES,
-    LANGUAGE,
-    caseIsXfail,
-    caseValues,
-    composedOTF,
-    languageOf,
-)
-from utils import parseAliases, parseLetter, parseWrittenUnits, tempDir  # noqa: E402
+from unified import CASES, LANGUAGE, caseIsXfail, caseValues, composedOTF, languageOf
+from utils import parseAliases, parseLetter, parseWrittenUnits, tempDir
 
 REPORT = tempDir / "unified-failures.txt"
 COMPACT = tempDir / "unified-failures-compact.txt"

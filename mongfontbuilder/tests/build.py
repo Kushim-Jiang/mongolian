@@ -15,23 +15,13 @@ from __future__ import annotations
 
 import argparse
 import shutil
-import sys
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE))
-
-# A Windows console writes what the build prints in its own code page unless it is told
-# otherwise.
-if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[union-attr]
-
-from mongfontbuilder import data  # noqa: E402
-from mongfontbuilder.data.types import LocaleID  # noqa: E402
-
-from fixtures import buildFontForLocales  # noqa: E402
-from unified import buildUnifiedFont  # noqa: E402
-from utils import tempDir  # noqa: E402
+from fixtures import buildFontForLocales
+from mongfontbuilder import data
+from mongfontbuilder.data.types import LocaleID
+from unified import buildUnifiedFont
+from utils import tempDir
 
 # The writing systems whose font is built on its own: a writing system and its Ali Gali
 # extension share a font, so the base writing system names it.

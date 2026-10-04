@@ -17,8 +17,5 @@ src = [".", "mongfontbuilder/src", "mongfontbuilder/tests"]
 line-length = 100
 lint.select = []
 
-[tool.ruff.lint.isort]
-known-local-folder = ["utils", "fixtures", "unified"]
-
 [tool.pytest.ini_options]
 addopts = "--doctest-modules --doctest-report ndiff --color=yes"
