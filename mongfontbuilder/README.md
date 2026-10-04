@@ -17,10 +17,10 @@ The library includes various utilities, including:
 A CLI is also available — it reads a source UFO font and writes a complete font with the generated OTL rules. Run from the repository root:
 
 ```sh
-uv run python -m mongfontbuilder input.ufo output.otf --locales MNG
+uv run python -m mongfontbuilder input.ufo output.ufo --locales MNG
 ```
 
-Both `.ufo` and `.otf` output formats are supported. See `--help` for available locales.
+The CLI writes the constructed font as a UFO; compile it to a binary font with [`ufo2ft`](https://github.com/googlefonts/ufo2ft) if that is what you need. See `--help` for available locales.
 
 The documentation, the specification data, and the Glyphs templates are maintained in the repository this project belongs to, [Kushim-Jiang/mongolian](https://github.com/Kushim-Jiang/mongolian).
 
@@ -40,7 +40,7 @@ The test suite is run with:
 uv run pytest
 ```
 
-The harness builds each test font on the fly using the package API, shapes the test strings with [HarfBuzz](https://harfbuzz.github.io/), and compares the resulting glyph sequence with the expected output. The tests are organized per writing system, each with its own UFO test font and test cases under `tests/data/`:
+The harness builds each test font on the fly using the package API, shapes the test strings with [HarfBuzz](https://harfbuzz.github.io/), and compares the resulting glyph sequence with the expected output. The tests are organized per writing system, each with its own UFO test font under `tests/fonts/` and test cases under `src/mongfontbuilder/testSuites/`:
 
 - **Hudum** (`MNG`), from `tests/fonts/hudum.ufo`, is validated against the EAC and core suites (`eac-hudum`, `core-hudum`);
 - **Manchu** (`MCH`), from `tests/fonts/manchu.ufo`, is validated against the core suite (`core-manchu`);
