@@ -1,8 +1,10 @@
 ---
-title: Home
-hero:
-  tagline: "The working draft of UTN #57, Encoding and Shaping of the Mongolian Script."
+title: Introduction
 ---
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="note">This site is the working draft. Stable revisions of the documentation are published and archived as revisions of UTN #57, Encoding and Shaping of the Mongolian Script (the Mongolian UTN).</Aside>
 
 This document specifies how the Mongolian script is encoded and shaped. It treats the writing systems in which the script is written—Hudum, Todo, Sibe, and Manchu, together with their Ali Gali extensions—and for each of them fixes the characters that represent its written units and the layered, sequential steps by which a sequence of characters is shaped into the written units it is rendered with. Those steps are aligned with the Unicode Standard and with China’s national standard GB/T 25914—2023: they take the variant-selection conditions of those standards, which are stated flatly and leave the order of application open, and reorganize them into the order in which a text shaping engine executes them.
 
@@ -18,3 +20,37 @@ Four links lead out of this site; together they run from the standard to the cod
 | [mongfontbuilder](https://pypi.org/project/mongfontbuilder/)           | The Python library, released on PyPI from that repository                                        | It generates a font’s OpenType Layout rules from the data; it is the reference implementation of this document.                                                             |
 
 Begin with [Introduction](/introduction/) and [Architecture](/architecture/) for the model and the history behind it, or with [Toolchain](/toolchain/) for the repository that maintains it.
+
+### Content
+
+The UTN will cover the following four sections, as outlined in the background information above.
+
+**A glyph set that is fully aligned with Chinese national standards.** This UTN fully encompasses the characters, variants, and ligatures defined in the various Chinese national standards. It also lists the corresponding FVS assignments for each variant to ensure accurate correspondence with the respective Chinese national standards. To this end, this UTN performs phoneme analysis on all characters and grapheme analysis on all variants. It uses the resulting transcriptions to represent all characters and variants. It then creates datasets of the characters and variants included in various Chinese national standards.
+
+**A layered, phased process that ensures the final result is consistent with Chinese national standards.** UTN is different from national standards. National standards rely on a flattened, expanded BNF notation without process sequencing. UTN reorganizes all variant selection constraints into sequential, hierarchical shaping steps. These steps reflect the runtime execution flow of text shaping. By breaking down a single BNF rule into an actionable, step-by-step workflow, this document reduces the cognitive load on developers and eliminates the rule sequencing issues that previously led to inconsistent rendering outputs across different vendors. This UTN uses test sets developed for the validation of various Chinese national standards. These test sets ensure that the shaping steps defined in this UTN produce final results consistent with the expectations of those standards.
+
+**A retrospective analysis of the historical evolution of Mongolian encoding.** This UTN provides a historical overview of the encoding of the Mongolian script and examines the evolution of national and international standards regarding its encoding. This clearly explains how the Mongolian script provisions and descriptions in the Unicode Standard and ISO/IEC 10646 are historically constrained. This addresses the expectation that these standards would reference this UTN. Developers should refer to this UTN when supporting Mongolian script or any of its writing systems.
+
+**An introduction to the standardized, structured datasets and automated toolchains maintained alongside the UTN version.** This UTN maintains datasets, shaping rules, font templates, test modules, and web pages related to the encoding of the Mongolian script. It also provides clear instructions on how to use these resources for the work.
+
+### Structure
+
+The specifications provided in this document are oriented towards the first three layers of a five-layer system of text processing techniques, that is:
+
+**Character Layer**. The code charts of the Unicode Standard and ISO/IEC 10646 specify the code points, names, with annotation about characters and character sequences. The characters specified in this document correspond to the characters in the code charts (see [UTR \#54](https://www.unicode.org/reports/tr54/)).
+
+**Glyph Layer**. The Unicode Standard and its various supplementary standards further provide the characters with additional behavioral specifications, including character properties (general category, cursive joining type, etc.) and algorithms (normalization, collation, line breaking, text segmentation, bidirectional, vertical text layout, etc.), thus specifying the association of characters with glyphs and showing how this association is affected by factors such as character properties, contextual environment and localization.
+
+**Glyph Image Layer**. The text shaping engine and the font project file implement the rules for associating characters and glyphs as glyph images in the design space, substitution and positioning relations between glyph images, and text shaping operations performed by the text shaping engine. Based on specific design decisions, there is freedom in constructing glyph image sets and writing shaping rules, so this document cannot directly specify the framework of glyph image sets and shaping rules that each font project file should contain. However, the step-by-step shaping rules provided in this document can directly correspond to the shaping rules in the font project file, and therefore can provide a reference for the construction and conversion of the font project files.
+
+**Typesetting Layer**. The typesetting application invokes the text shaping engine with the font files to render the glyph images in the typeset pages.
+
+**Physical Layer**. Devices such as monitors and printers convert typeset pages into physical objects.
+
+### Relation
+
+**Relationship to the Unicode Standard.** This UTN provides a detailed description of the characters and their behavior in the Mongolian script as defined by the Unicode Standard. It also lists the variants contained in each Mongolian character and explains the process by which a sequence of Mongolian characters should be converted into a sequence of glyphs. Note that [UTR \#54](https://www.unicode.org/reports/tr54/) only provides a historical version of the Code Charts for the Mongolian block in the Unicode Standard. The variant set has changed significantly from this version. Do not use the variant descriptions and FVS assignments provided in this UTR as a reference during implementation.
+
+**Relationship to Chinese national standards.** This UTN definitively interprets several Chinese national standards. It definitively defines the implementation of the encoding and related data, offering clear guidance on supporting these Chinese national standards. This UTN will be updated promptly as the Chinese national standards are revised.
+
+**Content boundaries.** The current version of UTN does not specify more detailed requirements for [U+1878 MONGOLIAN LETTER CHA WITH TWO DOTS](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1878) and [U+1898 MONGOLIAN LETTER TODO ALI GALI TA](https://utcstage.unicode.org/Public/18.0.0/charts/nameslist/1800/#1898). The former concerns the specifications for Buryat Mongolian; as [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) indicates, this goes beyond the scope of the current version of the UTN. The latter does not appear in any Mongolian writing system; it is a character established by early standards developers, and the current Chinese national standard supports it solely for compatibility purposes. Therefore, this UTN does not impose any requirements on these two characters.

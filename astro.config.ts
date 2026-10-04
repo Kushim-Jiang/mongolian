@@ -10,9 +10,8 @@ export default defineConfig({
       title: "Encoding and Shaping of the Mongolian Script",
       sidebar: [
         "index",
-        "introduction",
-        "architecture",
         "toolchain",
+        "architecture",
         {
           label: "Writing systems",
           items: [
@@ -25,10 +24,12 @@ export default defineConfig({
             "manchu-ali-gali",
           ],
         },
-        "unified-writing-system",
-        "digits-and-punctuation",
-        "comparison",
-        "modifications",
+        "non-joining-characters",
+        "single-font-implementation",
+        {
+          label: "Appendices",
+          items: ["background", "unicode-standard", "comparison"],
+        },
       ],
       social: [
         {
