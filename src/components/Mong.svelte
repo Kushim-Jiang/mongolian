@@ -26,8 +26,9 @@
   // The format controls take part in the shaping of the letters around them rather than
   // being written forms of a writing system, so they are described in the chapter that
   // treats the character layer, not among the written forms of a writing system. An item
-  // that names one is linked there whatever the writing system it was written for.
-  const FORMAT_CONTROLS = new Set(["fvs", "fvs1", "fvs2", "fvs3", "fvs4", "mvs", "nnbsp", "nirugu", "zwj", "zwnj"]);
+  // that names one is linked there whatever the writing system it was written for. Two of
+  // them are also cited by the transcription they are written with, and not by name.
+  const FORMAT_CONTROLS = new Set(["fvs", "fvs1", "fvs2", "fvs3", "fvs4", "mvs", "nnbsp", "nirugu", "zwj", "zwnj", "·", "–"]);
 
   // The free variation selectors are named by their number; render it as a superscript
   // (FVS1 → ¹) so the label reads as a variation of the selector rather than a separate unit.
