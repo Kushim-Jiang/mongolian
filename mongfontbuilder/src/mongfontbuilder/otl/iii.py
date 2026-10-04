@@ -3,6 +3,7 @@ from collections.abc import Iterable, Iterator
 from fontTools.feaLib import ast
 
 from .. import GlyphDescriptor, data, getPosition
+from ..glyph import lvsDescriptor
 from ..data.logic import choosesLvs
 from ..data.types import (
     CharacterName,
@@ -89,7 +90,7 @@ def preprocessLvs(c: MongFeaComposer, locale: LocaleID) -> None:
     the middle of a word, and the letter before it is drawn in the position it holds.
     """
 
-    lvs = GlyphDescriptor.fromData(getCharNameByAlias("TOD", "lvs"), fina)
+    lvs = lvsDescriptor()
     with c.Lookup(f"III.lvs.preprocessing.{locale}", feature="rclt", flags={"IgnoreMarks": True}):
         for charName, position in lvsLetters(locale):
             before = GlyphDescriptor.fromData(charName, JOINED_BEFORE[position])
@@ -107,7 +108,7 @@ def ligateLvs(c: MongFeaComposer) -> None:
     which would draw the letter with the written form that the long vowel sign is a part of.
     """
 
-    lvs = GlyphDescriptor.fromData(getCharNameByAlias("TOD", "lvs"), fina)
+    lvs = lvsDescriptor()
     for locale in ["TOD", "TODx"]:
         if locale not in c.locales:
             continue
@@ -235,7 +236,7 @@ def iii0b(c: MongFeaComposer) -> None:
 
     with c.Lookup("III.ig.preprocessing.H", feature="rclt", flags={"IgnoreMarks": True}):
         for alias in categories["vowelMasculine"]:
-            for position in (medi, fina, isol):
+            for position in (medi, fina):
                 default = c.getDefault(alias, position)
                 c.sub(default, c.input(MARKER_MASCULINE_FALSE), by=MARKER_MASCULINE_TRUE)
 
@@ -1136,11 +1137,12 @@ def iii6(c: MongFeaComposer) -> None:
     """
 
     for locale in c.locales:
+        letters = list(fvsPrecedingLetters(c, locale))
         with c.Lookup(f"_.manual.{locale}") as _lvs:
-            manualFvses(c, locale)
+            manualFvses(c, locale, letters)
 
         with c.Lookup(f"III.fvs.{locale}", feature="rclt"):
-            automatedFvses(c, locale, _lvs)
+            automatedFvses(c, locale, _lvs, letters)
 
     ligateLvs(c)
 
@@ -1179,10 +1181,14 @@ def fvsPrecedingLetters(
         yield glyphClass, fvs, by
 
 
-def manualFvses(c: MongFeaComposer, locale: LocaleID) -> None:
+def manualFvses(
+    c: MongFeaComposer,
+    locale: LocaleID,
+    letters: list[tuple[ast.GlyphClass | ast.GlyphClassDefinition, int, str]],
+) -> None:
     """Draw the own form of every letter of *locale* that precedes an FVS."""
 
-    for glyphClass, fvs, by in fvsPrecedingLetters(c, locale):
+    for glyphClass, fvs, by in letters:
         c.sub(c.input(glyphClass), f"fvs{fvs}.ignored", by=by)
 
 
@@ -1226,10 +1232,15 @@ def withSharedVariants(c: MongFeaComposer, locale: LocaleID, aliases: list[str])
     return list(dict.fromkeys(members))
 
 
-def automatedFvses(c: MongFeaComposer, locale: LocaleID, _lvs: ast.LookupBlock) -> None:
+def automatedFvses(
+    c: MongFeaComposer,
+    locale: LocaleID,
+    _lvs: ast.LookupBlock,
+    letters: list[tuple[ast.GlyphClass | ast.GlyphClassDefinition, int, str]],
+) -> None:
     """Consume the FVS of every letter of *locale* that precedes one."""
 
-    for glyphClass, fvs, _ in fvsPrecedingLetters(c, locale):
+    for glyphClass, fvs, _ in letters:
         valid = c.input(f"fvs{fvs}.ignored", c.conditions["_.valid"])
         c.sub(c.input(glyphClass, _lvs), valid, by=None)
 
@@ -1238,23 +1249,10 @@ def iii7(c: MongFeaComposer) -> None:
     """
     **Phase III.7: Control character postprocessing**
 
-    An nnbsp that no shaping took is written as the glyph of the nnbsp, which is the glyph
-    the source font draws for the character.
-
-    Unicode 16.0 hands the function of the nnbsp to the MVS, so every lookup that shapes an
-    MVS shapes an nnbsp as well — `@mvs`, `@mvs.invalid` and `@mvs.valid` all hold it — and
-    an nnbsp that a chachlag, a particle or a wide space consumed is already written with
-    the glyphs that shaping writes. What reaches this phase unwritten is therefore the nnbsp
-    that nothing followed, which is the nnbsp that stands as a space of its own, and it is
-    written with the glyph of the character rather than with the `mvs` the MVS is drawn
-    with. The substitution is made here, at the end of the shaping, because every lookup
-    before it reads the nnbsp by the name it shares with the MVS.
+    A nirugu and an FVS that shaping has passed over in an ignored state are drawn as the
+    control again, so that the controls a run of shaping did not use are still drawn as
+    themselves when it ends.
     """
-
-    name = c.glyphNameProcessor("nnbsp")
-    if name in c.glyphs or name in c.spec.newGlyphs:
-        with c.Lookup("III.nnbsp.postprocessing", feature="rclt"):
-            c.sub("nnbsp", by=name)
 
     with c.Lookup("III.controls.postprocessing", feature="rclt"):
         c.sub(

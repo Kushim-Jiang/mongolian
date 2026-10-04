@@ -13,6 +13,6 @@ def compose(c: MongFeaComposer) -> None:
 
     The two are shaped alike without it: `@mvs`, `@mvs.invalid` and `@mvs.valid` each hold
     the nnbsp beside the glyphs of the MVS, so every lookup of the phases below shapes an
-    nnbsp as it shapes an MVS. What nothing then shaped is written as the glyph of the
-    character by Phase III.7, which is the phase that can tell the two apart.
+    nnbsp as it shapes an MVS, and an nnbsp that nothing then shaped keeps the glyph the
+    source font draws for the character.
     """

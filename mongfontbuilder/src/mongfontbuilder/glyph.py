@@ -18,6 +18,7 @@ from .data import (
 )
 from .data.logic import variantFromReference
 from .data.types import VariantReference, fina, init, isol, joiningPositions, medi
+from .utils import getCharNameByAlias
 
 
 def splitWrittens(writtens: str) -> list[WrittenUnitID]:
@@ -161,6 +162,17 @@ class GlyphDescriptor:
 
     def __hash__(self) -> int:
         return hash(self.__str__())
+
+
+def lvsDescriptor() -> GlyphDescriptor:
+    """The descriptor of the Todo long vowel sign.
+
+    A long vowel sign is drawn together with the letter it follows as one written form, so
+    the written forms that take part in it are built from this descriptor beside the one of
+    the letter.
+    """
+
+    return GlyphDescriptor.fromData(getCharNameByAlias("TOD", "lvs"), fina)
 
 
 def uNameFromCodePoint(codePoint: int) -> str:

@@ -7,6 +7,7 @@ from fontTools.feaLib import ast
 from tptq.feacomposer import FeaComposer
 
 from .. import GlyphDescriptor, data, splitWrittens, uNameFromCodePoint, writtenCombinations
+from ..glyph import lvsDescriptor
 from ..data import codePointToCmapVariant
 from ..data.logic import choosesLvs, choosesVariant
 from ..data.types import (
@@ -16,7 +17,6 @@ from ..data.types import (
     LocaleID,
     VariantData,
     WrittenUnitID,
-    fina,
     joiningPositions,
 )
 from ..spec import FontSpec, GlyphSpec
@@ -508,7 +508,7 @@ class MongFeaComposer(FeaComposer):
         sign form is that written form with an `Lv` unit appended.
         """
 
-        lvs = GlyphDescriptor.fromData(getCharNameByAlias("TOD", "lvs"), fina)
+        lvs = lvsDescriptor()
         return [
             GlyphDescriptor([*v.codePoints, *lvs.codePoints], [*v.units, "Lv"], v.position)
             for v in self.variantDescriptors(
