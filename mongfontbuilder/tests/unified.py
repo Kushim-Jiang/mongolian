@@ -24,14 +24,13 @@ from fontTools.feaLib import ast
 from ufoLib2 import Font
 from ufoLib2.objects import Glyph
 
+from fixtures import EAC_UNIFIED_XFAIL, compileOTFForDebugging, loadRawTestCases
 from mongfontbuilder import GlyphDescriptor, data
 from mongfontbuilder.data.types import LocaleID
 from mongfontbuilder.otl import MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
 from mongfontbuilder.spec import FontSpec, GlyphSpec, applySpecToFont
 from mongfontbuilder.utils import getAliasesByLocale
-
-from fixtures import EAC_UNIFIED_XFAIL, compileOTF, loadRawTestCases
 from utils import fontsDir, tempDir
 
 SOURCE = fontsDir / "unified.ufo"
@@ -704,7 +703,7 @@ def buildUnifiedFont() -> Path:
     print(f"  composed {len(font)} glyphs, writing the UFO …", flush=True)
     font.save(composedUFO, overwrite=True)
     print("  wrote the UFO, compiling the OTF …", flush=True)
-    compileOTF(font).save(composedOTF)
+    compileOTFForDebugging(font).save(composedOTF)
     print(f"composed {composedOTF}", flush=True)
     return composedOTF
 

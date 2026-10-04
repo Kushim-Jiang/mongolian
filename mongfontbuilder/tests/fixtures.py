@@ -9,6 +9,7 @@ from _pytest.mark.structures import ParameterSet
 from fontTools.ttLib import TTFont
 from ufo2ft import OTFCompiler
 from ufo2ft.constants import CFFOptimization
+from ufo2ft.featureWriters import GdefFeatureWriter
 from ufoLib2 import Font
 
 from mongfontbuilder import data
@@ -95,16 +96,17 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
     intermediate = tempDir / f"{fontName}.ufo"
     font.save(intermediate, overwrite=True)
 
-    compileOTF(font).save(output)
+    compileOTFForDebugging(font).save(output)
     print(relpath(output))
     return output
 
 
-def compileOTF(font: Font) -> TTFont:
+def compileOTFForDebugging(font: Font) -> TTFont:
     environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"  # For feaLib.builder.Builder
     return OTFCompiler(
-        featureWriters=[],
+        featureWriters=[GdefFeatureWriter],
         useProductionNames=False,
+        removeOverlaps=False,
         optimizeCFF=CFFOptimization.NONE,
     ).compile(font)
 
