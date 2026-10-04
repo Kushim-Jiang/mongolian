@@ -1,75 +1,40 @@
 # Encoding and Shaping of the Mongolian Script
 
-This repository maintains the working draft of [UTN \#57, Encoding and Shaping of the Mongolian Script](https://www.unicode.org/notes/tn57/) (the **Mongolian UTN**): the documentation and the data files behind it, the `mongfontbuilder` Python library that implements them, the font templates generated from that library, and the tests that validate the result.
+This repository maintains the documentation and the data files behind [UTN \#57, Encoding and Shaping of the Mongolian Script](https://www.unicode.org/notes/tn57/) (the **Mongolian UTN**), the `mongfontbuilder` Python library that implements them, the font templates generated from that library, and the tests that validate the result.
 
-The working draft is published continuously at [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/). Stable revisions are periodically published and archived by the Unicode Consortium as versions of the UTN; those archived versions are the official ones.
+The documentation is published at [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/).
 
-The documentation site is the repository root itself; the parts it documents sit around it in directories of their own:
+The documentation site is the repository root itself; the parts it documents sit around it in directories of their own, each of the larger ones with a README:
 
-```text
-mongolian/
-├─ data/                the specification data (TypeScript, the single source of truth)
-├─ docs/                the documentation pages (.mdx)
-├─ public/              the static assets
-├─ src/                 the site components, styles and configuration
-├─ templates/           the Glyphs templates and the script that updates them
-├─ mongfontbuilder/     the Python project: the library, its CLI, and the tests
-├─ pyproject.toml       the uv workspace: one environment and lockfile for the Python
-├─ uv.lock              the locked dependencies of that environment
-└─ astro.config.ts      documentation site configuration and sidebar
-```
+| Part | What it is |
+| --- | --- |
+| [`data/`](data/README.md) | the specification data (TypeScript, the single source of truth) |
+| [`mongfontbuilder/`](mongfontbuilder/README.md) | the Python project: the library, its CLI, and the tests |
+| [`templates/`](templates/README.md) | the Glyphs templates and the script that updates them |
 
-This repository consists of:
+The root [`pyproject.toml`](pyproject.toml) declares the [uv workspace](https://docs.astral.sh/uv/concepts/projects/workspaces/) that gives the Python one environment and one lockfile.
 
-- **Documentation and data files** that clarify the encoding and shaping rules required for a font to be compatible with the Unicode Standard and China’s national standard GB/T 25914-2023.
-- **`mongfontbuilder`**, the Python library that helps font designers and developers produce a standard-compatible Mongolian script font, as clarified by the documentation.
-  - It also acts as the reference implementation of the Mongolian UTN.
-- **Templates** for generating fonts in Glyphs app from the library’s output.
-- **Tests** for validating fonts produced by the library across multiple Mongolian writing systems (Hudum, Sibe, Manchu).
+## Documentation site
 
-## Documentation and data files
+The documentation is an [Astro](https://astro.build/) site built with [Starlight](https://starlight.astro.build/), and it is the repository root itself: its pages are the `.mdx` files in [`docs/`](docs/), its Svelte components and styles are in [`src/`](src/), its static assets are in [`public/`](public/), and its configuration and sidebar are [`astro.config.ts`](astro.config.ts). The site imports the data in [`data/`](data/README.md) directly, so the tables it renders stay in sync with the exported JSON.
 
-The documentation is maintained in [docs/](https://github.com/Kushim-Jiang/mongolian/blob/main/docs) and deployed to [mongolian.kushim.workers.dev](https://mongolian.kushim.workers.dev/). For contribution guidelines, refer to [CONTRIBUTING.md](https://github.com/Kushim-Jiang/mongolian/blob/main/CONTRIBUTING.md).
-
-The source-of-truth data files are maintained as TypeScript files in [data/](https://github.com/Kushim-Jiang/mongolian/blob/main/data). They’re exported to JSON in [mongfontbuilder/src/mongfontbuilder/data/](https://github.com/Kushim-Jiang/mongolian/tree/main/mongfontbuilder/src/mongfontbuilder/data) for consumption of the Python API.
-
-## The `mongfontbuilder` library
-
-The Python library `mongfontbuilder` is maintained in [mongfontbuilder/](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder) and published to [PyPI](https://pypi.org/project/mongfontbuilder/):
+Install the Node dependencies and start a local development server with:
 
 ```sh
-pip install mongfontbuilder
+npm install
+npm run dev
 ```
 
-Its own README, [`mongfontbuilder/README.md`](mongfontbuilder/README.md), describes the Python API, the CLI, the development environment, and the test suite.
+The site is served at `http://localhost:4321`; [`CONTRIBUTING.md`](CONTRIBUTING.md) covers the other npm scripts and the contribution workflow.
 
-The repository is a [uv workspace](https://docs.astral.sh/uv/concepts/projects/workspaces/), declared by the `pyproject.toml` at its root, and the package is its member. The environment and the lockfile of the workspace are the ones of the repository root, and they are shared by every Python in the repository, the package and the scripts around it alike.
+## Continuous integration and publishing
 
-## Templates
+The repository uses GitHub Actions:
 
-Maintained in [templates/](https://github.com/Kushim-Jiang/mongolian/blob/main/templates).
-
-`mongfontbuilder` can generate [Glyphs](https://glyphsapp.com/) templates (`.glyphs` files) from the UFO test fonts and the OTL composer output. These templates let type designers open and work with the generated glyph layout directly in Glyphs app.
-
-The template update script is at [`templates/update.py`](https://github.com/Kushim-Jiang/mongolian/blob/main/templates/update.py). Currently available templates:
-
-- `hudum.glyphs` — Hudum (MNG) template.
-- `manchu.glyphs` — Manchu (MCH) template.
-
-Template tests are macOS-only (require Glyphs app) and located in [`mongfontbuilder/tests/test_templates.py`](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/tests/test_templates.py).
-
-## Tests
-
-Maintained in [mongfontbuilder/tests/](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/tests), and run with `uv run pytest` from the repository root.
-
-The test harness builds each font on the fly using `mongfontbuilder`’s Python API directly, then shapes the test input strings with [HarfBuzz](https://harfbuzz.github.io/) and compares the resulting glyph sequence against expected output. Tests are organized per writing system with separate test fonts:
-
-- **Hudum** (`MNG`): validated against the EAC and core test suites (`eac-hudum`, `core-hudum`).
-- **Manchu** (`MCH`): validated against the core test suite (`core-manchu`).
-- **Sibe** (`SIB`): validated against the core test suite (`core-sibe`).
-
-Where the UTN model answers a case of the EAC suite differently, the case is kept in the suite as an expected failure and its reason is written down; the cases are listed in [`mongfontbuilder/README.md`](mongfontbuilder/README.md).
+- [`.github/workflows/test.yml`](.github/workflows/test.yml) syncs the workspace and runs the test suite of the package on pushes to `main`;
+- [`.github/workflows/pypi.yml`](.github/workflows/pypi.yml) builds the package and publishes it to PyPI when a release is published;
+- [`.github/workflows/pdf.yml`](.github/workflows/pdf.yml) builds the site and renders the documentation PDF, which it uploads as a workflow artifact; it runs only when dispatched by hand, not on pushes.
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md) covers the development environment of each part of the repository.
+[`CONTRIBUTING.md`](CONTRIBUTING.md) covers the development environment of each part of the repository.

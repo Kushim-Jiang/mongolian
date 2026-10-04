@@ -1,6 +1,6 @@
 # mongfontbuilder
 
-The Python library that helps font designers and developers produce a standard-compatible Mongolian script font, as clarified by the documentation of the working draft of [UTN \#57, Encoding and Shaping of the Mongolian Script](https://www.unicode.org/notes/tn57/) (the **Mongolian UTN**). It also acts as the reference implementation of that document.
+The Python library that helps font designers and developers produce a standard-compatible Mongolian script font, as clarified by the documentation of [UTN \#57, Encoding and Shaping of the Mongolian Script](https://www.unicode.org/notes/tn57/) (the **Mongolian UTN**). It also acts as the reference implementation of that document.
 
 The library is maintained in this project and published to [PyPI](https://pypi.org/project/mongfontbuilder/). To install it in terminal:
 
