@@ -1,8 +1,28 @@
 from collections.abc import Iterable, Iterator
-from typing import cast
+from typing import cast, get_args
 
 from . import data
 from .data.types import FVS, CharacterName, JoiningPosition, LocaleID, LocaleNamespace, VariantData
+
+namespaces: list[LocaleNamespace] = [*get_args(LocaleNamespace)]
+
+charNameByNamespaceAlias: dict[tuple[LocaleNamespace, str], CharacterName] = {}
+"""The character each alias names in each namespace.
+
+`data.aliases` is read in the order it is written, so the character that answers an alias
+first is the one the alias names. An alias written as a string is not specific to a
+namespace, and names its character in every one of them.
+"""
+
+for _charName, _aliasData in data.aliases.items():
+    _aliasPairs: list[tuple[LocaleNamespace, str]] = (
+        [(_namespace, _aliasData) for _namespace in namespaces]
+        if isinstance(_aliasData, str)
+        else [*_aliasData.items()]
+    )
+    for _namespace, _alias in _aliasPairs:
+        if _alias is not None:
+            charNameByNamespaceAlias.setdefault((_namespace, _alias), _charName)
 
 
 def namespaceFromLocale(locale: LocaleID) -> LocaleNamespace:
@@ -30,13 +50,8 @@ def getVariants(
 
 
 def getCharNameByAlias(locale: LocaleID, alias: str) -> CharacterName:
-    namespace = namespaceFromLocale(locale)
-    for character, aliasCandidate in data.aliases.items():
-        if isinstance(aliasCandidate, str):
-            if alias == aliasCandidate:
-                return character
-        elif alias == aliasCandidate.get(namespace):
-            return character
+    if character := charNameByNamespaceAlias.get((namespaceFromLocale(locale), alias)):
+        return character
     raise ValueError(f"no alias {alias} found in {locale}")
 
 
