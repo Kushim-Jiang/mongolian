@@ -1,4 +1,4 @@
-import Names from "@unicode/unicode-17.0.0/Names";
+import Names from "@unicode/unicode-18.0.0/Names/index.mjs";
 import type { LocaleID } from "../../data/locales";
 import type { LocaleNamespace } from "../../data/aliases";
 import type { JoiningPosition } from "../../data/misc";
