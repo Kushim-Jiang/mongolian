@@ -2,14 +2,351 @@
 title: Phonology
 ---
 
-The phonetic model, described in the [History](/background/#history), determines the characters of a writing system by a phonemic analysis of the language that the writing system records. The languages recorded by the writing systems treated in this document are four: Tibetan, Sanskrit, Mongolian, and Manchu. Each language is written in one or more of the writing systems, named in parentheses below; for each we list its phonemes, giving the transcription used in this document and, where it differs, the phonetic value.
+The phonetic model ([Background](/background/#the-phonetic-model)) determines the characters of a writing system by a phonemic analysis of the language that the writing system records. This appendix lists the phonemes of the four languages the writing systems of this document record, giving the transcription used in this document, the phonetic value where it differs from the transcription, and the letters that record it in each writing system ([Architecture](/architecture/#phonetic-letters)).
 
-**Mongolian** (in Hudum and Todo). The phonemes of Mongolian consist of native and borrowed phonemes. Its native vowels are _a_, _e_ (/ə/ in Hudum, /e/ in Todo), _i_ (lax /i/, tense /ɪ/), _o_, _u_, _ö_ (/ɵ/), and _ü_ (/ʉ/); its only borrowed vowel is _ë_ (/ɤ/ in Hudum; Todo has no _ë_). Its native consonants are _n_, _ng_, _b_, _p_, _x_ (/x/ before a lax vowel, /χ/ before a tense vowel), _g_ (/ɡ/ before a lax vowel, /q/ before a tense vowel), _m_, _l_, _s_, _š_ (/ʃ/), _t_, _d_, _č_ (/tʃ/), _ǰ_ (/dʒ/), _y_ (/j/), _r_, and _w_. The consonants borrowed into Hudum are _f_, _k_, _c_ (/ts/), _z_ (/dz/), _x’_ (/h/ before a tense vowel), _ž_ (/ɹ/), _lh_ (/ɬ/), _ẑ_ (/dʐ/), and _ĉ_ (/tʂ/); those borrowed into Todo are _f_, _k_, _c_ (/ts/), _z_ (/dz/), _g’_ (/ɡ/ before a tense vowel), _x’_ (/x/ before a tense vowel), _ǰ’_ (in Jangar), and _ñ_ and _z’_ (in Mañjuśri). In Mongolian the tense vowels are /a/, /ɪ/, /o/, and /u/, and the lax vowels are /ə/, /i/, /ɵ/, and /ʉ/.
+<table>
+  <thead>
+    <tr>
+      <td>Language</td>
+      <td>Recorded in</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mongolian</td>
+      <td>[Hudum](/hudum/), [Todo](/todo/)</td>
+    </tr>
+    <tr>
+      <td>Manchu</td>
+      <td>[Sibe](/sibe/), [Manchu](/manchu/)</td>
+    </tr>
+    <tr>
+      <td>Tibetan</td>
+      <td>Tibetan, [Hudum Ali Gali](/hudum-ali-gali/), [Todo Ali Gali](/todo-ali-gali/), [Manchu Ali Gali](/manchu-ali-gali/)</td>
+    </tr>
+    <tr>
+      <td>Sanskrit</td>
+      <td>Tibetan, [Hudum Ali Gali](/hudum-ali-gali/), [Todo Ali Gali](/todo-ali-gali/), [Manchu Ali Gali](/manchu-ali-gali/)</td>
+    </tr>
+  </tbody>
+</table>
 
-**Manchu** (in Sibe and Manchu). The phonemes of Manchu consist of native and borrowed phonemes; the Möllendorff transcription is the most widely used system. Its native vowels are _a_, _e_ (/ə/), _i_, _o_, _u_, and _ū_ (/o̘/ and /ʊ/); its only borrowed vowel is _i’_ (/ɹ̩/). Its native consonants are _n_, _k_ (/k/ before a lax vowel, /q/ before a tense vowel), _g_ (/ɡ/ before a lax vowel, /q/ before a tense vowel), _h_ (/x/ before a lax vowel, /χ/ before a tense vowel), _b_, _p_, _s_, _š_ (/ʃ/), _t_, _d_, _l_, _m_, _č_ (/tʃ/), _ǰ_ (/dʒ/), _y_ (/j/), _r_, _f_, _w_, and _ng_ (/ŋ/). The borrowed consonants are _k’_ (/k/ before a tense vowel), _g’_ (/ɡ/ before a tense vowel), _h’_ (/x/ before a tense vowel), _c_ (/ts/), _z_ (/dz/), _ž_ (/ɹ/), _ẑ_ (/dʐ/), and _ĉ_ (/tʂ/). In Manchu the tense vowels are /a/, (/i/), /o/, and /ʊ/, and the lax vowels are /ə/, /i/, /o̘/, and /u/.
+### Mongolian
 
-**Tibetan** (in Tibetan, Hudum Ali Gali, Manchu Ali Gali, and Todo Ali Gali). The Tibetan recorded in Tibetan script reflects the written phonological system of the ninth century. Its consonants are _ka_ (/k/), _kha_ (/kʰ/), _ga_ (/ɡ/), _nga_ (/ŋ/), _ca_ (/tɕ/), _cha_ (/tɕʰ/), _ja_ (/dʑ/), _nya_ (/ɲ/), _ta_ (/t/), _tha_ (/tʰ/), _da_ (/d/), _na_ (/n/), _pa_ (/p/), _pha_ (/pʰ/), _ba_ (/b/), _ma_ (/m/), _tsa_ (/ts/), _tsha_ (/tsʰ/), _dza_ (/dz/), _wa_ (/w/), _zha_ (/ʑ/), _za_ (/z/), _va_ (/ɦ/), _ya_ (/j/), _ra_ (/r/), _la_ (/l/), _sha_ (/ɕ/), _sa_ (/s/), _ha_ (/h/), and _a_ (/ʔ/). Its vowels are _a_ (/a/), _i_ (/i/), _u_ (/u/), _e_ (/e/), and _o_ (/o/).
+The phonemes of Mongolian consist of native and borrowed phonemes. Its letters are in [Hudum](/hudum/#phonetic-letters) and [Todo](/todo/#phonetic-letters).
 
-When _va_ (/ɦ/) begins a syllable it represents a nasalized onset, as in _vgo_ (_va ga o_; /ŋɡo/), _vju_ (_va ja u_; /ɲdʑu/), _vdi_ (_va da i_; /ndi/), _vbu_ (_va ba u_; /mbu/), and _vdzem_ (_va dza e ma_; /ndzem/); between two vowels its pronunciation is faint or even absent, so that the sequence is readily perceived as a diphthong, as in _ngavi_ (_nga va i_; /ŋai/) and _gavu_ (_ga va u_; /ɡau/). The transcription is intended to be phonemic rather than to mirror the spelling character by character, for example _i_ (_a i_; /ʔi/) and _gyar_ (_ga ya sub a ra_; /ɡjar/), although the draft does not state this principle explicitly.
+<table>
+  <tbody>
+    <tr>
+      <td rowspan="2">native vowels</td>
+      <td> _a_ </td>
+      <td> _e_ (/ə/ in Hudum, /e/ in Todo)</td>
+      <td> _i_ (lax /i/, tense /ɪ/)</td>
+      <td> _o_ </td>
+      <td> _u_ </td>
+    </tr>
+    <tr>
+      <td> _ö_ (/ɵ/)</td>
+      <td> _ü_ (/ʉ/)</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>borrowed vowel</td>
+      <td colspan="5"> _ë_ (/ɤ/, in Hudum; Todo has no _ë_)</td>
+    </tr>
+    <tr>
+      <td rowspan="4">native consonants</td>
+      <td> _n_ </td>
+      <td> _ng_ </td>
+      <td> _b_ </td>
+      <td> _p_ </td>
+      <td> _x_ (/x/ before a lax vowel, /χ/ before a tense vowel)</td>
+    </tr>
+    <tr>
+      <td> _g_ (/ɡ/ before a lax vowel, /q/ before a tense vowel)</td>
+      <td> _m_ </td>
+      <td> _l_ </td>
+      <td> _s_ </td>
+      <td> _š_ (/ʃ/)</td>
+    </tr>
+    <tr>
+      <td> _t_ </td>
+      <td> _d_ </td>
+      <td> _č_ (/tʃ/)</td>
+      <td> _ǰ_ (/dʒ/)</td>
+      <td> _y_ (/j/)</td>
+    </tr>
+    <tr>
+      <td> _r_ </td>
+      <td> _w_ </td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td rowspan="2">borrowed in Hudum</td>
+      <td> _f_ </td>
+      <td> _k_ </td>
+      <td> _c_ (/ts/)</td>
+      <td> _z_ (/dz/)</td>
+      <td> _x’_ (/h/ before a tense vowel)</td>
+    </tr>
+    <tr>
+      <td> _ž_ (/ɹ/)</td>
+      <td> _lh_ (/ɬ/)</td>
+      <td> _ẑ_ (/dʐ/)</td>
+      <td> _ĉ_ (/tʂ/)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td rowspan="2">borrowed in Todo</td>
+      <td> _f_ </td>
+      <td> _k_ </td>
+      <td> _c_ (/ts/)</td>
+      <td> _z_ (/dz/)</td>
+      <td> _g’_ (/ɡ/ before a tense vowel)</td>
+    </tr>
+    <tr>
+      <td> _x’_ (/x/ before a tense vowel)</td>
+      <td> _ǰ’_ (in Jangar)</td>
+      <td> _ñ_ (in Mañjuśri)</td>
+      <td> _z’_ (in Mañjuśri)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>vowel harmony</td>
+      <td colspan="5"> _tense_ /a/, /ɪ/, /o/, /u/; _lax_ /ə/, /i/, /ɵ/, /ʉ/</td>
+    </tr>
+  </tbody>
+</table>
 
-**Sanskrit** (in Tibetan, Hudum Ali Gali, Manchu Ali Gali, and Todo Ali Gali). The Sanskrit materials in China are found chiefly in the Siddham and Lantsa scripts, and the Sanskrit letters follow IAST. Its initials are _ka_, _kha_, _ga_, _gha_, _ṅa_, _ca_, _cha_, _ja_, _jha_, _ña_, _ṭa_, _ṭha_, _ḍa_, _ḍha_, _ṇa_, _ta_, _tha_, _da_, _dha_, _na_, _pa_, _pha_, _ba_, _bha_, _ma_, _ya_, _ra_, _la_, _wa_, _śa_, _ṣa_, _sa_, _ha_, and _kṣa_. Its finals are _a_, _ā_, _i_, _ī_, _u_, _ū_, _ṛ_, _ṝ_, _ḷ_, _ḹ_, _e_, _ai_, _o_, _au_, _aṃ_, and _aḥ_.
+### Manchu
+
+The phonemes of Manchu consist of native and borrowed phonemes. Its letters are in [Sibe](/sibe/#phonetic-letters) and [Manchu](/manchu/#phonetic-letters). The Möllendorff transcription is the most widely used system.
+
+<table>
+  <tbody>
+    <tr>
+      <td rowspan="2">native vowels</td>
+      <td> _a_ </td>
+      <td> _e_ (/ə/)</td>
+      <td> _i_ </td>
+      <td> _o_ </td>
+      <td> _u_ </td>
+    </tr>
+    <tr>
+      <td> _ū_ (/o̘/ and /ʊ/)</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>borrowed vowel</td>
+      <td colspan="5"> _i’_ (/ɹ̩/)</td>
+    </tr>
+    <tr>
+      <td rowspan="4">native consonants</td>
+      <td> _n_ </td>
+      <td> _k_ (/k/ before a lax vowel, /q/ before a tense vowel)</td>
+      <td> _g_ (/ɡ/ before a lax vowel, /q/ before a tense vowel)</td>
+      <td> _h_ (/x/ before a lax vowel, /χ/ before a tense vowel)</td>
+      <td> _b_ </td>
+    </tr>
+    <tr>
+      <td> _p_ </td>
+      <td> _s_ </td>
+      <td> _š_ (/ʃ/)</td>
+      <td> _t_ </td>
+      <td> _d_ </td>
+    </tr>
+    <tr>
+      <td> _l_ </td>
+      <td> _m_ </td>
+      <td> _č_ (/tʃ/)</td>
+      <td> _ǰ_ (/dʒ/)</td>
+      <td> _y_ (/j/)</td>
+    </tr>
+    <tr>
+      <td> _r_ </td>
+      <td> _f_ </td>
+      <td> _w_ </td>
+      <td> _ng_ (/ŋ/)</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td rowspan="2">borrowed consonants</td>
+      <td> _k’_ (/k/ before a tense vowel)</td>
+      <td> _g’_ (/ɡ/ before a tense vowel)</td>
+      <td> _h’_ (/x/ before a tense vowel)</td>
+      <td> _c_ (/ts/)</td>
+      <td> _z_ (/dz/)</td>
+    </tr>
+    <tr>
+      <td> _ž_ (/ɹ/)</td>
+      <td> _ẑ_ (/dʐ/)</td>
+      <td> _ĉ_ (/tʂ/)</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>vowel harmony</td>
+      <td colspan="5"> _tense_ /a/, (/i/), /o/, /ʊ/; _lax_ /ə/, /i/, /o̘/, /u/</td>
+    </tr>
+  </tbody>
+</table>
+
+### Tibetan
+
+The Tibetan recorded in Tibetan script reflects the written phonological system of the ninth century. The letters are in [Hudum Ali Gali](/hudum-ali-gali/#phonetic-letters), [Todo Ali Gali](/todo-ali-gali/#phonetic-letters), and [Manchu Ali Gali](/manchu-ali-gali/#phonetic-letters).
+
+<table>
+  <tbody>
+    <tr>
+      <td rowspan="4">consonants</td>
+      <td> _ka_ (/k/)</td>
+      <td> _kha_ (/kʰ/)</td>
+      <td> _ga_ (/ɡ/)</td>
+      <td> _nga_ (/ŋ/)</td>
+      <td> _ca_ (/tɕ/)</td>
+      <td> _cha_ (/tɕʰ/)</td>
+      <td> _ja_ (/dʑ/)</td>
+      <td> _nya_ (/ɲ/)</td>
+    </tr>
+    <tr>
+      <td> _ta_ (/t/)</td>
+      <td> _tha_ (/tʰ/)</td>
+      <td> _da_ (/d/)</td>
+      <td> _na_ (/n/)</td>
+      <td> _pa_ (/p/)</td>
+      <td> _pha_ (/pʰ/)</td>
+      <td> _ba_ (/b/)</td>
+      <td> _ma_ (/m/)</td>
+    </tr>
+    <tr>
+      <td> _tsa_ (/ts/)</td>
+      <td> _tsha_ (/tsʰ/)</td>
+      <td> _dza_ (/dz/)</td>
+      <td> _wa_ (/w/)</td>
+      <td> _zha_ (/ʑ/)</td>
+      <td> _za_ (/z/)</td>
+      <td> _va_ (/ɦ/)</td>
+      <td> _ya_ (/j/)</td>
+    </tr>
+    <tr>
+      <td> _ra_ (/r/)</td>
+      <td> _la_ (/l/)</td>
+      <td> _sha_ (/ɕ/)</td>
+      <td> _sa_ (/s/)</td>
+      <td> _ha_ (/h/)</td>
+      <td> _a_ (/ʔ/)</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>vowels</td>
+      <td> _a_ (/a/)</td>
+      <td> _i_ (/i/)</td>
+      <td> _u_ (/u/)</td>
+      <td> _e_ (/e/)</td>
+      <td> _o_ (/o/)</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+**The onset _va_**. When _va_ (/ɦ/) begins a syllable it represents a nasalized onset, as in _vgo_ (_va ga o_; /ŋɡo/), _vju_ (_va ja u_; /ɲdʑu/), _vdi_ (_va da i_; /ndi/), _vbu_ (_va ba u_; /mbu/), and _vdzem_ (_va dza e ma_; /ndzem/); between two vowels its pronunciation is faint or even absent, so that the sequence is readily perceived as a diphthong, as in _ngavi_ (_nga va i_; /ŋai/) and _gavu_ (_ga va u_; /ɡau/).
+
+**The transcription**. It is intended to be phonemic rather than to mirror the spelling character by character, for example _i_ (_a i_; /ʔi/) and _gyar_ (_ga ya sub a ra_; /ɡjar/), although the draft does not state this principle explicitly.
+
+### Sanskrit
+
+The Sanskrit materials in China are found chiefly in the Siddham and Lantsa scripts, and the Sanskrit letters follow IAST. The letters are in [Hudum Ali Gali](/hudum-ali-gali/#phonetic-letters), [Todo Ali Gali](/todo-ali-gali/#phonetic-letters), and [Manchu Ali Gali](/manchu-ali-gali/#phonetic-letters).
+
+<table>
+  <tbody>
+    <tr>
+      <td rowspan="7">initials</td>
+      <td> _ka_ </td>
+      <td> _kha_ </td>
+      <td> _ga_ </td>
+      <td> _gha_ </td>
+      <td> _ṅa_ </td>
+    </tr>
+    <tr>
+      <td> _ca_ </td>
+      <td> _cha_ </td>
+      <td> _ja_ </td>
+      <td> _jha_ </td>
+      <td> _ña_ </td>
+    </tr>
+    <tr>
+      <td> _ṭa_ </td>
+      <td> _ṭha_ </td>
+      <td> _ḍa_ </td>
+      <td> _ḍha_ </td>
+      <td> _ṇa_ </td>
+    </tr>
+    <tr>
+      <td> _ta_ </td>
+      <td> _tha_ </td>
+      <td> _da_ </td>
+      <td> _dha_ </td>
+      <td> _na_ </td>
+    </tr>
+    <tr>
+      <td> _pa_ </td>
+      <td> _pha_ </td>
+      <td> _ba_ </td>
+      <td> _bha_ </td>
+      <td> _ma_ </td>
+    </tr>
+    <tr>
+      <td> _ya_ </td>
+      <td> _ra_ </td>
+      <td> _la_ </td>
+      <td> _wa_ </td>
+      <td> _śa_ </td>
+    </tr>
+    <tr>
+      <td> _ṣa_ </td>
+      <td> _sa_ </td>
+      <td> _ha_ </td>
+      <td> _kṣa_ </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td rowspan="4">finals</td>
+      <td> _a_ </td>
+      <td> _ā_ </td>
+      <td> _i_ </td>
+      <td> _ī_ </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> _u_ </td>
+      <td> _ū_ </td>
+      <td> _ṛ_ </td>
+      <td> _ṝ_ </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> _ḷ_ </td>
+      <td> _ḹ_ </td>
+      <td> _e_ </td>
+      <td> _ai_ </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td> _o_ </td>
+      <td> _au_ </td>
+      <td> _aṃ_ </td>
+      <td> _aḥ_ </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>

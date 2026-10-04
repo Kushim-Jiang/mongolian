@@ -8,6 +8,11 @@
 table {
   width: 100%;
   border-collapse: collapse;
+  /* Starlight makes a markdown table a block box, so that a wide table can scroll on its
+     own. These tables are laid out as real tables that fill the pane instead, so that a
+     table looks the same in every chapter. */
+  display: table !important;
+  overflow: visible !important;
 }
 
 .wu {

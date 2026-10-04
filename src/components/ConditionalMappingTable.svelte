@@ -117,10 +117,6 @@
 </table>
 
 <style>
-  :global(table) {
-    display: table !important;
-    overflow: visible !important;
-  }
   td,
   th {
     text-align: center !important;

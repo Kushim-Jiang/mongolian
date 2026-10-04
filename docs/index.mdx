@@ -17,41 +17,23 @@ import { UTN_REVISION } from "astro:env/server";
   )}
 </Aside>
 
-This document specifies how the Mongolian script is encoded and shaped. It treats the writing systems in which the script is written—Hudum, Todo, Sibe, and Manchu, together with their Ali Gali extensions—and for each of them fixes the characters that represent its written units and the layered, sequential steps by which a sequence of characters is shaped into the written units it is rendered with. Those steps are aligned with the Unicode Standard and with China’s national standard GB/T 25914—2023: they take the variant-selection conditions of those standards, which are stated flatly and leave the order of application open, and reorganize them into the order in which a text shaping engine executes them.
+This document specifies how the Mongolian script is encoded and shaped. For each writing system—Hudum, Todo, Sibe, and Manchu, with their Ali Gali extensions—it fixes the characters and the step-by-step shaping rules that turn a sequence of characters into written units, aligned with the Unicode Standard and China’s national standards. It covers the model, the rules of each writing system, the history behind them, and the datasets and toolchain that maintain them.
 
-The repository maintains more than the text of the rules. The rule data are kept as TypeScript files in `data/`—the source of truth for the characters, written units, variants, aliases, ligatures, and particles of every writing system. `mongfontbuilder`, the Python library, reads those data and generates the OpenType Layout rules of a font, so that a minimal glyph set becomes a complete font; it is also the reference implementation of this document. The Glyphs templates in `templates/` carry its output into the type designer’s hands, and the test suite in `mongfontbuilder/tests/` shapes the test cases of the national standards with [HarfBuzz](https://harfbuzz.github.io/) and checks the result against what those standards expect.
-
-Four links lead out of this site; together they run from the standard to the code that implements it.
-
-| Link                                                                   | What it is                                                                                       | How it relates to this document                                                                                          |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| [Project Repo](https://github.com/Kushim-Jiang/mongolian)              | The repository that maintains this document, the data, the library, the templates, and the tests | Everything described here lives in it—the document in `docs/`, the data in `data/`, the library in `mongfontbuilder/`.   |
-| [Data files](https://github.com/Kushim-Jiang/mongolian/blob/main/data) | The rule data themselves, as the TypeScript files in `data/`                                     | They are the source of truth: the tables of this site are rendered from them, and the library reads their exported JSON. |
-| [mongfontbuilder](https://pypi.org/project/mongfontbuilder/)           | The Python library, released on PyPI from that repository                                        | It generates a font’s OpenType Layout rules from the data; it is the reference implementation of this document.          |
-
-Begin with [Introduction](/) and [Architecture](/architecture/) for the model and the history behind it, or with [Toolchain](#toolchain) for the repository that maintains it.
-
-### Content
-
-The UTN will cover the following four sections, as outlined in the background information above.
-
-**A glyph set that is fully aligned with Chinese national standards.** This UTN fully encompasses the characters, variants, and ligatures defined in the various Chinese national standards. It also lists the corresponding FVS assignments for each variant to ensure accurate correspondence with the respective Chinese national standards. To this end, this UTN performs phoneme analysis on all characters and grapheme analysis on all variants. It uses the resulting transcriptions to represent all characters and variants. It then creates datasets of the characters and variants included in various Chinese national standards.
-
-**A layered, phased process that ensures the final result is consistent with Chinese national standards.** UTN is different from national standards. National standards rely on a flattened, expanded BNF notation without process sequencing. UTN reorganizes all variant selection constraints into sequential, hierarchical shaping steps. These steps reflect the runtime execution flow of text shaping. By breaking down a single BNF rule into an actionable, step-by-step workflow, this document reduces the cognitive load on developers and eliminates the rule sequencing issues that previously led to inconsistent rendering outputs across different vendors. This UTN uses test sets developed for the validation of various Chinese national standards. These test sets ensure that the shaping steps defined in this UTN produce final results consistent with the expectations of those standards.
-
-**A retrospective analysis of the historical evolution of Mongolian encoding.** This UTN provides a historical overview of the encoding of the Mongolian script and examines the evolution of national and international standards regarding its encoding. This clearly explains how the Mongolian script provisions and descriptions in the Unicode Standard and ISO/IEC 10646 are historically constrained. This addresses the expectation that these standards would reference this UTN. Developers should refer to this UTN when supporting Mongolian script or any of its writing systems.
-
-**An introduction to the standardized, structured datasets and automated toolchains maintained alongside the UTN version.** This UTN maintains datasets, shaping rules, font templates, test modules, and web pages related to the encoding of the Mongolian script. It also provides clear instructions on how to use these resources for the work.
+- The model—the character and glyph layers, and the two directions between them—is described in [Architecture](/architecture/).
+- Each writing system is specified on its own page: [Hudum](/hudum/), [Todo](/todo/), [Sibe](/sibe/), and [Manchu](/manchu/), together with their Ali Gali extensions ([Hudum Ali Gali](/hudum-ali-gali/), [Todo Ali Gali](/todo-ali-gali/), [Manchu Ali Gali](/manchu-ali-gali/)).
+- The punctuation, digits, and other characters outside the cursive letters are treated in [Non-joining characters](/non-joining-characters/).
+- A font that has to cover the whole Mongolian block is treated in [Single-font implementation](/single-font-implementation/).
+- The history behind this model is recounted in [Background](/background/).
+- The phonemes of each language are listed in [Phonology](/phonology/).
+- The relationship to the Unicode Standard, and the difference from the data it still carries, is stated in [Relationship to the Unicode Standard](/unicode-standard/).
+- Comparisons with other standards and implementations are made in [Comparison](/comparison/).
+- The data, the library, the templates, and the tests are described in [Toolchain](#toolchain).
 
 ### Toolchain
 
-The repository maintains the toolchain that accompanies this document. It is organized in three groups, which correspond to the parts of the model described in [Architecture](/architecture/). Each group is carried by a part of the repository, and each part is documented by its own README.
+The repository maintains this document and the data behind it:
 
-**The specification data and the documentation site** state the model. The TypeScript files in `data/` keep the characters and written units of each writing system as data (see [`data/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/data/README.md)), and the site that is the repository root itself presents them as the tables of the per-writing-system chapters (see [`README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/README.md)).
-
-**The code library, the JSON data, and the tests** realize and verify the model. The `mongfontbuilder` Python library in `mongfontbuilder/` turns a minimal glyph set into a font whose shaping rules are generated from the data, and the test suite it carries checks those rules against the expected output. See [`mongfontbuilder/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/README.md).
-
-**The font templates** in `templates/` are the part of the toolchain that faces the type designer. See [`templates/README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/templates/README.md).
-
-The repository as a whole, and the development environment of each part, is described in [`README.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/README.md) and [`CONTRIBUTING.md`](https://github.com/Kushim-Jiang/mongolian/blob/main/CONTRIBUTING.md).
-
+- The specification data live in [`data/`](https://github.com/Kushim-Jiang/mongolian/tree/main/data), the single source of truth ([README](https://github.com/Kushim-Jiang/mongolian/blob/main/data/README.md)).
+- The library and the tests live in [`mongfontbuilder/`](https://github.com/Kushim-Jiang/mongolian/tree/main/mongfontbuilder), and the package is published to [PyPI](https://pypi.org/project/mongfontbuilder/) ([README](https://github.com/Kushim-Jiang/mongolian/blob/main/mongfontbuilder/README.md)).
+- The Glyphs templates live in [`templates/`](https://github.com/Kushim-Jiang/mongolian/tree/main/templates) ([README](https://github.com/Kushim-Jiang/mongolian/blob/main/templates/README.md)).
+- This documentation is the site built from the pages in [`docs/`](https://github.com/Kushim-Jiang/mongolian/tree/main/docs); the [README](https://github.com/Kushim-Jiang/mongolian/blob/main/README.md) and [CONTRIBUTING](https://github.com/Kushim-Jiang/mongolian/blob/main/CONTRIBUTING.md) describe how to run and contribute to it.
