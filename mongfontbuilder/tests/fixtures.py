@@ -103,9 +103,9 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
 def compileOTF(font: Font) -> TTFont:
     environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"  # For feaLib.builder.Builder
     return OTFCompiler(
+        featureWriters=[],
         useProductionNames=False,
         optimizeCFF=CFFOptimization.NONE,
-        removeOverlaps=True,
     ).compile(font)
 
 
