@@ -10,7 +10,7 @@ authors = [
 ]
 urls.repository = "https://github.com/Kushim-Jiang/mongolian"
 urls.releasenotes = "https://github.com/Kushim-Jiang/mongolian/releases"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "cattrs>=24.1.2",
     "tptq-feacomposer>=1.11.3",
