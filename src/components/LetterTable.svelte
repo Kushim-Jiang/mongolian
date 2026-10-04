@@ -249,11 +249,6 @@
 {/snippet}
 
 <style>
-  td,
-  th {
-    text-align: center !important;
-    vertical-align: middle;
-  }
   td.variant span {
     line-height: 1;
   }

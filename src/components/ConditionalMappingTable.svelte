@@ -117,11 +117,6 @@
 </table>
 
 <style>
-  td,
-  th {
-    text-align: center !important;
-    vertical-align: middle;
-  }
   td.variant span,
   td.default span {
     line-height: 1;

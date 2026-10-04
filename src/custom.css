@@ -1,3 +1,10 @@
+:root {
+  /* The helper glyphs: the written unit another shape is helped by is blue, and the
+     contextual one that only joins is grey. Both colours are declared here alone. */
+  --helper-blue: hsl(210 80% 58% / 0.55);
+  --helper-gray: hsl(210 2% 55% / 0.65);
+}
+
 @font-face {
   font-family: "WrittenUnits";
   src: url("/writtenunits-Regular.ttf");
@@ -23,15 +30,15 @@ table {
 }
 
 .wu-context {
-  color: hsl(210 80% 58% / 0.55);
+  color: var(--helper-blue);
 }
 
 .lig-blue {
-  color: hsl(210 80% 58% / 0.55);
+  color: var(--helper-blue);
 }
 
 .lig-gray {
-  color: hsl(210 2% 55% / 0.65);
+  color: var(--helper-gray);
 }
 
 .locale-label {
@@ -46,6 +53,8 @@ th,
 td {
   border: 1px solid var(--sl-color-gray-5) !important;
   padding: 0.25rem 0.5rem !important;
+  text-align: center !important;
+  vertical-align: middle;
 }
 
 table.punc th,
@@ -75,7 +84,7 @@ table.punc td:nth-child(3) {
   }
 }
 
-/* ── Sidebar toggle ── */
+/* ── Sidebar ── */
 
 .sidebar-pane {
   overflow: hidden;
@@ -84,49 +93,6 @@ table.punc td:nth-child(3) {
 
 .main-frame {
   transition: padding-inline-start 0.3s ease;
-}
-
-.sidebar-toggle {
-  position: fixed;
-  z-index: var(--sl-z-index-menu);
-  inset-block-start: 50%;
-  transform: translate(calc(var(--sl-sidebar-width) - 50%), -50%);
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1px solid var(--sl-color-hairline-shade);
-  border-radius: 50%;
-  background: var(--sl-color-bg);
-  color: var(--sl-color-text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  line-height: 1;
-  padding: 0;
-  transition: transform 0.3s ease;
-  opacity: 0.6;
-}
-
-.sidebar-toggle:hover {
-  opacity: 1;
-}
-
-[data-sidebar-collapsed] .sidebar-toggle {
-  transform: translate(0, -50%);
-}
-
-@media (min-width: 50rem) {
-  [data-sidebar-collapsed] .main-frame {
-    --sl-content-inline-start: 0 !important;
-  }
-}
-
-@media (min-width: 50rem) {
-  [data-sidebar-collapsed] .sidebar-pane {
-    transform: translateX(-100%) !important;
-    border-inline-end: none !important;
-  }
 }
 
 /* ── Remove right sidebar completely ── */
@@ -146,40 +112,6 @@ starlight-toc,
 [data-has-toc] .main-pane {
   --sl-content-margin-inline: auto !important;
   width: 100% !important;
-}
-
-.toc-under-page {
-  padding: 0 0 0.25rem 0;
-}
-
-.toc-under-page li {
-  list-style: none;
-}
-
-.toc-under-page a {
-  display: block;
-  padding: 0.25rem var(--sl-sidebar-pad-x);
-  padding-inline-start: calc(var(--sl-sidebar-pad-x) + 1.5rem);
-  font-size: var(--sl-text-xs);
-  color: var(--sl-color-gray-3);
-  text-decoration: none;
-  border-inline-end: 2px solid transparent;
-  line-height: 1.4;
-}
-
-.toc-under-page a:hover {
-  color: var(--sl-color-white);
-}
-
-.toc-under-page a[aria-current="true"] {
-  color: var(--sl-color-accent);
-  border-inline-end-color: var(--sl-color-accent);
-}
-
-@media (max-width: 50rem) {
-  .sidebar-toggle {
-    display: none;
-  }
 }
 
 /* ── Links ── */
@@ -324,33 +256,6 @@ a {
 
   .starlight-aside--note .starlight-aside__title {
     color: #24479e;
-  }
-
-  .starlight-aside--tip {
-    background-color: #f4eefd;
-    border-inline-start-color: #8250df;
-  }
-
-  .starlight-aside--tip .starlight-aside__title {
-    color: #6639b5;
-  }
-
-  .starlight-aside--caution {
-    background-color: #fdf4e7;
-    border-inline-start-color: #d1791f;
-  }
-
-  .starlight-aside--caution .starlight-aside__title {
-    color: #a25a15;
-  }
-
-  .starlight-aside--danger {
-    background-color: #fdedec;
-    border-inline-start-color: #d13438;
-  }
-
-  .starlight-aside--danger .starlight-aside__title {
-    color: #a3272a;
   }
 
   /* ── The merged single document ── */

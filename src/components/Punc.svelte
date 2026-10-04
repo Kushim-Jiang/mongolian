@@ -30,13 +30,13 @@
   }
 
   .wu-gray {
-    color: hsl(210 2% 55% / 0.65);
+    color: var(--helper-gray);
   }
 
   .wu-box {
     display: inline-block;
     white-space: pre;
-    border: 2px solid hsl(210 80% 58% / 0.55);
+    border: 2px solid var(--helper-blue);
     margin: 0 1px;
     transform: translateY(-1px);
   }

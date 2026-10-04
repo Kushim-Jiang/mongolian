@@ -14,7 +14,7 @@
   import { writtenUnits } from "../../data/writtenUnits";
   import { aliases } from "../../data/aliases";
   import LetterVariant from "./LetterVariant.svelte";
-  import { localeNS, mapGetOrCreate, isVariantRef, niText } from "./utils";
+  import { localeNS, mapGetOrCreate, isVariantRef, niText, unitPosition } from "./utils";
 
   const localesToShow = $derived(Array.isArray(locale) ? locale : [locale]);
   /** A unified table merges the writing systems, so each shape is labelled with them. */
@@ -36,7 +36,7 @@
             if (isVariantRef(written)) continue;
             for (const [index, unit] of (written as WrittenUnitID[]).entries()) {
               const positionToLetters = mapGetOrCreate(map, unit, () => new Map<JoiningPosition, Map<LocaleID, Set<string>>>());
-              const up: JoiningPosition = written.length === 1 ? (position as JoiningPosition) : ["isol", "init"].includes(position) && index === 0 ? "init" : ["isol", "fina"].includes(position) && index === written.length - 1 ? "fina" : "medi";
+              const up = unitPosition(position as JoiningPosition, index, written.length);
               const localeToLetters = mapGetOrCreate(positionToLetters, up, () => new Map<LocaleID, Set<string>>());
               mapGetOrCreate(localeToLetters, currentLocale, () => new Set()).add(alias);
             }
@@ -273,11 +273,6 @@
 </table>
 
 <style>
-  td,
-  th {
-    text-align: center !important;
-    vertical-align: middle;
-  }
   td.variant {
     vertical-align: top;
   }
@@ -285,9 +280,6 @@
     vertical-align: middle;
     font-size: 40px;
     line-height: 1;
-  }
-  .lig-blue {
-    color: hsl(210 80% 58% / 0.55);
   }
   td.undefined {
     background-color: whitesmoke;

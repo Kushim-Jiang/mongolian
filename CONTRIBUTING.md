@@ -71,4 +71,4 @@ Images can be added to [src/](src/) and embedded in Markdown using relative link
 Each project is checked by the tooling it carries, and the [`.vscode/`](.vscode) settings have the editors report the problems of the whole workspace rather than of the files that happen to be open:
 
 - the Python, package and scripts alike: `uv run ruff check .` and `uv run pyright`, both configured in [`pyproject.toml`](pyproject.toml);
-- the documentation site: `npm run check` (`astro check`) for the TypeScript and `.astro` files, and `svelte-check` for the components.
+- the documentation site: `npm run check` (`astro check`) for the TypeScript and `.astro` files.

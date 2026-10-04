@@ -2,7 +2,7 @@ import Names from "@unicode/unicode-18.0.0/Names/index.mjs";
 import type { LocaleID } from "../../data/locales";
 import type { LocaleNamespace } from "../../data/aliases";
 import type { JoiningPosition } from "../../data/misc";
-import type { FVS, VariantData } from "../../data/variants";
+import type { FVS } from "../../data/variants";
 import type { WrittenUnitID } from "../../data/writtenUnits";
 import { joiningPositions } from "../../data/misc";
 import { locales } from "../../data/locales";
@@ -48,16 +48,6 @@ export function isVariantRef(
   w: unknown,
 ): w is [JoiningPosition, FVS, LocaleID?] {
   return Array.isArray(w) && joiningPositions.includes(w[0] as JoiningPosition);
-}
-
-export function getWritten(
-  variant: VariantData,
-  loc: LocaleID,
-): WrittenUnitID[] | undefined {
-  const w = variant.locales[loc]?.written ?? variant.written;
-  if (!w) return undefined;
-  if (isVariantRef(w)) return undefined;
-  return w as WrittenUnitID[];
 }
 
 export function resolveRef(

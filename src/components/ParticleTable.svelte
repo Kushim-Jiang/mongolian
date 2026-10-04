@@ -109,11 +109,6 @@
 </table>
 
 <style>
-  td,
-  th {
-    text-align: center !important;
-    vertical-align: middle;
-  }
   td.shape .wu {
     line-height: 1;
     white-space: nowrap;
