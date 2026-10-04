@@ -1,13 +1,10 @@
 """
-uv run python -m mongfontbuilder input_ufo output [--locales ...]
+uv run python -m mongfontbuilder input output --locales LOCALE [LOCALE ...]
 """
 
 from argparse import ArgumentParser
-from os import environ
 from pathlib import Path
 
-from ufo2ft import OTFCompiler
-from ufo2ft.constants import CFFOptimization
 from ufoLib2 import Font
 
 from . import data
@@ -24,7 +21,7 @@ parser.add_argument(
 parser.add_argument(
     "output",
     type=Path,
-    help="path to write constructed font to (.ufo or .otf)",
+    help="path to write constructed UFO font to",
 )
 parser.add_argument(
     "--locales",
@@ -53,19 +50,4 @@ applySpecToFont(spec, font)
 font.features.text = c.asFeatureFile().asFea()
 
 output.parent.mkdir(parents=True, exist_ok=True)
-
-suffix = output.suffix.lower()
-if suffix == ".ufo":
-    font.save(output, overwrite=True)
-elif suffix == ".otf":
-    environ["FONTTOOLS_LOOKUP_DEBUGGING"] = "1"
-    OTFCompiler(
-        useProductionNames=False,
-        optimizeCFF=CFFOptimization.NONE,
-        removeOverlaps=True,
-        featureWriters=[],
-    ).compile(font).save(output)
-    print(f"Generated: {output}")
-else:
-    msg = f"unsupported output format: {suffix} (use .ufo or .otf)"
-    raise ValueError(msg)
+font.save(output, overwrite=True)
