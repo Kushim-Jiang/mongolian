@@ -20,10 +20,12 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import cast
 
 import uharfbuzz as hb
 from fontTools.ttLib import TTFont
 
+from mongfontbuilder.data.types import LocaleID
 from unified import LANGUAGE, composedOTF
 from utils import loadHBFont, parseAliases, parseLetter, parseWrittenUnits
 
@@ -45,7 +47,7 @@ def lookupNames(path: Path) -> dict[int, str]:
     return names
 
 
-def trace(case: str, system: str) -> None:
+def trace(case: str, system: LocaleID) -> None:
     """Shape *case* in *system*, naming every lookup that changes the glyphs."""
 
     font = loadHBFont(composedOTF)
@@ -101,7 +103,7 @@ def main() -> None:
         raise SystemExit(f"unknown writing system {system!r}; one of {', '.join(LANGUAGE)}")
     if not composedOTF.exists():
         raise SystemExit(f"{composedOTF} is missing; run `uv run pytest tests/test_unified.py -s`")
-    trace(sys.argv[1], system)
+    trace(sys.argv[1], cast(LocaleID, system))
 
 
 if __name__ == "__main__":
