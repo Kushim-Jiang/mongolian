@@ -12,7 +12,10 @@ targeted = sys.platform == "darwin"
 fontPath = tempDir / "HudumTemplate-Regular.otf"
 
 if targeted and not fontPath.exists():
-    run(["uv", "run", "glyphs", "export", "--output", tempDir, repo / "templates" / "hudum.glyphs"])
+    run(
+        ["uv", "run", "glyphs", "export", "--output", tempDir, repo / "templates" / "hudum.glyphs"],
+        check=True,
+    )
 
 testCases = loadRawTestCases({"eac": ["MNG"], "core": ["MNG"]}, "MNG") if fontPath.exists() else []
 

@@ -12,6 +12,8 @@ from collections import Counter
 from pathlib import Path
 
 import pytest
+from fontTools.ttLib import TTFont
+from ufoLib2 import Font
 
 from mongfontbuilder.data.types import LocaleID
 
@@ -38,8 +40,15 @@ def unifiedFont() -> Path:
 
 
 def test_unified(unifiedFont: Path) -> None:
-    assert composedUFO.exists()
-    assert unifiedFont.exists()
+    """The build is a font at both ends of it: the UFO composes glyphs and the OTF is compiled.
+
+    The fixture answers with the two paths whether it composed the font or found it, so what
+    is asserted here is not that they exist but that they open and carry what the cases
+    shape through.
+    """
+
+    assert Font.open(composedUFO).keys()
+    assert "GSUB" in TTFont(unifiedFont)
 
 
 # The cases of the suites, and how far a run of them has come. There are thousands of

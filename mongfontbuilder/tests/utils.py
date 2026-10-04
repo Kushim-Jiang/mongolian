@@ -9,7 +9,8 @@ import uharfbuzz
 from fontTools import unicodedata
 
 from mongfontbuilder.data import LocaleID, aliases
-from mongfontbuilder.testSuites import glyphNameMapping, testSuitesDir
+from mongfontbuilder.testSuites import glyphNameMapping
+from mongfontbuilder.testSuites import testSuitesDir as testSuitesDir  # re-exported for fixtures
 from mongfontbuilder.utils import getCharNameByAlias, namespaceFromLocale
 
 testsDir = Path(__file__).parent
@@ -36,7 +37,9 @@ def sourceStamp(*paths: Path, extra: str = "") -> str:
         digest.update(path.as_posix().encode())
         files = sorted(path.rglob("*"), key=lambda i: i.as_posix()) if path.is_dir() else [path]
         for file in files:
-            if file.is_file():
+            # The bytecode Python writes beside the sources is not part of a build, and
+            # walking it would make the digest depend on which interpreters have run.
+            if file.is_file() and "__pycache__" not in file.parts:
                 digest.update(file.relative_to(path).as_posix().encode() if path.is_dir() else b"")
                 digest.update(file.read_bytes())
     return digest.hexdigest()
@@ -87,12 +90,6 @@ class UTNGlyphName(str):
             self.uniName = None
             written_units_part, self.joiningPosition = parts
         self.writtenUnits = re.findall("[A-Z][a-z0-9]*", written_units_part)
-
-    def codePoint(self) -> int | None:
-        if self.uniName:
-            return int(self.uniName.removeprefix("uni"), 16)
-        else:
-            return None
 
 
 def getWrittenUnits(utnName: UTNGlyphName) -> str:

@@ -19,7 +19,7 @@ compose it::
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from unified import CASES, LANGUAGE, caseIsXfail, caseValues, composedOTF, languageOf
 from utils import parseAliases, parseLetter, parseWrittenUnits, tempDir

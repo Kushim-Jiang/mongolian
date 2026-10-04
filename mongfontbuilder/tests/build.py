@@ -38,7 +38,12 @@ NAMES = ["unified", *LOCALES]
 
 
 def build(name: str) -> Path:
-    """Build the font *name*, replacing what is in ``temp/``, and answer its path."""
+    """Build the font *name* and answer its path.
+
+    Every font but the unified one has what is in ``temp/`` taken out of the way first, so
+    that the build is a real one; the unified font is the one `buildUnifiedFont` builds,
+    and that answers with the font it finds while the sources it is made of are unchanged.
+    """
 
     if name == "unified":
         return buildUnifiedFont()

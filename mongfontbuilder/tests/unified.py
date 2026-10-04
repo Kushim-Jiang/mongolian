@@ -576,7 +576,7 @@ class UnifiedMongFeaComposer(MongFeaComposer):
         for name in sorted(self.lvsWrittenFormNames()):
             if name in self.glyphs or name in forms or name in self.spec.newGlyphs:
                 continue  # the font draws this written form; it is kept as it is
-            if members := self.lvsFormMembers(name, forms):
+            if members := self.lvsFormMembers(name):
                 forms[name] = members
         return forms
 
@@ -617,7 +617,7 @@ class UnifiedMongFeaComposer(MongFeaComposer):
                 written = GlyphDescriptor.fromData(charName, position, variant)
                 yield str(GlyphDescriptor([], [*written.units, "Lv"], written.position))
 
-    def lvsFormMembers(self, name: str, forms: dict[str, list[str]]) -> list[str]:
+    def lvsFormMembers(self, name: str) -> list[str]:
         """The drawings a written form of the sign is drawn from.
 
         The written form of the sign is drawn as the written form of the letter followed by
@@ -683,7 +683,7 @@ def composeUnified(locales: list[LocaleID] | None = None) -> Font:
     # lookup is written here rather than during the composition.
     composer.markAnchors(font)
     composer.verticalProportions(font)
-    markGeneratedGlyphs(font, composer, spec, sourceNames)
+    markGeneratedGlyphs(font, spec, sourceNames)
     font.features.text = composer.asFeatureFile().asFea()
     return font
 
@@ -728,7 +728,6 @@ COMPOSED_MARK_COLOR = "0.45,0.45,0.45,1"  # dark grey
 
 def markGeneratedGlyphs(
     font: Font,
-    composer: UnifiedMongFeaComposer,
     spec: FontSpec,
     sourceNames: frozenset[str],
 ) -> None:

@@ -26,7 +26,7 @@ import uharfbuzz as hb
 from fontTools.ttLib import TTFont
 
 from mongfontbuilder.data.types import LocaleID
-from unified import LANGUAGE, composedOTF
+from unified import LANGUAGE, composedOTF, languageOf
 from utils import loadHBFont, parseAliases, parseLetter, parseWrittenUnits
 
 
@@ -53,7 +53,7 @@ def trace(case: str, system: LocaleID) -> None:
     font = loadHBFont(composedOTF)
     names = lookupNames(composedOTF)
     tag = LANGUAGE[system]
-    language = hb.ot_tag_to_language(tag)  # type: ignore
+    language = languageOf(tag)
 
     parsed = parseLetter(case, system)
     buffer = hb.Buffer()  # type: ignore
