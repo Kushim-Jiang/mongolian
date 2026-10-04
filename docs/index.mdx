@@ -3,10 +3,10 @@ title: Introduction
 ---
 
 import { Aside } from "@astrojs/starlight/components";
-import { UTN } from "astro:env/server";
+import { UTN_REVISION } from "astro:env/server";
 
 <Aside type="note">
-  {UTN ? (
+  {UTN_REVISION ? (
     <>
       This is an archive. For the latest version, see <a href="https://mongolian.kushim.workers.dev">https://mongolian.kushim.workers.dev</a>.
     </>
