@@ -514,18 +514,8 @@ lookup MNG.reset {
     sub @MNG-cr.fina by u1842.Cr.init._fina;
 } MNG.reset;
 
-feature ccmp {
-    script mong;
-    language dflt;
-    lookup Ia.nnbsp.preprocessing {
-        lookupflag 0;
-        sub nnbsp by mvs;
-    } Ia.nnbsp.preprocessing;
-
-} ccmp;
-
 feature isol {
-    script mong;
+    script DFLT;
     language dflt;
     lookup IIa.isol {
         lookupflag 0;
@@ -568,8 +558,14 @@ feature isol {
 
 } isol;
 
-feature init {
+feature isol {
     script mong;
+    language dflt;
+    lookup IIa.isol;
+} isol;
+
+feature init {
+    script DFLT;
     language dflt;
     lookup IIa.init {
         lookupflag 0;
@@ -612,8 +608,14 @@ feature init {
 
 } init;
 
-feature medi {
+feature init {
     script mong;
+    language dflt;
+    lookup IIa.init;
+} init;
+
+feature medi {
+    script DFLT;
     language dflt;
     lookup IIa.medi {
         lookupflag 0;
@@ -656,8 +658,14 @@ feature medi {
 
 } medi;
 
-feature fina {
+feature medi {
     script mong;
+    language dflt;
+    lookup IIa.medi;
+} medi;
+
+feature fina {
+    script DFLT;
     language dflt;
     lookup IIa.fina {
         lookupflag 0;
@@ -700,8 +708,14 @@ feature fina {
 
 } fina;
 
-feature rclt {
+feature fina {
     script mong;
+    language dflt;
+    lookup IIa.fina;
+} fina;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.controls.preprocessing {
         lookupflag 0;
@@ -713,6 +727,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.controls.preprocessing;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.mvs.preserving.A {
         lookupflag 0;
         sub mvs by mvs.wide mvs.wide;
@@ -723,6 +743,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.mvs.preserving.A;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.mvs.preserving.B {
         lookupflag 0;
         sub mvs.wide mvs.wide by mvs;
@@ -732,6 +758,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.mvs.preserving.B;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.A {
         lookupflag 0;
@@ -747,6 +779,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.A;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.B {
         lookupflag UseMarkFilteringSet [marker.masculine];
@@ -812,6 +850,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.B;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.C {
         lookupflag 0;
@@ -909,6 +953,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.C;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.preprocessing.D {
         lookupflag 0;
         sub u1821.A.init by u1821.A.init marker.feminine;
@@ -925,6 +975,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.D;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.E {
         lookupflag UseMarkFilteringSet [marker.feminine];
@@ -990,6 +1046,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.E;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.F {
         lookupflag 0;
@@ -1089,6 +1151,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.F;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.G {
         lookupflag IgnoreMarks;
@@ -1204,24 +1272,33 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.G;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.preprocessing.H {
         lookupflag IgnoreMarks;
         sub u1820.A.medi marker.masculine.false' by marker.masculine.true;
         sub u1820.A.fina marker.masculine.false' by marker.masculine.true;
-        sub u1820.AA.isol marker.masculine.false' by marker.masculine.true;
         sub u1823.O.medi marker.masculine.false' by marker.masculine.true;
         sub u1823.U.fina marker.masculine.false' by marker.masculine.true;
-        sub u1823.AO.isol marker.masculine.false' by marker.masculine.true;
         sub u1824.O.medi marker.masculine.false' by marker.masculine.true;
         sub u1824.U.fina marker.masculine.false' by marker.masculine.true;
-        sub u1824.AO.isol marker.masculine.false' by marker.masculine.true;
     } III.ig.preprocessing.H;
 
 } rclt;
 
-@MNG-any_between_markers = [u1820.AA.init u1820.A.medi u1820.A.fina u1820.AA.isol u1823.AO.init u1823.O.medi u1823.U.fina u1823.AO.isol u1824.AO.init u1824.O.medi u1824.U.fina u1824.AO.isol u1822.AI.init u1822.I.medi u1822.I.fina u1822.AI.isol u1828.N.init u1828.A.medi u1828.A.fina u1828.N.init._isol u1829.AG.medi._init u1829.AG.medi u1829.AG.fina u1829.AG.medi._isol u182A.B.init u182A.B.medi u182A.B.fina u182A.B.init._isol u182B.P.init u182B.P.medi u182B.P.fina u182B.P.init._isol u182C.H.init u182C.G.medi u182C.H.fina u182C.H.init._isol u182D.Hx.init u182D.G.medi u182D.G.fina u182D.Hx.init._isol u182E.M.init u182E.M.medi u182E.M.fina u182E.M.init._isol u182F.L.init u182F.L.medi u182F.L.fina u182F.L.init._isol u1830.S.init u1830.S.medi u1830.S.fina u1830.S.init._isol u1831.Sh.init u1831.Sh.medi u1831.Sh.fina u1831.Sh.init._isol u1832.T.init u1832.D.medi u1832.T.fina u1832.T.init._isol u1833.T.init u1833.Dd.medi u1833.Dd.fina u1833.D.init._isol u1834.Ch.init u1834.Ch.medi u1834.Ch.fina u1834.Ch.init._isol u1835.I.init u1835.J.medi u1835.J.fina u1835.I.init._isol u1836.Y.init u1836.Y.medi u1836.I.fina u1836.Y.init._isol u1837.R.init u1837.R.medi u1837.R.fina u1837.R.init._isol u1838.W.init u1838.W.medi u1838.W.fina u1838.W.init._isol u1839.F.init u1839.F.medi u1839.F.fina u1839.F.init._isol u183A.K2.init u183A.K2.medi u183A.K2.fina u183A.K2.init._isol u183B.K.init u183B.K.medi u183B.K.fina u183B.K.init._isol u183C.C.init u183C.C.medi u183C.C.fina u183C.C.init._isol u183D.Z.init u183D.Z.medi u183D.Z.fina u183D.Z.init._isol u183E.AHr.init u183E.Hr.medi u183E.Hr.fina u183E.AHr.init._isol u183F.Rh.init u183F.Rh.medi u183F.Rh.fina u183F.Rh.init._isol u1840.LHr.init u1840.LHr.medi u1840.LHr.medi._fina u1840.LHr.init._isol u1841.Zr.init u1841.Zr.init._medi u1841.Zr.init._fina u1841.Zr.init._isol u1842.Cr.init u1842.Cr.init._medi u1842.Cr.init._fina u1842.Cr.init._isol marker.masculine.false marker.masculine.true marker.masculine marker.feminine @mvs];
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.H;
+} rclt;
+
+@MNG-any_between_markers = [u1820.AA.init u1820.A.medi u1820.A.fina u1820.AA.isol u1823.AO.init u1823.O.medi u1823.U.fina u1823.AO.isol u1824.AO.init u1824.O.medi u1824.U.fina u1824.AO.isol u1822.AI.init u1822.I.medi u1822.I.fina u1822.AI.isol u1828.N.init u1828.A.medi u1828.A.fina u1828.N.init._isol u1829.AG.medi._init u1829.AG.medi u1829.AG.fina u1829.AG.medi._isol u182A.B.init u182A.B.medi u182A.B.fina u182A.B.init._isol u182B.P.init u182B.P.medi u182B.P.fina u182B.P.init._isol u182C.H.init u182C.G.medi u182C.H.fina u182C.H.init._isol u182D.Hx.init u182D.G.medi u182D.G.fina u182D.Hx.init._isol u182E.M.init u182E.M.medi u182E.M.fina u182E.M.init._isol u182F.L.init u182F.L.medi u182F.L.fina u182F.L.init._isol u1830.S.init u1830.S.medi u1830.S.fina u1830.S.init._isol u1831.Sh.init u1831.Sh.medi u1831.Sh.fina u1831.Sh.init._isol u1832.T.init u1832.D.medi u1832.T.fina u1832.T.init._isol u1833.T.init u1833.Dd.medi u1833.Dd.fina u1833.D.init._isol u1834.Ch.init u1834.Ch.medi u1834.Ch.fina u1834.Ch.init._isol u1835.I.init u1835.J.medi u1835.J.fina u1835.I.init._isol u1836.Y.init u1836.Y.medi u1836.I.fina u1836.Y.init._isol u1837.R.init u1837.R.medi u1837.R.fina u1837.R.init._isol u1838.W.init u1838.W.medi u1838.W.fina u1838.W.init._isol u1839.F.init u1839.F.medi u1839.F.fina u1839.F.init._isol u183A.K2.init u183A.K2.medi u183A.K2.fina u183A.K2.init._isol u183B.K.init u183B.K.medi u183B.K.fina u183B.K.init._isol u183C.C.init u183C.C.medi u183C.C.fina u183C.C.init._isol u183D.Z.init u183D.Z.medi u183D.Z.fina u183D.Z.init._isol u183E.AHr.init u183E.Hr.medi u183E.Hr.fina u183E.AHr.init._isol u183F.Rh.init u183F.Rh.medi u183F.Rh.fina u183F.Rh.init._isol u1840.LHr.init u1840.LHr.medi u1840.LHr.medi._fina u1840.LHr.init._isol u1841.Zr.init u1841.Zr.init._medi u1841.Zr.init._fina u1841.Zr.init._isol u1842.Cr.init u1842.Cr.init._medi u1842.Cr.init._fina u1842.Cr.init._isol marker.masculine.false marker.masculine.true marker.masculine marker.feminine @mvs];
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.I.A {
         lookupflag IgnoreMarks;
@@ -1236,6 +1313,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.I.A;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.preprocessing.I.B {
         lookupflag IgnoreMarks;
         rsub marker.masculine.false' @MNG-any_between_markers marker.masculine.true by marker.masculine.true;
@@ -1246,6 +1329,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.I.B;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.J {
         lookupflag 0;
@@ -1361,6 +1450,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.J;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.preprocessing.K {
         lookupflag 0;
         sub u182D.Hx.init marker.masculine.true' by marker.masculine;
@@ -1372,6 +1467,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.ig.preprocessing.K;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.preprocessing.L {
         lookupflag 0;
@@ -1484,6 +1585,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.L;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.preprocessing.M {
         lookupflag 0;
         sub marker.masculine marker.masculine by marker.masculine;
@@ -1495,6 +1602,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.preprocessing.M;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.a_e.chachlag {
         lookupflag IgnoreMarks;
         sub @mvs' lookup _.narrow [@MNG-a.isol @MNG-e.isol]' lookup MNG.chachlag;
@@ -1504,6 +1617,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.a_e.chachlag;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.a_e.chachlag.GB {
         lookupflag UseMarkFilteringSet @fvs;
@@ -1515,6 +1634,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.a_e.chachlag.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.o_u_oe_ue.marked {
         lookupflag IgnoreMarks;
         sub @MNG-consonant.init [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
@@ -1524,6 +1649,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.o_u_oe_ue.marked;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.o_u_oe_ue.marked.emit {
         lookupflag IgnoreMarks;
@@ -1560,6 +1691,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.o_u_oe_ue.marked.emit;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.o_u_oe_ue.marked.propagate {
         lookupflag UseMarkFilteringSet [marker.initial];
@@ -1624,6 +1761,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.o_u_oe_ue.marked.propagate;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.o_u_oe_ue.marked.mark_vowel {
         lookupflag UseMarkFilteringSet [marker.initial];
         sub marker.initial [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
@@ -1633,6 +1776,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.o_u_oe_ue.marked.mark_vowel;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.o_u_oe_ue.marked.cleanup {
         lookupflag 0;
@@ -1724,6 +1873,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.o_u_oe_ue.marked.cleanup;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.o_u_oe_ue.marked.GB.A {
         lookupflag UseMarkFilteringSet @fvs;
         sub [@MNG-o.medi @MNG-o.fina @MNG-u.medi @MNG-u.fina @MNG-oe.medi @MNG-oe.fina @MNG-ue.medi @MNG-ue.fina]' lookup MNG.reset @fvs;
@@ -1735,6 +1890,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.o_u_oe_ue.marked.GB.A;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.o_u_oe_ue.marked.GB.B {
         lookupflag UseMarkFilteringSet @fvs;
         sub [@MNG-g.init @MNG-h.init] [@fvs2 @fvs4] [@MNG-oe.fina @MNG-ue.fina]' lookup MNG.marked;
@@ -1745,6 +1906,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.o_u_oe_ue.marked.GB.B;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.d.marked {
         lookupflag IgnoreMarks;
         sub @MNG-d.init' lookup MNG.marked @MNG-vowel.fina;
@@ -1754,6 +1921,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.d.marked;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.d.marked.GB {
         lookupflag UseMarkFilteringSet @fvs;
@@ -1766,6 +1939,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.d.marked.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.n_j_w_h_g_a.chachlag_onset.MNG_MNGx {
         lookupflag IgnoreMarks;
         sub [@MNG-n.fina @MNG-j.isol @MNG-j.fina @MNG-w.fina]' lookup MNG.chachlag_onset @mvs.valid [u1820.Aa.isol u1821.Aa.isol];
@@ -1777,6 +1956,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.n_j_w_h_g_a.chachlag_onset.MNG_MNGx;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.g.chachlag_onset.MNG.GB {
         lookupflag IgnoreMarks;
         sub @MNG-g.fina' lookup MNG.chachlag_onset_gb @mvs.valid u1821.Aa.isol;
@@ -1786,6 +1971,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.g.chachlag_onset.MNG.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.n.onset_and_devsger.MNG_TOD_SIB_MCH_MCHx {
         lookupflag IgnoreMarks;
@@ -1798,6 +1989,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.n.onset_and_devsger.MNG_TOD_SIB_MCH_MCHx;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.t_d.onset_and_devsger_and_gender.MNG_MCH_MCHx {
         lookupflag IgnoreMarks;
         ignore sub [@MNG-t.init @MNG-d.init]' @MNG-vowel.fina;
@@ -1809,6 +2006,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.t_d.onset_and_devsger_and_gender.MNG_MCH_MCHx;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.k_g_h.onset_and_devsger_and_gender.MNG_TOD_SIB_MCH {
         lookupflag IgnoreMarks;
@@ -1823,6 +2026,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.k_g_h.onset_and_devsger_and_gender.MNG_TOD_SIB_MCH;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.g_h.onset_and_devsger_and_gender.A.MNG {
         lookupflag UseMarkFilteringSet [marker.masculine];
@@ -1839,6 +2048,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.g_h.onset_and_devsger_and_gender.A.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.g_h.onset_and_devsger_and_gender.B.MNG {
         lookupflag IgnoreMarks;
         sub [@MNG-h.init @MNG-g.init]' lookup MNG.feminine @MNG-consonant;
@@ -1848,6 +2063,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.g_h.onset_and_devsger_and_gender.B.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.ig.post_processing.A.MNG {
         lookupflag UseMarkFilteringSet [marker.masculine];
@@ -1879,6 +2100,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.post_processing.A.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.ig.post_processing.B.MNG {
         lookupflag UseMarkFilteringSet [marker.feminine];
         sub u182C.Hx.init marker.feminine by u182C.Hx.init;
@@ -1909,6 +2136,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.ig.post_processing.B.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.t_sh_g.MNG.GB {
         lookupflag IgnoreMarks;
         sub @MNG-t' lookup MNG.devsger [@MNG-ee @MNG-consonant];
@@ -1923,43 +2156,49 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.t_sh_g.MNG.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.particle.MNG {
         lookupflag UseMarkFilteringSet @fvs;
-        ignore sub @MNG-u.init' @MNG-u.fina @fvs;
+        ignore sub @MNG-u.init' @MNG-u.fina' @fvs;
         sub @MNG-u.init' lookup MNG.particle @MNG-u.fina;
-        ignore sub @MNG-ue.init' @MNG-ue.fina @fvs;
+        ignore sub @MNG-ue.init' @MNG-ue.fina' @fvs;
         sub @MNG-ue.init' lookup MNG.particle @MNG-ue.fina;
-        ignore sub @MNG-b.init @MNG-ue.medi' @MNG-ue.fina @fvs;
+        ignore sub @MNG-b.init' @MNG-ue.medi' @MNG-ue.fina' @fvs;
         sub @MNG-b.init @MNG-ue.medi' lookup MNG.particle @MNG-ue.fina;
         ignore sub @mvs' @MNG-a.isol' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-a.isol' lookup MNG.particle;
         ignore sub @mvs' @MNG-e.isol' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-e.isol' lookup MNG.particle;
-        ignore sub @mvs' @MNG-a.init' @MNG-ch.medi @MNG-a.fina @fvs;
+        ignore sub @mvs' @MNG-a.init' @MNG-ch.medi' @MNG-a.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-a.init' lookup MNG.particle @MNG-ch.medi @MNG-a.fina;
-        ignore sub @mvs' @MNG-a.init' @MNG-ch.medi @MNG-a.medi @MNG-g.medi @MNG-a.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-a.init' @MNG-ch.medi' @MNG-a.medi' @MNG-g.medi' @MNG-a.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-a.init' lookup MNG.particle @MNG-ch.medi @MNG-a.medi @MNG-g.medi @MNG-a.medi @MNG-n.fina;
         ignore sub @mvs' @MNG-i.isol' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-i.isol' lookup MNG.particle;
-        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-a.medi @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-a.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-i.init' lookup MNG.particle @MNG-y.medi' lookup MNG.particle @MNG-a.medi @MNG-r.fina;
-        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-e.medi @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-e.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-i.init' lookup MNG.particle @MNG-y.medi' lookup MNG.particle @MNG-e.medi @MNG-r.fina;
-        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-a.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-a.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-i.init' lookup MNG.particle @MNG-y.medi' lookup MNG.particle @MNG-a.medi @MNG-n.fina;
-        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-e.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-i.init' @MNG-y.medi' @MNG-e.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-i.init' lookup MNG.particle @MNG-y.medi' lookup MNG.particle @MNG-e.medi @MNG-n.fina;
         ignore sub @mvs' @MNG-u.isol' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-u.isol' lookup MNG.particle;
         ignore sub @mvs' @MNG-ue.isol' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-ue.isol' lookup MNG.particle;
-        ignore sub @mvs' @MNG-u.init' @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-u.init' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-u.init' lookup MNG.particle @MNG-n.fina;
-        ignore sub @mvs' @MNG-ue.init' @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-ue.init' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-ue.init' lookup MNG.particle @MNG-n.fina;
-        ignore sub @mvs' @MNG-u.init' @MNG-d.fina @fvs;
+        ignore sub @mvs' @MNG-u.init' @MNG-d.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-u.init' lookup MNG.particle @MNG-d.fina;
-        ignore sub @mvs' @MNG-ue.init' @MNG-d.fina @fvs;
+        ignore sub @mvs' @MNG-ue.init' @MNG-d.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-ue.init' lookup MNG.particle @MNG-d.fina;
         ignore sub @mvs' @MNG-ch.init' @MNG-u.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-ch.init' @MNG-u.fina' lookup MNG.particle;
@@ -1969,59 +2208,59 @@ feature rclt {
         sub @mvs.invalid' lookup _.wide @MNG-t.init' @MNG-u.fina' lookup MNG.particle;
         ignore sub @mvs' @MNG-t.init' @MNG-ue.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-t.init' @MNG-ue.fina' lookup MNG.particle;
-        ignore sub @mvs' @MNG-t.init' @MNG-ue.medi' @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-t.init' @MNG-ue.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-t.init' @MNG-ue.medi' lookup MNG.particle @MNG-r.fina;
-        ignore sub @mvs' @MNG-t.init' @MNG-ue.medi' @MNG-n.medi @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-t.init' @MNG-ue.medi' @MNG-n.medi' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-t.init' @MNG-ue.medi' lookup MNG.particle @MNG-n.medi @MNG-i.fina;
-        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-g.medi @MNG-e.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-g.medi' @MNG-e.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-y.init' @MNG-ue.medi' lookup MNG.particle @MNG-g.medi @MNG-e.medi @MNG-n.fina;
-        ignore sub @mvs' @MNG-l.init' @MNG-ue.medi' @MNG-g.medi @MNG-e.fina @fvs;
+        ignore sub @mvs' @MNG-l.init' @MNG-ue.medi' @MNG-g.medi' @MNG-e.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-l.init' @MNG-ue.medi' lookup MNG.particle @MNG-g.medi @MNG-e.fina;
-        ignore sub @mvs' @MNG-n.init' @MNG-ue.medi' @MNG-g.medi @MNG-ue.medi @MNG-d.fina @fvs;
+        ignore sub @mvs' @MNG-n.init' @MNG-ue.medi' @MNG-g.medi' @MNG-ue.medi' @MNG-d.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-n.init' @MNG-ue.medi' lookup MNG.particle @MNG-g.medi @MNG-ue.medi @MNG-d.fina;
-        ignore sub @mvs' @MNG-n.init' @MNG-ue.medi' @MNG-g.medi @MNG-e.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-n.init' @MNG-ue.medi' @MNG-g.medi' @MNG-e.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-n.init' @MNG-ue.medi' lookup MNG.particle @MNG-g.medi @MNG-e.medi @MNG-n.fina;
-        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-m.fina @fvs;
+        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-m.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-y.init' @MNG-ue.medi' lookup MNG.particle @MNG-m.fina;
-        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-m.medi @MNG-s.medi @MNG-e.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-y.init' @MNG-ue.medi' @MNG-m.medi' @MNG-s.medi' @MNG-e.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-y.init' @MNG-ue.medi' lookup MNG.particle @MNG-m.medi @MNG-s.medi @MNG-e.medi @MNG-n.fina;
         ignore sub @mvs' @MNG-h.init' @MNG-ue.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-h.init' @MNG-ue.fina' lookup MNG.particle;
-        ignore sub @mvs' @MNG-y.init' @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-y.init' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-y.init' lookup MNG.particle @MNG-i.fina;
-        ignore sub @mvs' @MNG-y.init' @MNG-i.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-y.init' @MNG-i.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-y.init' lookup MNG.particle @MNG-i.medi @MNG-n.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-a.medi @MNG-g.medi @MNG-a.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-a.medi' @MNG-g.medi' @MNG-a.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-a.medi @MNG-g.medi @MNG-a.medi @MNG-n.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-e.medi @MNG-g.medi @MNG-e.medi @MNG-n.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-e.medi' @MNG-g.medi' @MNG-e.medi' @MNG-n.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-e.medi @MNG-g.medi @MNG-e.medi @MNG-n.fina;
         ignore sub @mvs' @MNG-d.init' @MNG-u.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-u.fina' lookup MNG.particle;
         ignore sub @mvs' @MNG-d.init' @MNG-ue.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-ue.fina' lookup MNG.particle;
-        ignore sub @mvs' @MNG-d.init' @MNG-a.medi @MNG-g.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-a.medi' @MNG-g.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-a.medi @MNG-g.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-e.medi @MNG-g.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-e.medi' @MNG-g.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-e.medi @MNG-g.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-a.medi @MNG-h.medi @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-a.medi' @MNG-h.medi' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-a.medi @MNG-h.medi @MNG-i.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-e.medi @MNG-h.medi @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-e.medi' @MNG-h.medi' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-e.medi @MNG-h.medi @MNG-i.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-u.medi @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-u.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-u.medi @MNG-r.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-ue.medi' lookup MNG.particle @MNG-r.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-u.medi @MNG-n.medi @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-u.medi' @MNG-n.medi' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-u.medi @MNG-n.medi @MNG-i.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-n.medi @MNG-i.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-n.medi' @MNG-i.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-ue.medi' lookup MNG.particle @MNG-n.medi @MNG-i.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-u.medi @MNG-g.medi @MNG-a.medi @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-u.medi' @MNG-g.medi' @MNG-a.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-u.medi @MNG-g.medi @MNG-a.medi @MNG-r.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-g.medi @MNG-e.medi @MNG-r.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-ue.medi' @MNG-g.medi' @MNG-e.medi' @MNG-r.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-ue.medi' lookup MNG.particle @MNG-g.medi @MNG-e.medi @MNG-r.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-a.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-a.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-a.fina;
-        ignore sub @mvs' @MNG-d.init' @MNG-e.fina @fvs;
+        ignore sub @mvs' @MNG-d.init' @MNG-e.fina' @fvs;
         sub @mvs.invalid' lookup _.wide @MNG-d.init' lookup MNG.particle @MNG-e.fina;
     } III.particle.MNG;
 
@@ -2029,6 +2268,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.particle.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.mvs.postprocessing.GB {
         lookupflag 0;
@@ -2039,6 +2284,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.mvs.postprocessing.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.i_u.devsger.MNG_TOD_SIB_MCH_MCHx {
         lookupflag IgnoreMarks;
@@ -2051,6 +2302,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.i_u.devsger.MNG_TOD_SIB_MCH_MCHx;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.i.devsger.MNG.GB {
         lookupflag UseMarkFilteringSet @fvs;
         sub [@MNG-oe.medi @MNG-ue.medi] [@fvs1 @fvs2] [@MNG-i.medi @MNG-i.fina]' lookup MNG.reset;
@@ -2061,11 +2318,17 @@ feature rclt {
 
 } rclt;
 
+feature rclt {
+    script mong;
+    language dflt;
+    lookup III.i.devsger.MNG.GB;
+} rclt;
+
 @MNG-bowedB = [@MNG-b @MNG-p @MNG-f];
 @MNG-bowedK = [@MNG-k @MNG-k2];
 @MNG-bowedG = [u182C.G.init._isol u182C.Gx.init._isol u182C.G.init u182C.Gx.init u182C.G.medi u182C.Gx.medi u182D.G.init._isol u182D.Gx.init._isol u182D.G.init u182D.Gx.init u182D.G.medi u182D.Gx.medi u182D.G.fina];
 feature rclt {
-    script mong;
+    script DFLT;
     language dflt;
     lookup III.vowel.post_bowed.MNG {
         lookupflag IgnoreMarks;
@@ -2080,6 +2343,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.vowel.post_bowed.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.fvs.post_bowed.preprocessing.GB {
         lookupflag 0;
         sub [@MNG-bowedB @MNG-bowedK @MNG-bowedG] @fvs.ignored' lookup _.reset;
@@ -2089,6 +2358,12 @@ feature rclt {
 
 feature rclt {
     script mong;
+    language dflt;
+    lookup III.fvs.post_bowed.preprocessing.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
     language dflt;
     lookup III.vowel.post_bowed.MNG.GB {
         lookupflag IgnoreMarks;
@@ -2106,11 +2381,23 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.vowel.post_bowed.MNG.GB;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.fvs.post_bowed.postprocessing.GB {
         lookupflag 0;
         sub [@MNG-bowedB @MNG-bowedK @MNG-bowedG] @fvs.invalid' lookup _.ignored;
     } III.fvs.post_bowed.postprocessing.GB;
 
+} rclt;
+
+feature rclt {
+    script mong;
+    language dflt;
+    lookup III.fvs.post_bowed.postprocessing.GB;
 } rclt;
 
 lookup _.manual.MNG {
@@ -2225,7 +2512,7 @@ lookup _.manual.MNG {
 } _.manual.MNG;
 
 feature rclt {
-    script mong;
+    script DFLT;
     language dflt;
     lookup III.fvs.MNG {
         lookupflag 0;
@@ -2343,6 +2630,12 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.fvs.MNG;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup III.controls.postprocessing {
         lookupflag 0;
         sub [nirugu.ignored @fvs.ignored]' lookup _.reset;
@@ -2353,8 +2646,14 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup III.controls.postprocessing;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup IIb.ligature {
-        lookupflag 0;
+        lookupflag IgnoreMarks;
         sub u182A.B.init u1820.A.medi by u182A_u1820.BA.init;
         sub u182A.B.init u1821.A.medi by u182A_u1821.BA.init;
         sub u182A.B.medi u1820.A.medi by u182A_u1820.BA.medi;
@@ -2383,10 +2682,6 @@ feature rclt {
         sub u182A.B.medi u1824.O.fina by u182A_u1824.BO.fina;
         sub u182A.B.medi u1825.O.fina by u182A_u1825.BO.fina;
         sub u182A.B.medi u1826.O.fina by u182A_u1826.BO.fina;
-        sub u182A.B.init u1825.OI.medi by u182A_u1825.BOI.init;
-        sub u182A.B.init u1826.OI.medi by u182A_u1826.BOI.init;
-        sub u182A.B.medi u1825.OI.medi by u182A_u1825.BOI.medi;
-        sub u182A.B.medi u1826.OI.medi by u182A_u1826.BOI.medi;
         sub u182A.B.init u1825.Ue.fina by u182A_u1825.BUe.isol;
         sub u182A.B.init u1826.Ue.fina by u182A_u1826.BUe.isol;
         sub u182A.B.medi u1825.Ue.fina by u182A_u1825.BUe.fina;
@@ -2423,10 +2718,6 @@ feature rclt {
         sub u1839.F.medi u1824.O.fina by u1839_u1824.FO.fina;
         sub u1839.F.medi u1825.O.fina by u1839_u1825.FO.fina;
         sub u1839.F.medi u1826.O.fina by u1839_u1826.FO.fina;
-        sub u1839.F.init u1825.OI.medi by u1839_u1825.FOI.init;
-        sub u1839.F.init u1826.OI.medi by u1839_u1826.FOI.init;
-        sub u1839.F.medi u1825.OI.medi by u1839_u1825.FOI.medi;
-        sub u1839.F.medi u1826.OI.medi by u1839_u1826.FOI.medi;
         sub u1839.F.init u1825.Ue.fina by u1839_u1825.FUe.isol;
         sub u1839.F.init u1826.Ue.fina by u1839_u1826.FUe.isol;
         sub u1839.F.medi u1825.Ue.fina by u1839_u1825.FUe.fina;
@@ -2491,14 +2782,6 @@ feature rclt {
         sub u182D.G.medi u1824.O.fina by u182D_u1824.GO.fina;
         sub u182D.G.medi u1825.O.fina by u182D_u1825.GO.fina;
         sub u182D.G.medi u1826.O.fina by u182D_u1826.GO.fina;
-        sub u182C.G.init u1825.OI.medi by u182C_u1825.GOI.init;
-        sub u182C.G.init u1826.OI.medi by u182C_u1826.GOI.init;
-        sub u182D.G.init u1825.OI.medi by u182D_u1825.GOI.init;
-        sub u182D.G.init u1826.OI.medi by u182D_u1826.GOI.init;
-        sub u182C.G.medi u1825.OI.medi by u182C_u1825.GOI.medi;
-        sub u182C.G.medi u1826.OI.medi by u182C_u1826.GOI.medi;
-        sub u182D.G.medi u1825.OI.medi by u182D_u1825.GOI.medi;
-        sub u182D.G.medi u1826.OI.medi by u182D_u1826.GOI.medi;
         sub u182C.G.init u1825.Ue.fina by u182C_u1825.GUe.isol;
         sub u182C.G.init u1826.Ue.fina by u182C_u1826.GUe.isol;
         sub u182D.G.init u1825.Ue.fina by u182D_u1825.GUe.isol;
@@ -2571,14 +2854,6 @@ feature rclt {
         sub u182D.Gx.medi u1824.O.fina by u182D_u1824.GxO.fina;
         sub u182D.Gx.medi u1825.O.fina by u182D_u1825.GxO.fina;
         sub u182D.Gx.medi u1826.O.fina by u182D_u1826.GxO.fina;
-        sub u182C.Gx.init u1825.OI.medi by u182C_u1825.GxOI.init;
-        sub u182C.Gx.init u1826.OI.medi by u182C_u1826.GxOI.init;
-        sub u182D.Gx.init u1825.OI.medi by u182D_u1825.GxOI.init;
-        sub u182D.Gx.init u1826.OI.medi by u182D_u1826.GxOI.init;
-        sub u182C.Gx.medi u1825.OI.medi by u182C_u1825.GxOI.medi;
-        sub u182C.Gx.medi u1826.OI.medi by u182C_u1826.GxOI.medi;
-        sub u182D.Gx.medi u1825.OI.medi by u182D_u1825.GxOI.medi;
-        sub u182D.Gx.medi u1826.OI.medi by u182D_u1826.GxOI.medi;
         sub u182C.Gx.init u1825.Ue.fina by u182C_u1825.GxUe.isol;
         sub u182C.Gx.init u1826.Ue.fina by u182C_u1826.GxUe.isol;
         sub u182D.Gx.init u1825.Ue.fina by u182D_u1825.GxUe.isol;
@@ -2623,10 +2898,6 @@ feature rclt {
         sub u183A.K2.medi u1824.O.fina by u183A_u1824.K2O.fina;
         sub u183A.K2.medi u1825.O.fina by u183A_u1825.K2O.fina;
         sub u183A.K2.medi u1826.O.fina by u183A_u1826.K2O.fina;
-        sub u183A.K2.init u1825.OI.medi by u183A_u1825.K2OI.init;
-        sub u183A.K2.init u1826.OI.medi by u183A_u1826.K2OI.init;
-        sub u183A.K2.medi u1825.OI.medi by u183A_u1825.K2OI.medi;
-        sub u183A.K2.medi u1826.OI.medi by u183A_u1826.K2OI.medi;
         sub u183A.K2.init u1825.Ue.fina by u183A_u1825.K2Ue.isol;
         sub u183A.K2.init u1826.Ue.fina by u183A_u1826.K2Ue.isol;
         sub u183A.K2.medi u1825.Ue.fina by u183A_u1825.K2Ue.fina;
@@ -2663,10 +2934,6 @@ feature rclt {
         sub u183B.K.medi u1824.O.fina by u183B_u1824.KO.fina;
         sub u183B.K.medi u1825.O.fina by u183B_u1825.KO.fina;
         sub u183B.K.medi u1826.O.fina by u183B_u1826.KO.fina;
-        sub u183B.K.init u1825.OI.medi by u183B_u1825.KOI.init;
-        sub u183B.K.init u1826.OI.medi by u183B_u1826.KOI.init;
-        sub u183B.K.medi u1825.OI.medi by u183B_u1825.KOI.medi;
-        sub u183B.K.medi u1826.OI.medi by u183B_u1826.KOI.medi;
         sub u183B.K.init u1825.Ue.fina by u183B_u1825.KUe.isol;
         sub u183B.K.init u1826.Ue.fina by u183B_u1826.KUe.isol;
         sub u183B.K.medi u1825.Ue.fina by u183B_u1825.KUe.fina;
@@ -2703,10 +2970,6 @@ feature rclt {
         sub u182B.P.medi u1824.O.fina by u182B_u1824.PO.fina;
         sub u182B.P.medi u1825.O.fina by u182B_u1825.PO.fina;
         sub u182B.P.medi u1826.O.fina by u182B_u1826.PO.fina;
-        sub u182B.P.init u1825.OI.medi by u182B_u1825.POI.init;
-        sub u182B.P.init u1826.OI.medi by u182B_u1826.POI.init;
-        sub u182B.P.medi u1825.OI.medi by u182B_u1825.POI.medi;
-        sub u182B.P.medi u1826.OI.medi by u182B_u1826.POI.medi;
         sub u182B.P.init u1825.Ue.fina by u182B_u1825.PUe.isol;
         sub u182B.P.init u1826.Ue.fina by u182B_u1826.PUe.isol;
         sub u182B.P.medi u1825.Ue.fina by u182B_u1825.PUe.fina;
@@ -2715,8 +2978,56 @@ feature rclt {
         sub u182B.P.init u1827.W.medi by u182B_u1827.PW.init;
         sub u182B.P.medi u1827.W.medi by u182B_u1827.PW.medi;
         sub u182B.P.medi u1827.W.fina by u182B_u1827.PW.fina;
-        sub u1829.AG.medi u182F.L.medi by u1829_u182F.AGL.medi;
-        sub u1829.AG.medi u182E.M.medi by u1829_u182E.AGM.medi;
+        sub u182A.B.init u1825.OI.medi by u182A_u1825.BOI.init;
+        sub u182A.B.init u1826.OI.medi by u182A_u1826.BOI.init;
+        sub u182A_u1826.BO.init u1822.I.medi by u182A_u1826_u1822.BOI.init;
+        sub u182A.B.medi u1825.OI.medi by u182A_u1825.BOI.medi;
+        sub u182A.B.medi u1826.OI.medi by u182A_u1826.BOI.medi;
+        sub u182A_u1826.BO.medi u1822.I.medi by u182A_u1826_u1822.BOI.medi;
+        sub u1839.F.init u1825.OI.medi by u1839_u1825.FOI.init;
+        sub u1839.F.init u1826.OI.medi by u1839_u1826.FOI.init;
+        sub u1839_u1826.FO.init u1822.I.medi by u1839_u1826_u1822.FOI.init;
+        sub u1839.F.medi u1825.OI.medi by u1839_u1825.FOI.medi;
+        sub u1839.F.medi u1826.OI.medi by u1839_u1826.FOI.medi;
+        sub u1839_u1826.FO.medi u1822.I.medi by u1839_u1826_u1822.FOI.medi;
+        sub u182C.G.init u1825.OI.medi by u182C_u1825.GOI.init;
+        sub u182C.G.init u1826.OI.medi by u182C_u1826.GOI.init;
+        sub u182D.G.init u1825.OI.medi by u182D_u1825.GOI.init;
+        sub u182D.G.init u1826.OI.medi by u182D_u1826.GOI.init;
+        sub u182D_u1826.GO.init u1822.I.medi by u182D_u1826_u1822.GOI.init;
+        sub u182C.G.medi u1825.OI.medi by u182C_u1825.GOI.medi;
+        sub u182C.G.medi u1826.OI.medi by u182C_u1826.GOI.medi;
+        sub u182D.G.medi u1825.OI.medi by u182D_u1825.GOI.medi;
+        sub u182D.G.medi u1826.OI.medi by u182D_u1826.GOI.medi;
+        sub u182D_u1826.GO.medi u1822.I.medi by u182D_u1826_u1822.GOI.medi;
+        sub u182C.Gx.init u1825.OI.medi by u182C_u1825.GxOI.init;
+        sub u182C.Gx.init u1826.OI.medi by u182C_u1826.GxOI.init;
+        sub u182D.Gx.init u1825.OI.medi by u182D_u1825.GxOI.init;
+        sub u182D.Gx.init u1826.OI.medi by u182D_u1826.GxOI.init;
+        sub u182D_u1826.GxO.init u1822.I.medi by u182D_u1826_u1822.GxOI.init;
+        sub u182C.Gx.medi u1825.OI.medi by u182C_u1825.GxOI.medi;
+        sub u182C.Gx.medi u1826.OI.medi by u182C_u1826.GxOI.medi;
+        sub u182D.Gx.medi u1825.OI.medi by u182D_u1825.GxOI.medi;
+        sub u182D.Gx.medi u1826.OI.medi by u182D_u1826.GxOI.medi;
+        sub u182D_u1826.GxO.medi u1822.I.medi by u182D_u1826_u1822.GxOI.medi;
+        sub u183A.K2.init u1825.OI.medi by u183A_u1825.K2OI.init;
+        sub u183A.K2.init u1826.OI.medi by u183A_u1826.K2OI.init;
+        sub u183A_u1826.K2O.init u1822.I.medi by u183A_u1826_u1822.K2OI.init;
+        sub u183A.K2.medi u1825.OI.medi by u183A_u1825.K2OI.medi;
+        sub u183A.K2.medi u1826.OI.medi by u183A_u1826.K2OI.medi;
+        sub u183A_u1826.K2O.medi u1822.I.medi by u183A_u1826_u1822.K2OI.medi;
+        sub u183B.K.init u1825.OI.medi by u183B_u1825.KOI.init;
+        sub u183B.K.init u1826.OI.medi by u183B_u1826.KOI.init;
+        sub u183B_u1826.KO.init u1822.I.medi by u183B_u1826_u1822.KOI.init;
+        sub u183B.K.medi u1825.OI.medi by u183B_u1825.KOI.medi;
+        sub u183B.K.medi u1826.OI.medi by u183B_u1826.KOI.medi;
+        sub u183B_u1826.KO.medi u1822.I.medi by u183B_u1826_u1822.KOI.medi;
+        sub u182B.P.init u1825.OI.medi by u182B_u1825.POI.init;
+        sub u182B.P.init u1826.OI.medi by u182B_u1826.POI.init;
+        sub u182B_u1826.PO.init u1822.I.medi by u182B_u1826_u1822.POI.init;
+        sub u182B.P.medi u1825.OI.medi by u182B_u1825.POI.medi;
+        sub u182B.P.medi u1826.OI.medi by u182B_u1826.POI.medi;
+        sub u182B_u1826.PO.medi u1822.I.medi by u182B_u1826_u1822.POI.medi;
         sub u182A.B.init u182F.L.medi by u182A_u182F.BL.init;
         sub u182A.B.medi u182F.L.medi by u182A_u182F.BL.medi;
         sub u182A.B.init u182E.M.medi by u182A_u182E.BM.init;
@@ -2732,6 +3043,14 @@ feature rclt {
         sub u182F.L.medi u182F.L.medi by u182F_u182F.LL.medi;
         sub u182E.M.medi u182F.L.medi by u182E_u182F.ML.medi;
         sub u182E.M.medi u182E.M.medi by u182E_u182E.MM.medi;
+        sub u1820.A.medi u182D_u182F.GL.medi by u1820_u182D_u182F.AGL.medi;
+        sub u1821.A.medi u182D_u182F.GL.medi by u1821_u182D_u182F.AGL.medi;
+        sub u1828.A.medi u182D_u182F.GL.medi by u1828_u182D_u182F.AGL.medi;
+        sub u1829.AG.medi u182F.L.medi by u1829_u182F.AGL.medi;
+        sub u1820.A.medi u182D_u182E.GM.medi by u1820_u182D_u182E.AGM.medi;
+        sub u1821.A.medi u182D_u182E.GM.medi by u1821_u182D_u182E.AGM.medi;
+        sub u1828.A.medi u182D_u182E.GM.medi by u1828_u182D_u182E.AGM.medi;
+        sub u1829.AG.medi u182E.M.medi by u1829_u182E.AGM.medi;
     } IIb.ligature;
 
 } rclt;
@@ -2739,9 +3058,49 @@ feature rclt {
 feature rclt {
     script mong;
     language dflt;
+    lookup IIb.ligature;
+} rclt;
+
+feature rclt {
+    script DFLT;
+    language dflt;
     lookup IIb.cleanup.mvs.wide {
         lookupflag 0;
         sub mvs.wide by nbspace mvs.ignored;
     } IIb.cleanup.mvs.wide;
 
 } rclt;
+
+feature rclt {
+    script mong;
+    language dflt;
+    lookup IIb.cleanup.mvs.wide;
+} rclt;
+
+feature vert {
+    script DFLT;
+    language dflt;
+    lookup Ib.punctuation.vertical {
+        lookupflag 0;
+        sub u2048 by u2048.vert;
+        sub u2049 by u2049.vert;
+        sub u3008 by u3008.vert;
+        sub u3009 by u3009.vert;
+        sub u300A by u300A.vert;
+        sub u300B by u300B.vert;
+        sub uFF01 by uFF01.vert;
+        sub uFF08 by uFF08.vert;
+        sub uFF09 by uFF09.vert;
+        sub uFF1B by uFF1B.vert;
+        sub uFF1F by uFF1F.vert;
+        sub uFF3B by uFF3B.vert;
+        sub uFF3D by uFF3D.vert;
+    } Ib.punctuation.vertical;
+
+} vert;
+
+feature vert {
+    script mong;
+    language dflt;
+    lookup Ib.punctuation.vertical;
+} vert;

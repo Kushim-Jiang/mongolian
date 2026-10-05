@@ -53,6 +53,16 @@ def _build_template(
     )
     composer.languageSystems["mong"] = {"dflt"}
     spec = composer.compose()
+
+    # Phase Ib: the vertical forms of the marks. The library leaves the phase empty — whether
+    # a font writes a mark with a vertical form, and how that form is drawn, is a choice the
+    # font makes — and this font takes the choice wherever the source font draws the form.
+    verticalForms = [name for name in composer.glyphs if name.endswith(".vert")]
+    if verticalForms:
+        with composer.Lookup("Ib.punctuation.vertical", feature="vert"):
+            for name in verticalForms:
+                composer.sub(name.removesuffix(".vert"), by=name)
+
     fea = composer.asFeatureFile().asFea()
 
     applySpecToFont(  # Padding disturbs automatic alignment in Glyphs
@@ -110,10 +120,17 @@ def _build_template(
         elif name in ["mvs.narrow", "mvs.wide"]:
             glyph.category, glyph.subCategory = "Separator", "Space"
 
+    # Both files are written with `\n` whatever the platform: the repository keeps them
+    # that way, so a template generated on one machine is the template generated on another.
     (templatesDir / fea_filename).write_text(
-        fea.replace(":", ".")  # Glyphs doesn't support ":" in lookup names
+        fea.replace(":", "."),  # Glyphs doesn't support ":" in lookup names
+        encoding="utf-8",
+        newline="\n",
     )
     gsFont.save(templatesDir / glyphs_filename)
+    (templatesDir / glyphs_filename).write_bytes(
+        (templatesDir / glyphs_filename).read_bytes().replace(b"\r\n", b"\n")
+    )
 
 
 def update_hudum() -> None:
