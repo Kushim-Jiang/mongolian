@@ -51,10 +51,9 @@
     </contour>
     <contour>
       <point x="538" y="123" type="curve"/>
-      <point x="471" y="123"/>
-      <point x="438" y="177"/>
-      <point x="438" y="286" type="curve"/>
-      <point x="438" y="364" type="line"/>
+      <point x="446" y="123"/>
+      <point x="438" y="202"/>
+      <point x="438" y="364" type="curve"/>
       <point x="673" y="364" type="line"/>
       <point x="668" y="188"/>
       <point x="638" y="123"/>

@@ -30,14 +30,8 @@
       <point x="306" y="677"/>
       <point x="342" y="645"/>
       <point x="368" y="572" type="curve"/>
-      <point x="381" y="536"/>
-      <point x="390" y="485"/>
-      <point x="399" y="418" type="curve"/>
-      <point x="409" y="340"/>
-      <point x="428" y="259"/>
-      <point x="457" y="176" type="curve"/>
-      <point x="486" y="92"/>
-      <point x="526" y="12"/>
+      <point x="414" y="446"/>
+      <point x="381" y="251"/>
     </contour>
     <contour>
       <point x="201" y="817" type="line"/>

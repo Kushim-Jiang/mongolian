@@ -34,9 +34,8 @@
       <point x="73" y="529"/>
       <point x="50" y="444" type="curve"/>
       <point x="0" y="444" type="line"/>
-      <point x="0" y="364" type="line"/>
-      <point x="0" y="276"/>
-      <point x="11" y="159"/>
+      <point x="0" y="300"/>
+      <point x="2" y="203"/>
     </contour>
   </outline>
 </glyph>

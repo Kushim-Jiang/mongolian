@@ -57,11 +57,8 @@
       <point x="558" y="650"/>
       <point x="588" y="548"/>
       <point x="610" y="418" type="curve"/>
-      <point x="624" y="334"/>
-      <point x="644" y="259"/>
-      <point x="667" y="192" type="curve"/>
-      <point x="690" y="124"/>
-      <point x="732" y="39"/>
+      <point x="645" y="208"/>
+      <point x="705" y="92"/>
     </contour>
     <contour>
       <point x="264" y="123" type="curve"/>

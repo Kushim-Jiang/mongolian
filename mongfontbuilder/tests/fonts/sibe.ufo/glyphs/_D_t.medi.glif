@@ -27,11 +27,8 @@
       <point x="643" y="444" type="line"/>
       <point x="0" y="444" type="line"/>
       <point x="0" y="364" type="line"/>
-      <point x="24" y="255"/>
-      <point x="58" y="150"/>
-      <point x="101" y="48" type="curve"/>
-      <point x="144" y="-54"/>
-      <point x="201" y="-158"/>
+      <point x="55" y="115"/>
+      <point x="152" y="-81"/>
     </contour>
     <contour>
       <point x="294" y="-57" type="curve"/>

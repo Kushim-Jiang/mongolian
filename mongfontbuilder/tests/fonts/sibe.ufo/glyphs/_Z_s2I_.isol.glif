@@ -44,24 +44,12 @@
       <point x="74" y="354"/>
       <point x="104" y="346"/>
       <point x="135" y="346" type="curve"/>
-      <point x="170" y="346"/>
-      <point x="198" y="354"/>
-      <point x="219" y="371" type="curve"/>
-      <point x="262" y="406"/>
-      <point x="287" y="503"/>
+      <point x="227" y="346"/>
+      <point x="266" y="394"/>
       <point x="304" y="590" type="curve"/>
       <point x="308" y="590" type="line"/>
-      <point x="330" y="530"/>
-      <point x="354" y="452"/>
-      <point x="379" y="357" type="curve"/>
-      <point x="380" y="356"/>
-      <point x="380" y="354"/>
-      <point x="380" y="353" type="curve"/>
-      <point x="380" y="351"/>
-      <point x="380" y="349"/>
-      <point x="381" y="348" type="curve"/>
-      <point x="420" y="200"/>
-      <point x="458" y="95"/>
+      <point x="372" y="372"/>
+      <point x="389" y="224"/>
     </contour>
   </outline>
 </glyph>

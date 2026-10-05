@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <glyph name="_Gx.medi" format="2">
-  <advance width="331"/>
-  <anchor x="-47" y="0" name="baluda"/>
-  <anchor x="-47" y="0" name="dagalga"/>
+  <advance width="330"/>
   <outline>
     <contour>
       <point x="210" y="-80" type="curve"/>
