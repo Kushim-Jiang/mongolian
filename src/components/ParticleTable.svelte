@@ -113,11 +113,8 @@
     line-height: 1;
     white-space: nowrap;
   }
-  td.shape .wu span {
-    color: hsl(0 0% 25%);
-  }
   td.shape .wu span.blue {
-    color: hsl(210 80% 45%);
+    color: var(--particle-blue);
   }
   td.nominal {
     text-align: left !important;
@@ -126,7 +123,7 @@
     font-style: italic;
   }
   td.nominal .mvs {
-    color: hsl(210 30% 55%);
+    color: var(--particle-gray);
     font-style: italic;
   }
 </style>

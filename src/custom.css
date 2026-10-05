@@ -1,8 +1,38 @@
 :root {
+  /* The site's own colours, declared here alone. They are written dark-first, the way
+     Starlight writes its palette: with the theme script blocked, the page keeps the
+     theme its markup asks for, and `:root[data-theme="light"]` is the override. Each
+     colour is repeated under `@media print`, because paper is always light and the
+     paged output runs no theme script to say so — and plain CSS cannot share the
+     values between the two rules. */
+
   /* The helper glyphs: the written unit another shape is helped by is blue, and the
-     contextual one that only joins is grey. Both colours are declared here alone. */
+     contextual one that only joins is grey. */
+  --helper-blue: hsl(210 85% 68% / 0.75);
+  --helper-gray: hsl(210 5% 72% / 0.75);
+
+  /* A particle table: the letters that make up a particle are set blue against the
+     rest of it, and `mvs` is set grey, as a label rather than a form. */
+  --particle-blue: hsl(210 85% 65%);
+  --particle-gray: hsl(210 30% 70%);
+
+  /* Cells that carry a note instead of a form, and the cell a link has just jumped
+     to. Translucent, so that the marks inside them stay legible over either theme. */
+  --cell-blank-bg: hsl(0 0% 100% / 0.08);
+  --cell-archaic-bg: hsl(48 60% 60% / 0.15);
+  --cell-unrecommended-bg: hsl(350 60% 60% / 0.2);
+  --cell-target-bg: hsl(55 90% 55% / 0.3);
+}
+
+:root[data-theme="light"] {
   --helper-blue: hsl(210 80% 58% / 0.55);
   --helper-gray: hsl(210 2% 55% / 0.65);
+  --particle-blue: hsl(210 80% 45%);
+  --particle-gray: hsl(210 30% 55%);
+  --cell-blank-bg: whitesmoke;
+  --cell-archaic-bg: beige;
+  --cell-unrecommended-bg: pink;
+  --cell-target-bg: yellow;
 }
 
 /* The font is imported rather than served from `public/`, so that the build gives it a
@@ -29,7 +59,9 @@ table {
   font-family: "WrittenUnits" !important;
   font-size: 40px;
   line-height: 1.4;
-  color: black;
+  /* Starlight's body-text colour: black on the light theme, white on the dark one,
+     and the same near-black on paper, where its own print rules fix the palette. */
+  color: var(--sl-color-white);
 }
 
 .wu-context {
@@ -167,6 +199,21 @@ a {
     color: #1b1b1f;
     font-size: 10.5pt;
     line-height: 1.55;
+  }
+
+  /* The site's own colors, restated with the light values of the rule above: paper is
+     light whatever theme the reader chose, and the merged documentation PDF keeps the
+     `data-theme` its pages were built with, since WeasyPrint runs no theme script. */
+  :root,
+  :root[data-theme] {
+    --helper-blue: hsl(210 80% 58% / 0.55);
+    --helper-gray: hsl(210 2% 55% / 0.65);
+    --particle-blue: hsl(210 80% 45%);
+    --particle-gray: hsl(210 30% 55%);
+    --cell-blank-bg: whitesmoke;
+    --cell-archaic-bg: beige;
+    --cell-unrecommended-bg: pink;
+    --cell-target-bg: yellow;
   }
 
   a {

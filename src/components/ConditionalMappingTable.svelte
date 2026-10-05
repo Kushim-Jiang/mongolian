@@ -122,10 +122,10 @@
     line-height: 1;
   }
   td.default {
-    background-color: whitesmoke;
+    background-color: var(--cell-blank-bg);
   }
   td:target {
-    background-color: yellow;
+    background-color: var(--cell-target-bg);
   }
   td a {
     text-decoration: none;

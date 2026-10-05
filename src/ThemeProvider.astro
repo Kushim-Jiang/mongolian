@@ -1,6 +1,52 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+---
+
+{/* Starlight's own provider, with one change: a reader who has never chosen a theme
+    gets `light`, where Starlight would give them their system preference. Starlight
+    records the `auto` choice as an empty string under the same key, so storing the
+    default there is also what keeps "never chose" apart from "chose auto" on the
+    next visit. The component is inlined and sits in the document head, so the theme
+    is set before the first paint. */}
 <script is:inline>
-  document.documentElement.dataset.theme = "light";
+  window.StarlightThemeProvider = (() => {
+    const storage = typeof localStorage === "undefined" ? null : localStorage;
+
+    let storedTheme = storage && storage.getItem("starlight-theme");
+    if (storage && storedTheme === null) {
+      storedTheme = "light";
+      storage.setItem("starlight-theme", storedTheme);
+    }
+
+    const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    const theme = storedTheme === "" ? (prefersLight ? "light" : "dark") : storedTheme || "light";
+    document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
+
+    return {
+      updatePickers(theme = storedTheme || "auto") {
+        document.querySelectorAll("starlight-theme-select").forEach((picker) => {
+          const select = picker.querySelector("select");
+          if (select) select.value = theme;
+          /** @type {HTMLTemplateElement | null} */
+          const tmpl = document.querySelector(`#theme-icons`);
+          const newIcon = tmpl && tmpl.content.querySelector("." + theme);
+          if (newIcon) {
+            const oldIcon = picker.querySelector("svg.label-icon");
+            if (oldIcon) {
+              oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+            }
+          }
+        });
+      },
+    };
+  })();
 </script>
+
+<template id="theme-icons">
+  <Icon name="sun" class="light" />
+  <Icon name="moon" class="dark" />
+  <Icon name="laptop" class="auto" />
+</template>
 
 <script is:inline>
   // Prevent Private Use Area characters (font-internal glyph shapes, e.g.

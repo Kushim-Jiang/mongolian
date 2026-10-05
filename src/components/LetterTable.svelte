@@ -254,16 +254,16 @@
   }
   td.fabricated,
   td.undefined {
-    background-color: whitesmoke;
+    background-color: var(--cell-blank-bg);
   }
   td.archaic {
-    background-color: beige;
+    background-color: var(--cell-archaic-bg);
   }
   td.unrecommended {
-    background-color: pink;
+    background-color: var(--cell-unrecommended-bg);
   }
   td:target {
-    background-color: yellow;
+    background-color: var(--cell-target-bg);
   }
   td a {
     text-decoration: none;
