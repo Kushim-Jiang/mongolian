@@ -23,7 +23,9 @@ assert __package__
 dir = files(__package__)
 
 with (dir / "writtenUnits.json").open(encoding="utf-8") as f:
-    writtenUnits: list[WrittenUnitID] = json.load(f)
+    # The drawing of each written unit at each joining position: the code it is drawn with,
+    # and the codes of the shapes it takes in a context of its own, such as `pre_mvs`.
+    writtenUnits: dict[WrittenUnitID, dict[JoiningPosition, dict[str, int]]] = json.load(f)
 
 with (dir / "ligatures.json").open(encoding="utf-8") as f:
     ligatures: dict[

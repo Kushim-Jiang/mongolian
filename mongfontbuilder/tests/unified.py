@@ -65,7 +65,7 @@ TEST_SUITES: dict[str, list[LocaleID]] = {
     "core": ["MNG", "MNGx", "TOD", "TODx", "SIB", "MCH", "MCHx"],
 }
 
-# How this font carries out the stretching of the stem at Phase IIb.4. A bowed written form
+# How this font carries out the stretching of the stem at Phase IIb.5. A bowed written form
 # leaves a stem to the written form that follows it, and the stem is stretched with the
 # nirugu where that written form extends.
 #
@@ -281,7 +281,7 @@ class UnifiedMongFeaComposer(MongFeaComposer):
         self.spliceLvsWrittenForms()
         spec = super().compose()
         self.composeVerticalForms()
-        self.iib4()
+        self.iib5()
         return spec
 
     def composeVerticalForms(self) -> None:
@@ -463,10 +463,10 @@ class UnifiedMongFeaComposer(MongFeaComposer):
                     )
                 )
 
-    def iib4(self) -> None:
-        """**Phase IIb.4: Stretching the stem where a bow is followed by an extending form**
+    def iib5(self) -> None:
+        """**Phase IIb.5: Stretching the stem where a bow is followed by an extending form**
 
-        The library leaves Phase IIb.4 empty: whether a font stretches the stem at all, and
+        The library leaves Phase IIb.5 empty: whether a font stretches the stem at all, and
         which written forms it stretches it between, is a choice a font makes. This font
         takes the choice, so the phase is written here.
 

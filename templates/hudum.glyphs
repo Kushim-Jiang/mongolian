@@ -30202,6 +30202,36 @@ width = 858;
 },
 {
 color = 10;
+glyphname = u1828.N.fina.mvs;
+layers = (
+{
+layerId = "E14AE757-7134-4DB9-897C-AD248BACE90D";
+shapes = (
+{
+ref = _N.fina.mvs;
+}
+);
+width = 427;
+}
+);
+},
+{
+color = 10;
+glyphname = u182D.Hx.fina.mvs;
+layers = (
+{
+layerId = "E14AE757-7134-4DB9-897C-AD248BACE90D";
+shapes = (
+{
+ref = _Hx.fina.mvs;
+}
+);
+width = 663;
+}
+);
+},
+{
+color = 10;
 glyphname = u1820;
 layers = (
 {

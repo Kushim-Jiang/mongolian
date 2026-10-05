@@ -1,14 +1,16 @@
 from collections.abc import Iterator
+from dataclasses import replace
 from itertools import product
 from typing import Literal
 
 from fontTools import unicodedata
 
 from .. import GlyphDescriptor, data, ligateParts, splitWrittens, writtenCombinations
+from ..data.logic import choosesVariant
 from ..data.types import JoiningPosition, LocaleID
 from ..spec import GlyphSpec
-from ..utils import namespaceFromLocale
-from . import MongFeaComposer
+from ..utils import getVariants, namespaceFromLocale
+from . import MongFeaComposer, preMvsSuffixes
 
 # The writing systems that draw the final form of the letter _m_ with a large tail, and the
 # written units the localized treatment swaps: the form this font draws the character with,
@@ -22,6 +24,7 @@ def compose(c: MongFeaComposer) -> None:
     iib2(c)
     iib3(c)
     iib4(c)
+    iib5(c)
 
 
 def constructBowedForms(c: MongFeaComposer) -> None:
@@ -207,7 +210,65 @@ def implementLigature(
 
 def iib2(c: MongFeaComposer) -> None:
     """
-    **Phase IIb.2: Cleanup of format controls**
+    **Phase IIb.2: The shape a written form takes before the mark that ends a syllable**
+
+    The data gives a written unit a drawing of its own for the end of a syllable that a mark
+    separates — `N.fina` and `Hx.fina` carry a `pre_mvs` code — and a chachlag onset writes
+    it: the letter stands before the mark that precedes a chachlag _a_ or _e_. The source font
+    draws that shape under the `mvs` suffix, `_N.fina.mvs` beside `_N.fina`.
+
+    The mark the letter stands before is the narrow MVS, which is the shape the mark takes in
+    the context that writes the chachlag _a_ or _e_, `III.a_e.chachlag`: the same lookup
+    narrows the mark and chooses the vowel. A wide MVS is the separator that the cleanup of
+    phase IIb.3 splits in two, and it is not a context for this form.
+
+    The form is replaced here rather than by the condition that selects it, because the form
+    that condition selects is the one the FVS has already chosen: a substitution made before
+    the FVS is shaped would take the form out of the class the FVS is shaped against, and the
+    FVS would be left in the text unshaped.
+    """
+
+    if not {"MNG", "MNGx"}.intersection(c.locales):
+        return
+
+    substitutions: list[tuple[str, str]] = []
+    for _, charName, position, _, variant in getVariants("MNG", ["n", "g"]):
+        if not choosesVariant("MNG", variant, "chachlag_onset"):
+            continue
+        form = GlyphDescriptor.fromData(charName, position, variant, locale="MNG")
+        if not (suffixes := preMvsSuffixes(form)):
+            continue
+        written = str(form)
+        mvs = str(replace(form, suffixes=suffixes))
+        drawn = str(replace(form, codePoints=[], suffixes=suffixes))
+        if not hasGlyph(c, written) or not hasGlyph(c, drawn):
+            continue
+        glyphSpec = GlyphSpec([c.glyphNameProcessor(drawn)])
+        if pseudoPosition := form.pseudoPosition():
+            glyphSpec.initPadding = pseudoPosition in ["isol", "init"]
+            glyphSpec.finaPadding = pseudoPosition in ["isol", "fina"]
+        c.spec.newGlyphs[c.glyphNameProcessor(mvs)] = glyphSpec
+        substitutions.append((written, mvs))
+
+    if not substitutions:
+        return
+
+    with c.Lookup("IIb.chachlag_onset.mvs.sub") as application:
+        for written, mvs in substitutions:
+            c.sub(written, by=mvs)
+
+    with c.Lookup("IIb.chachlag_onset.mvs", feature="rclt", flags={"IgnoreMarks": True}):
+        c.sub(
+            c.input(c.glyphClass([i for i, _ in substitutions]), application),
+            "mvs.narrow",
+            c.glyphClass(["u1820.Aa.isol", "u1821.Aa.isol"]),
+            by=None,
+        )
+
+
+def iib3(c: MongFeaComposer) -> None:
+    """
+    **Phase IIb.3: Cleanup of format controls**
 
     A wide MVS renders as a plain space-like separator. At this final stage it is
     split into a non-breaking space followed by an ignored zero-width MVS. The
@@ -226,9 +287,9 @@ def iib2(c: MongFeaComposer) -> None:
         c.sub("mvs.wide", by=["nbspace", "mvs.ignored"])
 
 
-def iib3(c: MongFeaComposer) -> None:
+def iib4(c: MongFeaComposer) -> None:
     """
-    **Phase IIb.3: Localized treatments**
+    **Phase IIb.4: Localized treatments**
 
     A character that the writing systems share may be written with a different design by
     each of them — the final form of the letter _m_ ends in a small tail in Hudum and in a
@@ -269,9 +330,9 @@ def hasGlyph(c: MongFeaComposer, name: str) -> bool:
     return name in c.glyphs or name in c.spec.newGlyphs
 
 
-def iib4(c: MongFeaComposer) -> None:
+def iib5(c: MongFeaComposer) -> None:
     """
-    **Phase IIb.4: Optional treatments**
+    **Phase IIb.5: Optional treatments**
 
     Optional treatments.
     """

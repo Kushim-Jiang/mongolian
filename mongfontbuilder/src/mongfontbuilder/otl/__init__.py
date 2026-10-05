@@ -270,7 +270,7 @@ class MongFeaComposer(FeaComposer):
         # `nbspace` (a clone of `space` carrying NO-BREAK SPACE U+00A0), the wide MVS
         # (which draws as a space) and the zero-width ignored `mvs.ignored` are set up
         # here, alongside the other control glyphs, so they are created early and appear
-        # early in glyph order. `iib2` later splits a wide MVS into `nbspace` +
+        # early in glyph order. `iib3` later splits a wide MVS into `nbspace` +
         # `mvs.ignored`.
         spaceName = self.glyphNameProcessor("space")
         nbspaceName = self.glyphNameProcessor("nbspace")
@@ -674,6 +674,21 @@ def variantGlyphDescriptor(
     charName = getCharNameByAlias(locale, alias)
     variant = data.variants[charName][position][fvs]
     return GlyphDescriptor.fromData(charName, position, variant, locale=locale)
+
+
+def preMvsSuffixes(descriptor: GlyphDescriptor) -> list[str]:
+    """The suffix of the shape a written form takes before the mark that ends a syllable.
+
+    The data gives a written unit a `pre_mvs` drawing at a position: the shape the unit is
+    drawn with where the mark that separates the word follows it, which is what a chachlag
+    onset writes. A source font draws that shape under the `mvs` suffix — `_N.fina.mvs`
+    beside `_N.fina`.
+    """
+
+    if len(descriptor.units) != 1:
+        return []
+    forms = data.writtenUnits.get(descriptor.units[0], {})
+    return ["mvs"] if "pre_mvs" in forms.get(descriptor.position, {}) else []
 
 
 def _findMemberNames(

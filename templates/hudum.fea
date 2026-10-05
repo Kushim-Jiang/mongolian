@@ -3061,6 +3061,28 @@ feature rclt {
     lookup IIb.ligature;
 } rclt;
 
+lookup IIb.chachlag_onset.mvs.sub {
+    lookupflag 0;
+    sub u1828.N.fina by u1828.N.fina.mvs;
+    sub u182D.Hx.fina by u182D.Hx.fina.mvs;
+} IIb.chachlag_onset.mvs.sub;
+
+feature rclt {
+    script DFLT;
+    language dflt;
+    lookup IIb.chachlag_onset.mvs {
+        lookupflag IgnoreMarks;
+        sub [u1828.N.fina u182D.Hx.fina]' lookup IIb.chachlag_onset.mvs.sub mvs.narrow [u1820.Aa.isol u1821.Aa.isol];
+    } IIb.chachlag_onset.mvs;
+
+} rclt;
+
+feature rclt {
+    script mong;
+    language dflt;
+    lookup IIb.chachlag_onset.mvs;
+} rclt;
+
 feature rclt {
     script DFLT;
     language dflt;
