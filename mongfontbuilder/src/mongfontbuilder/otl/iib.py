@@ -232,7 +232,10 @@ def iib2(c: MongFeaComposer) -> None:
         return
 
     substitutions: list[tuple[str, str]] = []
-    for _, charName, position, _, variant in getVariants("MNG", ["n", "g"]):
+    # The letters the chachlag onset of III.2c narrows the mark after, which are the ones a
+    # mark can follow at the end of a syllable; of them, only the ones drawn with a `pre_mvs`
+    # shape of their own take the form.
+    for _, charName, position, _, variant in getVariants("MNG", ["n", "j", "w", "h", "g"]):
         if not choosesVariant("MNG", variant, "chachlag_onset"):
             continue
         form = GlyphDescriptor.fromData(charName, position, variant, locale="MNG")
