@@ -183,7 +183,7 @@ wheels = [
 
 [[package]]
 name = "mongfontbuilder"
-version = "0.15.2"
+version = "0.15.3"
 source = { editable = "mongfontbuilder" }
 dependencies = [
     { name = "cattrs" },
