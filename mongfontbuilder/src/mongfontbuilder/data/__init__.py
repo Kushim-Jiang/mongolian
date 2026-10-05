@@ -12,6 +12,7 @@ from .types import (
     JoiningPosition,
     LocaleData,
     LocaleID,
+    NonJoiningData,
     OutsideLetterData,
     ParticleData,
     VariantData,
@@ -58,6 +59,12 @@ with (dir / "outsideLetters.json").open(encoding="utf-8") as f:
     outsideLetters = structure(
         json.load(f),
         dict[CharacterName, dict[JoiningPosition, dict[FVS, OutsideLetterData]]],
+    )
+
+with (dir / "nonJoining.json").open(encoding="utf-8") as f:
+    nonJoining = structure(
+        json.load(f),
+        dict[LocaleID, NonJoiningData],
     )
 
 codePointToCmapVariant = resolveCmapVariants(variants)

@@ -66,5 +66,18 @@ class VariantData:
 
 
 @dataclass
+class NonJoiningData:
+    """The characters of a writing system that are not letters and take no part in shaping.
+
+    They are the code points a font of the writing system has to carry: the punctuation
+    marks the writing system writes, and the digits it writes numbers with, where it has
+    digits of its own.
+    """
+
+    punctuation: list[int]
+    digits: list[int]
+
+
+@dataclass
 class OutsideLetterData:
     written: Written

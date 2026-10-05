@@ -9,7 +9,7 @@ import {
   type LocaleID,
 } from "./locales.ts";
 import { aliases, type LocaleNamespace } from "./aliases.ts";
-import { writtenUnits } from "./writtenUnits.ts";
+import { digits, punctuation, writtenUnits } from "./writtenUnits.ts";
 import { ligatures } from "./ligatures.ts";
 import { variants } from "./variants.ts";
 import { particles } from "./particles.ts";
@@ -113,6 +113,47 @@ for (const [charName, positionToFVSToData] of Object.entries(outsideLetters)) {
   }
 }
 
+const localeIDs = Object.keys(locales) as LocaleID[];
+
+// Read as the shape a mark is written with rather than as the type the data happens to
+// infer, which is what makes the checks checks: a mark that is given no writing system, or
+// one the model does not have, is caught here rather than on the page that renders it.
+for (const [name, entry] of Object.entries(punctuation) as [
+  string,
+  { unicode?: number; locales?: readonly string[] },
+][]) {
+  if (entry.unicode === undefined) continue;
+  if (!entry.locales?.length) {
+    throw Error("punctuation of no writing system", { cause: { name } });
+  }
+  for (const locale of entry.locales) {
+    if (!localeIDs.includes(locale as LocaleID)) {
+      throw Error("punctuation of an unknown writing system", {
+        cause: { name, locale },
+      });
+    }
+  }
+}
+
+// The characters of the script that are not letters and take no part in shaping: the marks
+// and the digits. A writing system writes the marks its column of the documentation gives
+// it, and a writing system writes the digits only where it writes numbers with them.
+const nonJoining = Object.fromEntries(
+  localeIDs.map((locale) => {
+    const writesIt = (localesOf: readonly string[]) =>
+      localesOf.includes(locale);
+    return [
+      locale,
+      {
+        punctuation: Object.values(punctuation)
+          .filter((entry) => "unicode" in entry && writesIt(entry.locales))
+          .map((entry) => ("unicode" in entry ? entry.unicode : 0)),
+        digits: writesIt(digits.locales) ? [...digits.codePoints] : [],
+      },
+    ];
+  }),
+);
+
 for (const [name, data] of Object.entries({
   locales,
   aliases,
@@ -121,6 +162,7 @@ for (const [name, data] of Object.entries({
   variants,
   particles,
   outsideLetters,
+  nonJoining,
 })) {
   await writeFile(
     join(outputDir, name + ".json"),
