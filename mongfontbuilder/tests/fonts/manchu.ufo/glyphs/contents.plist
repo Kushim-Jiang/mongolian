@@ -494,6 +494,10 @@
     <string>nnbsp.glif</string>
     <key>space</key>
     <string>space.glif</string>
+    <key>u1808</key>
+    <string>u1808.glif</string>
+    <key>u1809</key>
+    <string>u1809.glif</string>
     <key>zwj</key>
     <string>zwj.glif</string>
     <key>zwnj</key>
