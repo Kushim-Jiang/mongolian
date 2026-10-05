@@ -2,4 +2,6 @@
 <glyph name="u3000" format="2">
   <advance width="1000"/>
   <unicode hex="3000"/>
+  <outline>
+  </outline>
 </glyph>
