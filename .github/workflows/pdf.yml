@@ -14,6 +14,11 @@ name: Build PDF
 
 on:
   workflow_dispatch:
+    inputs:
+      revision:
+        description: UTN revision number to build as an archived revision, under the base path it is published at; leave empty for the current documentation
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -21,6 +26,9 @@ permissions:
 jobs:
   pdf:
     runs-on: ubuntu-latest
+    env:
+      # Read by both the site build and `pdf.py`; empty means the current documentation.
+      UTN_REVISION: ${{ inputs.revision }}
     steps:
       - uses: actions/checkout@v7
 

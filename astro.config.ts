@@ -1,8 +1,14 @@
 import { defineConfig, envField } from "astro/config";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
+import { satteri } from "@astrojs/markdown-satteri";
+import { baseLinks } from "./src/hast-base-links";
 
 const UTN_REVISION_STRING = process.env.UTN_REVISION;
+
+const base = UTN_REVISION_STRING
+  ? `/notes/tn57/utn57-mong-${UTN_REVISION_STRING}/`
+  : "/";
 
 export default defineConfig({
   env: {
@@ -16,9 +22,10 @@ export default defineConfig({
       }),
     },
   },
-  base: UTN_REVISION_STRING
-    ? `/notes/tn57/utn57-mong-${UTN_REVISION_STRING}/`
-    : undefined,
+  base,
+  markdown: {
+    processor: satteri({ hastPlugins: [baseLinks(base)] }),
+  },
   trailingSlash: "always",
   integrations: [
     svelte(),
@@ -59,7 +66,6 @@ export default defineConfig({
       customCss: ["./src/custom.css"],
       components: {
         ThemeProvider: "./src/ThemeProvider.astro",
-        ThemeSelect: "./src/ThemeSelect.astro",
       },
     }),
   ],

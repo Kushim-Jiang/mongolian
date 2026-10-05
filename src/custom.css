@@ -5,9 +5,12 @@
   --helper-gray: hsl(210 2% 55% / 0.65);
 }
 
+/* The font is imported rather than served from `public/`, so that the build gives it a
+   URL of its own, under the site's base path: an archived revision publishes its own
+   copy, and the CSS `url()` in the merged PDF resolves to the file the build emitted. */
 @font-face {
   font-family: "WrittenUnits";
-  src: url("/writtenunits-Regular.ttf");
+  src: url("./writtenunits-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }

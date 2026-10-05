@@ -7,6 +7,7 @@ document is rendered from memory; pass `--html-out` to keep a copy of it.
 
 import argparse
 import html
+import os
 import re
 from pathlib import Path
 
@@ -15,6 +16,25 @@ from lxml import html as lhtml
 
 DIST = Path.cwd() / "dist"
 ASTRO_CONFIG = Path.cwd() / "astro.config.ts"
+
+# A revision of the documentation is built under a base path, which `astro.config.ts`
+# computes from `UTN_REVISION`; the pages carry it on every link and asset URL. The build
+# writes `dist/` flat, without that path, so the pages have to be told the same value here
+# for a URL to be read as a file. The workflow passes the variable through.
+UTN_REVISION = os.environ.get("UTN_REVISION")
+BASE = f"/notes/tn57/utn57-mong-{UTN_REVISION}/" if UTN_REVISION else "/"
+
+
+def site_path(url_path: str) -> str:
+    """A site URL path with the base path taken off, so that it names a file in `dist/`."""
+    if BASE != "/" and url_path.startswith(BASE):
+        return "/" + url_path[len(BASE) :]
+    return url_path
+
+
+def site_file(url_path: str) -> Path:
+    """The file the build wrote for a site URL path."""
+    return (DIST / site_path(url_path).lstrip("/")).resolve()
 
 
 def parse_site_title() -> str:
@@ -62,8 +82,7 @@ CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)(/[^'\")\s]+)\1\s*\)")
 
 def rewrite_css_url(m: re.Match) -> str:
     quote, path = m.group(1), m.group(2)
-    target = (DIST / path.lstrip("/")).resolve()
-    return f"url({quote}{target.as_uri()}{quote})"
+    return f"url({quote}{site_file(path).as_uri()}{quote})"
 
 
 def collect_css(doc, seen: dict) -> None:
@@ -73,7 +92,7 @@ def collect_css(doc, seen: dict) -> None:
         href = link.get("href", "")
         if href.startswith(("http://", "https://", "data:", "mailto:")):
             continue
-        fp = DIST / href.lstrip("/")
+        fp = site_file(href)
         if href not in seen and fp.is_file():
             css = fp.read_text(encoding="utf-8")
             seen[href] = CSS_URL_RE.sub(rewrite_css_url, css)
@@ -129,7 +148,7 @@ def process_content(slug: str, body_html: str):
         idmap[old] = new
 
     for a in frag.xpath("//a[@href]"):
-        href = a.get("href") or ""
+        href = site_path(a.get("href") or "")
         if href.startswith("#"):
             anchor = href[1:]
             a.set("href", f"#{idmap.get(anchor, slug + '-' + anchor)}")
@@ -147,7 +166,7 @@ def process_content(slug: str, body_html: str):
     for el in frag.xpath("//img[@src] | //source[@src]"):
         src = el.get("src") or ""
         if src.startswith("/"):
-            el.set("src", (DIST / src.lstrip("/")).resolve().as_uri())
+            el.set("src", site_file(src).as_uri())
 
     headings = []
     for h in frag.xpath(".//h2 | .//h3 | .//h4 | .//h5 | .//h6"):

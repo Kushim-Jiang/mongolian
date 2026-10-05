@@ -23,6 +23,10 @@
   const prefix = $derived(locales[locale].name);
   const items = $derived(links.split(" ").filter(Boolean));
 
+  // An archived revision is published under a base path (see `astro.config.ts`), so a
+  // link into the site has to carry it; `BASE_URL` is that path, and is `/` otherwise.
+  const base = import.meta.env.BASE_URL;
+
   // The format controls take part in the shaping of the letters around them rather than
   // being written forms of a writing system, so they are described in the chapter that
   // treats the character layer, not among the written forms of a writing system. An item
@@ -50,13 +54,13 @@
   {@const fvs = isPos && parts.length >= 3 ? parts[2] : undefined}
   {@const isUnit = unit in writtenUnits}
   {@const isControl = FORMAT_CONTROLS.has(unit.toLowerCase())}
-  {@const href = isControl ? `/architecture/#format-controls` : !isPos ? `/${prefix}/#${item}` : fvs === undefined ? (isUnit ? `/${prefix}/#${unit}-${pos}` : `/${prefix}/#${unit}-${pos}-0`) : `/${prefix}/#${unit}-${pos}-${fvs}`}
+  {@const href = isControl ? `${base}architecture/#format-controls` : !isPos ? `${base}${prefix}/#${item}` : fvs === undefined ? (isUnit ? `${base}${prefix}/#${unit}-${pos}` : `${base}${prefix}/#${unit}-${pos}-0`) : `${base}${prefix}/#${unit}-${pos}-${fvs}`}
   {@const label = CONTROL_LABELS[unit.toLowerCase()] ?? (fvs === undefined ? item : fvs === "0" ? `${unit}.${pos} (default)` : `${unit}.${pos}.${fvs}`)}
   <a {href} style="font-style: {unit[0] === unit[0].toLowerCase() ? 'italic' : 'normal'}">{label}</a>
 {/each}{#if categoryItems.length > 0}
   <span>
     {#each categoryItems as catItem, index}
-      <a href={`/${prefix}/#${catItem}`} style="font-style: italic">{catItem}</a>{index < categoryItems.length - 1 ? ", " : ""}
+      <a href={`${base}${prefix}/#${catItem}`} style="font-style: italic">{catItem}</a>{index < categoryItems.length - 1 ? ", " : ""}
     {/each}
   </span>
 {/if}
