@@ -217,7 +217,13 @@ def build_document(slugs: list, site_title: str):
         )
 
     css_blocks = "\n".join(f"<style>{css}</style>" for css in seen_css.values())
-    subtitle = "Documentation of UTN #57 (the Mongolian UTN)"
+    # The cover names the document, not the copy of it — the wording `docs/index.mdx` uses
+    # on the site: only a build that is a revision of the UTN says that it is one.
+    subtitle = (
+        f"Unicode Technical Note #57, revision {UTN_REVISION}"
+        if UTN_REVISION
+        else "Documentation of the Mongolian script"
+    )
 
     doc_html = "\n".join(
         [
