@@ -92,16 +92,6 @@ td {
   vertical-align: middle;
 }
 
-table.punc th,
-table.punc td {
-  vertical-align: middle;
-}
-
-table.punc th:nth-child(3),
-table.punc td:nth-child(3) {
-  text-align: center;
-}
-
 /* ── Header brand ── */
 
 /* The site title is as long as the UTN’s own title, so let it truncate instead
