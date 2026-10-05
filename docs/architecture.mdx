@@ -96,11 +96,11 @@ The characters of a writing system are determined by a phonemic analysis of the 
 
 Format controls represent no phoneme; they control the shaping of the letters around them and have no visual appearance of their own. They belong to the character layer, and their effect takes place in the [shaping process](#shaping-process).
 
-**Zero Width Non-Joiner (ZWNJ), Zero Width Joiner (ZWJ), and Nirugu**. U+200C and U+200D are Unicode’s standard cursive joining controls: invisible characters that override automatic shaping, ZWJ requesting a more connected rendering of its neighbours and ZWNJ a less connected one, breaking a cursive connection or a ligature ([Section 23.2, “Layout Controls”](https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-23/)). In Mongolian they can also select a letter’s positional form in isolation or override its expected form within a word: the isolate, initial, final, and medial forms of the letter a (U+1820), for instance, are selected by `U+1820`, `U+1820 U+200D`, `U+200D U+1820`, and `U+200D U+1820 U+200D`. Being invisible, ZWJ also breaks interaction such as ligation between the characters it stands between, and neither belongs on a common keyboard layout, since everyday text does not need them.
+**Zero Width Non-Joiner (ZWNJ), Zero Width Joiner (ZWJ), and Nirugu**. U+200C and U+200D are Unicode’s standard cursive joining controls: invisible characters that override automatic shaping, ZWJ requesting a more connected rendering of its neighbours and ZWNJ a less connected one, breaking a cursive connection or a ligature ([Section 23.2, “Layout Controls”](https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-23/)). In Mongolian they can also select a letter’s positional form in isolation or override its expected form within a word: the isolate, initial, final, and medial forms of the letter _a_ (U+1820), for instance, are selected by `U+1820`, `U+1820 U+200D`, `U+200D U+1820`, and `U+200D U+1820 U+200D`. Being invisible, ZWJ also breaks interaction such as ligation between the characters it stands between, and neither belongs on a common keyboard layout, since everyday text does not need them.
 
 U+180A MONGOLIAN NIRUGU behaves exactly like ZWJ but is visible as a piece of stem stroke, and it is the control to use for joining in everyday text—for example, to end a patronymic abbreviation that is the initial syllable body or the initial consonant of the father’s name. In the Unicode Standard it acts as a stem extender, lengthening the stem that joins the letters of a word; that stretching belongs in the font rather than in the user’s hands (see [IIb](#iib-sub-written-unit-variation)). The nirugu may also join the two parts of a compound word, where it resembles a nonbreaking, attaching hyphen. The three joining controls act at the [cursive-joining step of the shaping process](#iia-cursive-joining).
 
-**Vowel Separator (MVS) and Narrow No-Break Space (NNBSP)**. MVS is a Mongolian-specific format control, the one that requests the chachlag variation, transcribed as `·` (a middle dot). In the Unicode Standard it marks the break between a word-final letter a or e and the rest of the word: it separates the two parts—the a or e after it is part of the stem, not a suffix—and always selects the leftward-tail form of that a or e, and it may also affect the form of the preceding letter. Neither Todo nor Manchu nor Sibe needs it. NNBSP, transcribed as `–` (an en-dash), is a whitespace and format control for particles: before Unicode 16.0 it represented the small gap before a separated suffix, and it keeps the Script_Extensions value “Mong” for backward compatibility, but its role has passed to the MVS, which both prevents a break before the suffix and triggers the shaping the suffix needs. NNBSP is discouraged in favour of the MVS, because it sometimes shapes anomalously. The MVS acts at the [reduction step of the shaping process](#iii-reduction-of-phonetic-letters-to-written-units).
+**Vowel Separator (MVS) and Narrow No-Break Space (NNBSP)**. MVS is a Mongolian-specific format control, the one that requests the chachlag variation, transcribed as `·` (a middle dot). In the Unicode Standard it marks the break between a word-final letter _a_ or _e_ and the rest of the word: it separates the two parts—the _a_ or _e_ after it is part of the stem, not a suffix—and always selects the leftward-tail form of that _a_ or _e_, and it may also affect the form of the preceding letter (see [IIb](#iib-sub-written-unit-variation)). Neither Todo nor Manchu nor Sibe needs it. NNBSP, transcribed as `–` (an en-dash), is a whitespace and format control for particles: before Unicode 16.0 it represented the small gap before a separated suffix, and it keeps the Script_Extensions value “Mong” for backward compatibility, but its role has passed to the MVS, which both prevents a break before the suffix and triggers the shaping the suffix needs. NNBSP is discouraged in favour of the MVS, because it sometimes shapes anomalously. The MVS acts at the [reduction step of the shaping process](#iii-reduction-of-phonetic-letters-to-written-units).
 
 <Aside type="note">
 
@@ -131,14 +131,14 @@ A cursive script shapes in a fixed order: a basic character-to-glyph mapping (ph
   </thead>
   <tbody>
     <tr>
-      <td rowspan="14"></td>
+      <td rowspan="15"></td>
       <td colspan="3" style="border-left-style: hidden !important;">
         Ia. General
       </td>
       <td>Basic character-to-glyph mapping</td>
     </tr>
     <tr>
-      <td rowspan="11"></td>
+      <td rowspan="12"></td>
       <td colspan="2" style="border-left-style: hidden !important;">
         IIa. Cursive script
       </td>
@@ -169,10 +169,13 @@ A cursive script shapes in a fixed order: a basic character-to-glyph mapping (ph
       <td>FVS-selected</td>
     </tr>
     <tr>
-      <td colspan="2" rowspan="4" style="border-left-style: hidden !important;">
+      <td colspan="2" rowspan="5" style="border-left-style: hidden !important;">
         IIb. Cursive script (continued) <br /> _Sub-written-unit variations_
       </td>
       <td>Variation involving bowed written units</td>
+    </tr>
+    <tr>
+      <td>The form a written unit takes before the mark that ends a syllable</td>
     </tr>
     <tr>
       <td>Cleanup of format controls</td>
@@ -232,7 +235,9 @@ Phase III runs a series of Mongolian-specific steps. The phonetic conditions are
 
 #### IIb. Sub-written-unit variation
 
-After the written units are fixed, cursive shaping resumes where phase IIa left it, with the variation within a written unit. The reduction of phase III and the variation of this phase both act on written units, at different scales: the reduction chose a written unit among the variants of the joining position, and the variation now adjusts it in the light of the surrounding written units. A bowed written unit may first change the form of a following vowel; the format controls the earlier steps consumed are then cleaned up, the designs a writing system draws differently from the writing systems it shares characters with are localized, and the optional treatments are applied.
+After the written units are fixed, cursive shaping resumes where phase IIa left it, with the variation within a written unit. The reduction of phase III and the variation of this phase both act on written units, at different scales: the reduction chose a written unit among the variants of the joining position, and the variation now adjusts it in the light of the surrounding written units. A bowed written unit may first change the form of a following vowel, a written unit may then take the shape it is drawn with before the mark that ends a syllable, the format controls the earlier steps consumed are cleaned up, the designs a writing system draws differently from the writing systems it shares characters with are localized, and the optional treatments are applied.
+
+**The form before the mark that ends a syllable.** A written unit may be drawn with a shape of its own where it stands before the MVS that ends the syllable a mark separates, and in Hudum the final forms of _n_ (U+1828) and _g_ (U+182D) have one—the letters the chachlag onset of phase III selects. The mark is the narrow MVS: the same context that writes the chachlag _a_ or _e_ narrows the mark to that shape, and it is what the step asks for. A wide MVS, which is the separator the cleanup of format controls splits in two, is not a context for the shape. The step acts here rather than within the condition that selects the letter, because that condition acts in phase III, before the FVS is consumed: a substitution made there would take the written unit out of the class the FVS is shaped against, and the FVS would be left in the text unshaped.
 
 **Localized treatments.** A shared character may be drawn with a different design by each writing system: the final form of _m_ (U+182E), for example, has a small tail in Hudum and a large one in Sibe and Manchu. The written unit is the same and only its design differs, so the font keeps one design as the default and gives the others theirs here, as [Single-font implementation](/single-font-implementation/) treats. The localized form is selected in `rclt`, not `locl`, because an engine applies `locl` before cursive joining, when the written unit to replace does not exist yet.
 
