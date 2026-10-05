@@ -21,8 +21,8 @@ testsDir = Path(__file__).parent
 fontsDir = testsDir / "fonts"  # the test fonts the suites shape
 project = testsDir.parent  # the mongfontbuilder project this suite belongs to
 repo = project.parent  # the repository, where the templates live
-tempDir = project / "temp"
-tempDir.mkdir(exist_ok=True)
+tempDir = project / "temp"  # the builds and reports the tests write
+tempDir.mkdir(exist_ok=True)  # made here, and imported ready-made by every other module
 libraryDir = project / "src" / "mongfontbuilder"  # the code and the data a font is composed from
 
 Composer = TypeVar("Composer", bound=MongFeaComposer)
@@ -75,7 +75,7 @@ def recordBuild(stamp: str, stampFile: Path) -> None:
 
 class UTNGlyphName(str):
     """
-    Besides the graphical .joining_position, there’s also a joining position in terms of shaping logic that may appear in a glyph name. For example, uni1828.N.init._isol is an isol glyph in terms of shaping, but graphically it’s actually N.init.
+    Besides the graphical .joining_position, there’s also a joining position in terms of shaping logic that may appear in a glyph name. For example, uni1828.N.init@isol — a glyph name written uni1828.N.init._isol, as `parseWrittenUnits` rewrites it — is an isol glyph in terms of shaping, but graphically it’s actually N.init.
     """
 
     uniName: str | None

@@ -125,7 +125,6 @@ def main() -> None:
     composeIfNeeded()
     rows = collect()
     text = report(rows)
-    REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(text, encoding="utf-8")
     COMPACT.write_text(compact(rows), encoding="utf-8")
     print(text, flush=True)

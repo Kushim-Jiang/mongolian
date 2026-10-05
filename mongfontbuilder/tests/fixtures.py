@@ -100,7 +100,6 @@ def buildFontForLocales(locales: list[LocaleID]) -> Path:
     c = composeInto(font, locales)
     font.features.text = c.asFeatureFile().asFea()
 
-    tempDir.mkdir(parents=True, exist_ok=True)
     intermediate = tempDir / f"{fontName}.ufo"
     font.save(intermediate, overwrite=True)
 

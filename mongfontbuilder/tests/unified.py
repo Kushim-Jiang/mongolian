@@ -708,7 +708,6 @@ def buildUnifiedFont() -> Path:
 
     print("composing the unified font …", flush=True)
     font = composeUnified()
-    tempDir.mkdir(parents=True, exist_ok=True)
     print(f"  composed {len(font)} glyphs, writing the UFO …", flush=True)
     font.save(composedUFO, overwrite=True)
     print("  wrote the UFO, compiling the OTF …", flush=True)
