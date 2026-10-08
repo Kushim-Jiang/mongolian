@@ -21,6 +21,8 @@ from mongfontbuilder.data.types import LocaleID
 from unified import (
     CASES,
     LANGUAGE,
+    SOURCE,
+    UPRIGHT_SHIFT,
     VERTICAL_MARGIN,
     buildUnifiedFont,
     caseIndexes,
@@ -82,6 +84,29 @@ def test_vertical_boxes(unifiedFont: Path, script: str) -> None:
         (position,) = buffer.glyph_positions
         assert -position.y_advance == yMax - yMin + 2 * VERTICAL_MARGIN, name
         assert -position.y_offset == yMax + VERTICAL_MARGIN, name
+
+
+def test_upright_placement(unifiedFont: Path) -> None:
+    """An upright form is drawn off the middle of its advance, so that it sits on the stem.
+
+    A layout places an upright form across a vertical line by the middle of its horizontal
+    advance, and reads the middle of the line from the typographic metrics of the font; the
+    stem is drawn `UPRIGHT_SHIFT` to one side of that middle, so the drawing of the form is
+    moved that far across the line. The advance is what the layout places the form by and what
+    a mark is read with, so it is left as the source font gives it.
+    """
+
+    source = Font.open(SOURCE)
+    composed = Font.open(composedUFO)
+    hmtx = TTFont(unifiedFont)["hmtx"]
+    forms = [name for name in source.keys() if name.endswith(".vert")]
+    assert forms
+    for name in forms:
+        sMin, _, sMax, _ = inkBox(source[name])
+        cMin, _, cMax, _ = inkBox(composed[name])
+        assert composed[name].width == source[name].width, name
+        assert hmtx[name][0] == source[name].width, name
+        assert (cMin + cMax) / 2 - (sMin + sMax) / 2 == UPRIGHT_SHIFT, name
 
 
 # The cases of the suites, and how far a run of them has come. There are thousands of

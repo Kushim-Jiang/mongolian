@@ -168,6 +168,22 @@ VERTICAL_HEIGHT = 1000
 # ideographic space and the dotted circle.
 UPRIGHT_WITHOUT_A_FORM = ("u3000", "u25CC")
 
+# The height a layout reads the middle of the line at, which is where it places an upright
+# form across the line. It is the midpoint of the typographic ascender and descender, which
+# the source fontinfo declares as 1457 and -293; the font sets the use-typo-metrics bit, so
+# these are the metrics a layout reads the line from.
+LINE_MIDDLE = (1457 - 293) // 2
+
+# The height the written forms are drawn along their stem, which is the line a vertical line
+# of this font is read along: every written form carries its stem in this band. Read off the
+# drawings, where the stem runs from y 364 to y 444.
+STEM_HEIGHT = (364 + 444) // 2
+
+# How far an upright form is moved across the line, from the middle of the line onto the stem:
+# the distance between the two heights above, taken towards the stem. `uprightPlacement` moves
+# the drawing of the form this far, and leaves the advance it is given.
+UPRIGHT_SHIFT = STEM_HEIGHT - LINE_MIDDLE
+
 # The marks that are drawn over the written form they follow rather than beside it, which
 # `markAnchors` anchors at the origin so that they stay where they were drawn, and the
 # writing systems that write with them. Hudum and Manchu write with them, and so do their
@@ -420,6 +436,32 @@ class UnifiedMongFeaComposer(MongFeaComposer):
             glyph.height = int(drawing + 2 * VERTICAL_MARGIN)
             glyph.lib["public.verticalOrigin"] = int(ink[3] + VERTICAL_MARGIN)
 
+    def uprightPlacement(self, font: Font) -> None:
+        """**Draw an upright form off the middle of its advance, and so onto the stem**
+
+        A layout places an upright form across a vertical line by its horizontal advance
+        alone: the middle of that advance stands on the middle of the line. Nothing else in
+        OpenType places a glyph across a line — a vertical origin carries no x, and `vpal` is
+        read by no layout that is not asked for it — so where an upright form sits across the
+        line is what its advance and its drawing say between them.
+
+        The middle of the line is not where the stem is drawn. A layout reads the line's
+        middle from `LINE_MIDDLE`, the midpoint of the typographic ascender and descender,
+        while the written forms draw their stem at `STEM_HEIGHT`, and the two are
+        `UPRIGHT_SHIFT` apart. The drawing of an upright form is therefore moved that far
+        across the line, from the middle of the line onto the stem, and the advance the source
+        font gives the form is left alone: the forms are read in a line of their own width,
+        and an advance is the width of a mark rather than a placement.
+
+        Only the forms drawn for the vertical line are moved. A mark a layout sets upright
+        without substituting its vertical form — WebKit does this for U+FF1B — reads the
+        drawing of the horizontal form, which a horizontal line is read by too, so that one
+        is left where it is drawn.
+        """
+
+        for name in self.verticalFormNames():
+            font[name].move((UPRIGHT_SHIFT, 0))
+
     def iib5(self) -> None:
         """**Phase IIb.5: Stretching the stem where a bow is followed by an extending form**
 
@@ -643,6 +685,7 @@ def composeUnified(locales: list[LocaleID] | None = None) -> Font:
     # lookup is written here rather than during the composition.
     composer.markAnchors(font)
     composer.verticalProportions(font)
+    composer.uprightPlacement(font)
     markGeneratedGlyphs(font, spec, sourceNames)
     font.features.text = composer.asFeatureFile().asFea()
     return font
