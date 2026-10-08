@@ -155,20 +155,18 @@ VOWELS = {"MNG": ["a", "ue", "ee", "o"], "MNGx": ["a", "iX", "ue", "ee", "o"]}
 # drawn with this much space before it and after it, and its vertical form is drawn with the
 # same margin at each end of it. A vertical form is read along the line, which is the
 # direction its advance is taken in, so the margin of a vertical form is taken along y. The
-# margin is what `verticalProportions` gives a vertical form through `vpal`.
+# margin is what `verticalProportions` gives a vertical form through `vmtx`.
 VERTICAL_MARGIN = 100
 
-# The height of the line a vertical form is read in, and so the vertical advance of every
-# vertical form and the `vhea` of the font. It is the sum of the `openTypeVheaVertTypoAscender`
-# and `openTypeVheaVertTypoDescender` of the source font, which the fontinfo declares as
-# 500 and -500: a vertical form of this font is read in a box of 1000 along the line, not in
-# the 1226 the horizontal line takes from the ascender to the descender of the font.
-#
-# A glyph is given this height through `vmtx`, which is what tells the layout that the
-# glyph has a vertical advance of its own. Without it the layout synthesizes a vertical
-# origin for the glyph, places the glyph by that origin rather than by the line, and the
-# margin a vertical form is drawn with is not the margin it is read with.
+# The height of the line a vertical form is read in, and so the `vhea` of the font. It is the
+# sum of the `openTypeVheaVertTypoAscender` and `openTypeVheaVertTypoDescender` of the source
+# font, which the fontinfo declares as 500 and -500. An upright glyph that draws nothing is
+# given this height.
 VERTICAL_HEIGHT = 1000
+
+# The glyphs a vertical line sets upright that are drawn with no vertical form: the
+# ideographic space and the dotted circle.
+UPRIGHT_WITHOUT_A_FORM = ("u3000", "u25CC")
 
 # The marks that are drawn over the written form they follow rather than beside it, which
 # `markAnchors` anchors at the origin so that they stay where they were drawn, and the
@@ -360,12 +358,8 @@ class UnifiedMongFeaComposer(MongFeaComposer):
         beside `uXXXX` in the source font. The mark is written with that form when the text
         runs vertically, which is what the `vert` feature asks for.
 
-        Noto carries a second feature, `vpal`, whose proportional placements pull the
-        vertical forms of the brackets and the quotes onto a common length. This font gives
-        most of its vertical forms the margin the horizontal form is drawn with —
-        `VERTICAL_MARGIN` at each end of the drawing, by `verticalProportions` — and leaves
-        the forms that are read at the edge of the line in the box of the line, which
-        `NO_VPAL` holds, so `vpal` is written here.
+        The box a vertical form is read in is not written here: `verticalProportions` writes
+        it as the vertical metrics of the glyph.
         """
 
         verticalForms = self.verticalFormNames()
@@ -385,83 +379,46 @@ class UnifiedMongFeaComposer(MongFeaComposer):
         return [name for name in self.glyphs if name.endswith(".vert")]
 
     def verticalProportions(self, font: Font) -> None:
-        """**Write `vpal`: the box of a vertical form is its drawing plus the margin**
-
-        A drawing is read along the line, and a vertical form is read along the line by its y
-        axis, which is the direction the layout takes its advance in. A font that gives a
-        glyph no vertical advance of its own gives every glyph the height of the line — from
-        the ascender to the descender — and the source font draws each vertical form in that
-        box, wherever in it the mark belongs.
-
-        A vertical form is given `VERTICAL_HEIGHT` as its height first, which is what makes
-        the font carry `vmtx` at all: a glyph whose height is set has a vertical advance of
-        its own, and the layout then reads the glyph by the line the font gives it rather
-        than by a vertical origin it synthesizes. The synthesized origin is what a reading
-        is otherwise placed by, and it is taken across the line from the width of the glyph
-        rather than from the drawing, so a vertical form read without `vmtx` does not keep
-        the margin it is drawn with. The height is the same for every form, so `vhea` is
-        written once and every vertical form shares the line.
+        """**Write `vmtx`: the box of an upright mark is its drawing plus the margin**
 
         A horizontal form of this font is drawn with the margin the mark is read with: its
-        ink runs from `VERTICAL_MARGIN` to the advance less `VERTICAL_MARGIN`, so the mark is
-        read with the same margin before it and after it and nothing else. A vertical form is
-        the same mark turned onto the line, so it is read with that same margin at each end
-        of it along the line. The advance of a vertical form is therefore set to its drawing
-        plus `VERTICAL_MARGIN` at each end of it, and the drawing is moved so that it sits
-        `VERTICAL_MARGIN` from the start of that advance.
+        ink runs from `VERTICAL_MARGIN` to the advance less `VERTICAL_MARGIN`. A vertical form
+        is the same mark turned onto the line, so it is read with that same margin at each end
+        of it along the line: its advance is its drawing plus `VERTICAL_MARGIN` at each end,
+        and the drawing sits `VERTICAL_MARGIN` from the start of that advance.
 
-        Both are proportional placements: values the layout reads rather than ink on the
-        glyph. The drawing is what the source font drew, and the placement is what `vpal` is
-        for; the advance a glyph of this font is looked up with is the height of the line, so
-        the placement is what the advance of the form is read as.
+        Both are written as the vertical metrics of the glyph — its height, and the vertical
+        origin its drawing is hung from — rather than as placements of a `vpal` feature. A
+        layout reads `vmtx` for every glyph it sets upright, whatever script it resolves the
+        text to and without being asked, whereas `vpal` is a feature no layout applies unless
+        the application asks for it, so a box written there is a box most text never gets.
 
-        The placement is written for the default script as well as for the Mongolian one.
-        A layout reads the placement of the script its text is written with, and only the
-        writing systems of this font are registered under `mong`; a layout that resolves
-        its text to another script — or to no script at all — reads `DFLT`, and a `vpal`
-        of the Mongolian script alone would be a placement that layout never reads. The
-        box of a vertical form is a property of the form itself, so it is written once for
-        every layout that reads the font.
+        The box is given to the horizontal form of each mark as well. A layout that sets a
+        mark upright without substituting its vertical form — WebKit does this for U+FF1B —
+        reads the vertical metrics of the horizontal form, and a glyph with no height has no
+        advance along the line at all. `UPRIGHT_WITHOUT_A_FORM` are the upright glyphs with no
+        vertical form, which are given a box for the same reason.
+
+        A glyph that draws nothing is given `VERTICAL_HEIGHT`, the height of the line.
         """
 
         verticalForms = self.verticalFormNames()
         if not verticalForms:
             return
-        for name in verticalForms:
-            font[name].height = VERTICAL_HEIGHT
-        # The placement of a vertical form is read from the top of the horizontal line, so
-        # the font has to declare that line. The vertical line is the one the fontinfo
-        # declares through the vhea metrics, which is `VERTICAL_HEIGHT`, not the ascender to
-        # the descender of the horizontal line.
-        ascender = font.info.ascender
-        assert ascender is not None
-        with self.Lookup(
-            "Ib.punctuation.proportions",
-            feature="vpal",
-            languageSystems={"DFLT": {"dflt"}, **self.languageSystems},
-        ):
-            for name in verticalForms:
-                ink = inkBox(font[name])
-                drawing = ink[3] - ink[1]
-                if not drawing:
-                    continue  # a vertical form with no drawing has no box to be given
-                box = drawing + 2 * VERTICAL_MARGIN
-                self.current.append(
-                    ast.SinglePosStatement(
-                        [
-                            (
-                                ast.GlyphName(self.glyphNameProcessor(name)),
-                                ast.ValueRecord(
-                                    yPlacement=int(ascender - VERTICAL_MARGIN - ink[3]),
-                                    yAdvance=box - VERTICAL_HEIGHT,
-                                ),
-                            )
-                        ],
-                        [],
-                        [],
-                        False,
-                    )
-                )
+        upright = [
+            *verticalForms,
+            *(name.removesuffix(".vert") for name in verticalForms),
+            *(name for name in UPRIGHT_WITHOUT_A_FORM if name in font),
+        ]
+        for name in upright:
+            glyph = font[name]
+            ink = inkBox(glyph)
+            drawing = ink[3] - ink[1]
+            if not drawing:
+                glyph.height = VERTICAL_HEIGHT
+                continue
+            glyph.height = int(drawing + 2 * VERTICAL_MARGIN)
+            glyph.lib["public.verticalOrigin"] = int(ink[3] + VERTICAL_MARGIN)
 
     def iib5(self) -> None:
         """**Phase IIb.5: Stretching the stem where a bow is followed by an extending form**
