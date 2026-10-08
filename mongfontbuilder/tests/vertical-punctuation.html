@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unified.otf — vertical punctuation</title>
+</head>
+
+<style>
+    /* Compose the font first: uv run python tests/build.py --only unified */
+    @font-face {
+        font-family: unified;
+        src: url(../temp/unified.otf) format("opentype");
+    }
+
+    p {
+        font-family: unified;
+        font-size: 30pt;
+        writing-mode: vertical-lr;
+        text-orientation: mixed;
+        font-feature-settings: "vert";
+    }
+</style>
+
+<body>
+<p>
+ᠪᠢᠴᠢᠭ·ᠪᠢᠴᠢᠭ
+<br>
+--U+00B7 MIDDLE DOT-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ‘ᠪᠢᠴᠢᠭ
+<br>
+--U+2018 LEFT SINGLE QUOTATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ’ᠪᠢᠴᠢᠭ
+<br>
+--U+2019 RIGHT SINGLE QUOTATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ“ᠪᠢᠴᠢᠭ
+<br>
+--U+201C LEFT DOUBLE QUOTATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ”ᠪᠢᠴᠢᠭ
+<br>
+--U+201D RIGHT DOUBLE QUOTATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ⁈ᠪᠢᠴᠢᠭ
+<br>
+--U+2048 QUESTION EXCLAMATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ⁉ᠪᠢᠴᠢᠭ
+<br>
+--U+2049 EXCLAMATION QUESTION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ、ᠪᠢᠴᠢᠭ
+<br>
+--U+3001 IDEOGRAPHIC COMMA-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ。ᠪᠢᠴᠢᠭ
+<br>
+--U+3002 IDEOGRAPHIC FULL STOP-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ〈ᠪᠢᠴᠢᠭ
+<br>
+--U+3008 LEFT ANGLE BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ〉ᠪᠢᠴᠢᠭ
+<br>
+--U+3009 RIGHT ANGLE BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ《ᠪᠢᠴᠢᠭ
+<br>
+--U+300A LEFT DOUBLE ANGLE BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ》ᠪᠢᠴᠢᠭ
+<br>
+--U+300B RIGHT DOUBLE ANGLE BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ「ᠪᠢᠴᠢᠭ
+<br>
+--U+300C LEFT CORNER BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ」ᠪᠢᠴᠢᠭ
+<br>
+--U+300D RIGHT CORNER BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ『ᠪᠢᠴᠢᠭ
+<br>
+--U+300E LEFT WHITE CORNER BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ』ᠪᠢᠴᠢᠭ
+<br>
+--U+300F RIGHT WHITE CORNER BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ！ᠪᠢᠴᠢᠭ
+<br>
+--U+FF01 FULLWIDTH EXCLAMATION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ（ᠪᠢᠴᠢᠭ
+<br>
+--U+FF08 FULLWIDTH LEFT PARENTHESIS-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ）ᠪᠢᠴᠢᠭ
+<br>
+--U+FF09 FULLWIDTH RIGHT PARENTHESIS-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ，ᠪᠢᠴᠢᠭ
+<br>
+--U+FF0C FULLWIDTH COMMA-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ：ᠪᠢᠴᠢᠭ
+<br>
+--U+FF1A FULLWIDTH COLON-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ；ᠪᠢᠴᠢᠭ
+<br>
+--U+FF1B FULLWIDTH SEMICOLON-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ？ᠪᠢᠴᠢᠭ
+<br>
+--U+FF1F FULLWIDTH QUESTION MARK-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ［ᠪᠢᠴᠢᠭ
+<br>
+--U+FF3B FULLWIDTH LEFT SQUARE BRACKET-----------------
+<br><br>
+
+ᠪᠢᠴᠢᠭ］ᠪᠢᠴᠢᠭ
+<br>
+--U+FF3D FULLWIDTH RIGHT SQUARE BRACKET-----------------
+<br><br><br>
+
+ᠪᠢᠴᠢᠭ·‘’”⁈⁉、。〈〉《》「」『』！（）［］，：；？ᠪᠢᠴᠢᠭ
+</p>
+
+</body>
+
+</html>

@@ -68,6 +68,17 @@ The cases below are marked for every font, because the UTN model answers them di
 - `XIM11-39`, `XIM11-40`, `XIM11-41` — the UTN model keeps the old functionality of NNBSP, so the features of NNBSP stay on.
 - `XIM11-1012` — a letter before an MVS is in the final position, so the FVS after it selects the final variant.
 
+## Previewing the vertical punctuation
+
+No case of the suites writes punctuation, so the vertical forms of the marks are checked by eye rather than by a run. `tests/vertical-punctuation.html` sets every mark the font draws a vertical form for in a vertical line, once between two written words and once in a single line of them all. Compose the font first, then serve the project directory so that the browser may load the compiled font:
+
+```sh
+uv run python tests/build.py --only unified
+uv run python -m http.server
+```
+
+Then open <http://localhost:8000/tests/vertical-punctuation.html>.
+
 ## Glyphs templates
 
 The [Glyphs](https://glyphsapp.com/) templates in the repository's [`templates/`](../templates) directory are generated from the test UFO fonts and the output of the OTL composer, and are updated from the repository root with:
