@@ -6,6 +6,7 @@ import WrittenUnitTable from "../src/components/WrittenUnitTable.svelte";
 import LetterTable from "../src/components/LetterTable.svelte";
 import ConditionalMappingTable from "../src/components/ConditionalMappingTable.svelte";
 import Mong from "../src/components/Mong.svelte";
+import Cp from "../src/components/Cp.svelte";
 
 export const locale = "TODx";
 
@@ -19,7 +20,7 @@ The punctuation, digits, and other characters of this writing system that lie ou
 
 <LetterTable locale={locale} />
 
-**Final <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> in letter <Mong TODx links="yX" />**. The written units <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> record entirely different phonemes and correspond to entirely different letters. The former comes from [U+0FB1 TIBETAN SUBJOINED LETTER YA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0fb1) and borrows its glyph directly; the latter is in fact a mirrored <Mong TODx links="Ip" />, just as [U+0F80 TIBETAN VOWEL SIGN REVERSED I](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f80) is the mirror of [U+0F72 TIBETAN VOWEL SIGN I](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f72). Earlier Chinese national standards did not distinguish the two glyphs, which gave rise to misunderstanding; the revised standard distinguishes the two but still places them under the same character.
+**Final <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> in letter <Mong TODx links="yX" />**. The written units <Mong TODx links="Yp" /> and <Mong TODx links="Ir" /> record entirely different phonemes and correspond to entirely different letters. The former comes from <Cp cp="0FB1" name /> and borrows its glyph directly; the latter is in fact a mirrored <Mong TODx links="Ip" />, just as <Cp cp="0F80" name /> is the mirror of <Cp cp="0F72" name />. Earlier Chinese national standards did not distinguish the two glyphs, which gave rise to misunderstanding; the revised standard distinguishes the two but still places them under the same character.
 
 ## Shaping process
 

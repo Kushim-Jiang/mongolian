@@ -2,6 +2,8 @@
 title: Relationship to the Unicode Standard
 ---
 
+import Cp from "../src/components/Cp.svelte";
+
 The Unicode Standard fixes the characters of the Mongolian block by code point and by name, and its code charts give each character one representative glyph. The variant data it carries belong to the earlier, single-block analysis recounted in [Background](/background/#the-views-of-variation): the positional and variant glyph forms of a letter are presentation forms that are not separately encoded, and a base letter followed by a free variation selector is a standardized variant. This document replaces that analysis: here the characters of the script are the phonetic letters of each writing system, and their variants are the written units that the writing system uses at each joining position.
 
 This document provides a detailed description of the characters and their behavior in the Mongolian script as defined by the Unicode Standard, lists the variants of each Mongolian character, and explains the process by which a sequence of Mongolian characters is converted into a sequence of glyphs. Note that [UTR \#54](https://www.unicode.org/reports/tr54/) provides only a historical version of the Code Charts for the Mongolian block: its variant set has changed significantly, so its variant descriptions and FVS assignments should not be used as a reference during implementation.
@@ -14,7 +16,7 @@ The [code chart for the Mongolian block](https://www.unicode.org/charts/PDF/U180
 
 ### The variants
 
-[`StandardizedVariants.txt`](https://www.unicode.org/Public/draft/ucd/StandardizedVariants.txt) still lists the Mongolian standardized variation sequences, each a base letter followed by a free variation selector. Its comments for the Mongolian block state that only the free variation selectors FVS1–FVS4 (U+180B..U+180D, U+180F) are used, and that the generic variation selectors are not; that the per-sequence descriptors are arbitrary, numbered labels with no systematic relation to the shapes of the glyphs; that a sequence labeled “not in use” is no longer recommended for use, because it was defined for earlier implementations and is retained so that legacy data remains legible; and that any unlisted combination is unspecified and reserved for future standardization.
+[`StandardizedVariants.txt`](https://www.unicode.org/Public/draft/ucd/StandardizedVariants.txt) still lists the Mongolian standardized variation sequences, each a base letter followed by a free variation selector. Its comments for the Mongolian block state that only the free variation selectors FVS1–FVS4 (<Cp cp="180B" />..<Cp cp="180D" />, <Cp cp="180F" />) are used, and that the generic variation selectors are not; that the per-sequence descriptors are arbitrary, numbered labels with no systematic relation to the shapes of the glyphs; that a sequence labeled “not in use” is no longer recommended for use, because it was defined for earlier implementations and is retained so that legacy data remains legible; and that any unlisted combination is unspecified and reserved for future standardization.
 
 The file belongs to the earlier model whose data structures are being retired. Its entries do not describe the variants of this document: the same descriptor does not describe the same written unit across writing systems, a descriptor may name a variant that current orthography no longer uses, and Mongolian variants do not behave as standardized variants, for the following reasons.
 

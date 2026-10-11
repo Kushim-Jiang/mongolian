@@ -16,6 +16,7 @@
   import { aliases } from "../../data/aliases";
   import LetterVariant from "./LetterVariant.svelte";
   import { hexFromCP, nameToCP } from "./utils";
+  import Cp from "./Cp.svelte";
   import { localeNS, orderedAliases, resolveCharName, mapGetOrCreate, isVariantRef, sortedFVSKeys } from "./utils";
 
   type LocalizedVariant = { written: VariantData["written"]; resolvedWritten?: WrittenUnitID[]; archaic: boolean; unrecommended: boolean };
@@ -183,7 +184,7 @@
         {@const fvses = sortedFVSKeys(positionToFVSToData)}
         <tr>
           <td id={alias} rowspan={fvses.length + 1} title="U+{hex} {char} {charName}">
-            {hex}<br />{char}{#if !unified}{" "}
+            <Cp cp={hex} /><br />{char}{#if !unified}{" "}
               <i>{alias}</i>{/if}
           </td>
           {@render variantCells(charName, positionToFVSToData, 0, alias)}
@@ -201,7 +202,7 @@
   {@const hex = hexFromCP(codePoint)}
   {@const char = String.fromCodePoint(codePoint)}
   <tr>
-    <td id={charName} title="U+{hex} {char} {charName}">{hex}<br />{char}</td>
+    <td id={charName} title="U+{hex} {char} {charName}"><Cp cp={hex} /><br />{char}</td>
     <td>-</td>
     {#each joiningPositions as position}
       {@const variant = positionToVariant.get(position)}
