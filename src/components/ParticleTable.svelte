@@ -9,6 +9,7 @@
   import type { WrittenUnitID } from "../../data/writtenUnits";
   import { particles } from "../../data/particles";
   import { writtenUnits } from "../../data/writtenUnits";
+  import Wu from "./Wu.svelte";
 
   type Atom = { unit: string; text: string; blue: boolean };
   type Row = { nominal: string[]; atoms: Atom[] };
@@ -98,24 +99,13 @@
             {i ? " " : ""}{#if t === "mvs"}<span class="mvs">mvs</span>{:else}<a class="letter" href="#{t}">{t}</a>{/if}
           {/each}
         </td>
-        <td class="shape"
-          ><span class="wu"
-            >{#each row.atoms as a}<span class={a.blue ? "blue" : ""}>{a.text}</span>{/each}</span
-          ></td
-        >
+        <td class="shape"><Wu parts={row.atoms.map((a) => ({ text: a.text, class: a.blue ? "wu-particle" : "" }))} /></td>
       </tr>
     {/each}
   </tbody>
 </table>
 
 <style>
-  td.shape .wu {
-    line-height: 1;
-    white-space: nowrap;
-  }
-  td.shape .wu span.blue {
-    color: var(--particle-blue);
-  }
   td.nominal {
     text-align: left !important;
   }

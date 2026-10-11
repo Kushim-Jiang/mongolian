@@ -14,6 +14,7 @@
   import { writtenUnits } from "../../data/writtenUnits";
   import { aliases } from "../../data/aliases";
   import LetterVariant from "./LetterVariant.svelte";
+  import Wu from "./Wu.svelte";
   import { localeNS, mapGetOrCreate, isVariantRef, niText, unitPosition } from "./utils";
 
   const localesToShow = $derived(Array.isArray(locale) ? locale : [locale]);
@@ -257,11 +258,12 @@
               {#if col && positionToLetters.has(lp as JoiningPosition)}
                 {#each col as row, i}
                   {#if i > 0}<br />{/if}
-                  <span class="wu">
-                    {#each row.parts as part}
-                      <span class={part.blue ? (part.isNi ? "lig-blue" : "lig-gray") : ""}>{part.text}</span>
-                    {/each}
-                  </span>
+                  <Wu
+                    parts={row.parts.map((part) => ({
+                      text: part.text,
+                      class: part.blue ? (part.isNi ? "lig-blue" : "lig-gray") : "",
+                    }))}
+                  />
                 {/each}
               {/if}
             </td>

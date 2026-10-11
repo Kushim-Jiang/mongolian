@@ -3,49 +3,51 @@ title: Non-joining characters
 ---
 
 import PunctuationTable from "../src/components/PunctuationTable.svelte";
+import Cp from "../src/components/Cp.svelte";
+import Wu from "../src/components/Wu.svelte";
 
 ### Other letters
 
 The letters and marks below lie outside the cursive letter inventories of the writing systems described on the preceding pages, but the font covers them nonetheless. In the figures, the letter or mark under discussion is shown in black; a neighbouring letter quoted in an example is shown in gray; and the _nirugu_ that stands for the cursive join is shown in blue.
 
-**[MONGOLIAN LETTER ALI GALI BALUDA (U+1885)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1885) and [MONGOLIAN LETTER ALI GALI THREE BALUDA (U+1886)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1886)**. U+1885 is used in the Hudum Ali Gali and Manchu Ali Gali writing to mark prodelision — the elision of a word-initial vowel — and attested in the _Tongwen Yuntong_. It derives from [U+0F85 TIBETAN MARK PALUTA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f85) and corresponds to [U+093D DEVANAGARI SIGN AVAGRAHA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#093d). U+1886 is equivalent to three U+1885 marks in a row, just as three Tibetan [U+0F85 TIBETAN MARK PALUTA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f85) or three Devanagari [U+093D DEVANAGARI SIGN AVAGRAHA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#093d) would be written together.
+**<Cp cp="1885" name="pre" /> and <Cp cp="1886" name="pre" />**. <Cp cp="1885" /> is used in the Hudum Ali Gali and Manchu Ali Gali writing to mark prodelision — the elision of a word-initial vowel — and attested in the _Tongwen Yuntong_. It derives from <Cp cp="0F85" name /> and corresponds to <Cp cp="093D" name />. <Cp cp="1886" /> is equivalent to three <Cp cp="1885" /> marks in a row, just as three Tibetan <Cp cp="0F85" name /> or three Devanagari <Cp cp="093D" name /> would be written together.
 
-| BALUDA                                                                                                             | THREE BALUDA                                                                                                       |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| <span class="wu lig-gray">&#xE212;</span><span class="wu">&#xE145;</span><span class="wu lig-gray">&#xE205;</span> | <span class="wu lig-gray">&#xE212;</span><span class="wu">&#xE146;</span><span class="wu lig-gray">&#xE205;</span> |
-| U+1889, **U+1885**, U+1826                                                                                         | U+1889, **U+1886**, U+1826                                                                                         |
+| BALUDA                                                   | THREE BALUDA                                             |
+| -------------------------------------------------------- | -------------------------------------------------------- |
+| <Wu units="~E212 E145 ~E205" />                          | <Wu units="~E212 E146 ~E205" />                          |
+| <Cp cp="1889" />, **<Cp cp="1885" />**, <Cp cp="1826" /> | <Cp cp="1889" />, **<Cp cp="1886" />**, <Cp cp="1826" /> |
 
-**[MONGOLIAN LETTER ALI GALI ANUSVARA ONE (U+1880)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1880)**. This letter marks the anusvara. Its plain form is based on [U+0F83 TIBETAN SIGN SNA LDAN](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f83) and its FVS1 form on [U+0F7E TIBETAN SIGN RJES SU NGA RO](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f7e); c.f. [U+0901 DEVANAGARI SIGN CANDRABINDU](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#0901) and [U+0902 DEVANAGARI SIGN ANUSVARA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#0902).
+**<Cp cp="1880" name="pre" />**. This letter marks the anusvara. Its plain form is based on <Cp cp="0F83" name /> and its FVS1 form on <Cp cp="0F7E" name />; c.f. <Cp cp="0901" name /> and <Cp cp="0902" name />.
 
-| isol                             | isol with FVS1                   |
-| -------------------------------- | -------------------------------- |
-| <span class="wu">&#xE148;</span> | <span class="wu">&#xE149;</span> |
-| U+1880                           | U+1880, U+180B                   |
+| isol                | isol with FVS1                     |
+| ------------------- | ---------------------------------- |
+| <Wu units="E148" /> | <Wu units="E149" />                |
+| <Cp cp="1880" />    | <Cp cp="1880" />, <Cp cp="180B" /> |
 
-**[MONGOLIAN LETTER ALI GALI VISARGA ONE (U+1881)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1881)**. This letter marks the visarga. Its plain form is based on [U+0F7F TIBETAN SIGN RNAM BCAD](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f7f); c.f. [U+0903 DEVANAGARI SIGN VISARGA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#0903).
+**<Cp cp="1881" name="pre" />**. This letter marks the visarga. Its plain form is based on <Cp cp="0F7F" name />; c.f. <Cp cp="0903" name />.
 
-| isol                             | isol with FVS1                   |
-| -------------------------------- | -------------------------------- |
-| <span class="wu">&#xE14A;</span> | <span class="wu">&#xE14B;</span> |
-| U+1881                           | U+1881, U+180B                   |
+| isol                | isol with FVS1                     |
+| ------------------- | ---------------------------------- |
+| <Wu units="E14A" /> | <Wu units="E14B" />                |
+| <Cp cp="1881" />    | <Cp cp="1881" />, <Cp cp="180B" /> |
 
-**[MONGOLIAN LETTER ALI GALI DAMARU (U+1882)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1882), [UBADAMA (U+1883)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1883), and [INVERTED UBADAMA (U+1884)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#1884)**. These letters are used to transliterate the Vedic Sanskrit sounds _jihvāmūlīya_ and _upadhmānīya_. DAMARU is based on [U+0F88 TIBETAN SIGN LCE TSA CAN](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f88) and corresponds to [U+1CF5 VEDIC SIGN JIHVAMULIYA](https://www.unicode.org/Public/18.0.0/charts/nameslist/1cd0/#1cf5); UBADAMA and INVERTED UBADAMA are based on [U+0F8C TIBETAN SIGN INVERTED MCHU CAN](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f8c) and [U+0F89 TIBETAN SIGN MCHU CAN](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f89) respectively and correspond to [U+1CF6 VEDIC SIGN UPADHMANIYA](https://www.unicode.org/Public/18.0.0/charts/nameslist/1cd0/#1cf6).
+**<Cp cp="1882" name="pre" />, <Cp cp="1883" name="pre" text="UBADAMA" />, and <Cp cp="1884" name="pre" text="INVERTED UBADAMA" />**. These letters are used to transliterate the Vedic Sanskrit sounds _jihvāmūlīya_ and _upadhmānīya_. DAMARU is based on <Cp cp="0F88" name /> and corresponds to <Cp cp="1CF5" name />; UBADAMA and INVERTED UBADAMA are based on <Cp cp="0F8C" name /> and <Cp cp="0F89" name /> respectively and correspond to <Cp cp="1CF6" name />.
 
-| DAMARU (isol)                    | UBADAMA (isol)                   | INVERTED UBADAMA (isol)          |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| <span class="wu">&#xE14C;</span> | <span class="wu">&#xE14D;</span> | <span class="wu">&#xE14E;</span> |
-| U+1882                           | U+1883                           | U+1884                           |
+| DAMARU (isol)       | UBADAMA (isol)      | INVERTED UBADAMA (isol) |
+| ------------------- | ------------------- | ----------------------- |
+| <Wu units="E14C" /> | <Wu units="E14D" /> | <Wu units="E14E" />     |
+| <Cp cp="1882" />    | <Cp cp="1883" />    | <Cp cp="1884" />        |
 
-**[MONGOLIAN LETTER ALI GALI DAGALGA (U+18A9)](https://www.unicode.org/Public/18.0.0/charts/nameslist/1800/#18a9)**. This letter is used in the Hudum Ali Gali to mark the _dagalga_ — a syllable-final consonant cluster. It derives from [U+0F84 TIBETAN MARK HALANTA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0f00/#0f84) and corresponds to [U+094D DEVANAGARI SIGN VIRAMA](https://www.unicode.org/Public/18.0.0/charts/nameslist/0900/#094d). It is used in combination with the preceding letter to indicate that the following vowel is not pronounced.
+**<Cp cp="18A9" name="pre" />**. This letter is used in the Hudum Ali Gali to mark the _dagalga_ — a syllable-final consonant cluster. It derives from <Cp cp="0F84" name /> and corresponds to <Cp cp="094D" name />. It is used in combination with the preceding letter to indicate that the following vowel is not pronounced.
 
-| DAGALGA                                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------ |
-| <span class="wu lig-gray">&#xE24D;</span><span class="wu">&#xE147;</span><span class="wu lig-gray">&#xE201;</span> |
-| U+1892, **U+18A9**, U+1820                                                                                         |
+| DAGALGA                                                  |
+| -------------------------------------------------------- |
+| <Wu units="~E24D E147 ~E201" />                          |
+| <Cp cp="1892" />, **<Cp cp="18A9" />**, <Cp cp="1820" /> |
 
 ### Digits
 
-Ten Mongolian digits are encoded in the Mongolian block, U+1810–U+1819, named MONGOLIAN DIGIT ZERO through MONGOLIAN DIGIT NINE. In the Unicode Character Database they are decimal digits (general category `Nd`) of the Mongolian script, and they are the digits used by Hudum and Todo. They derive from the Tibetan digits U+0F20–U+0F29, whose glyphs the vertical script has turned for its own orientation. Manchu and Sibe use no script-specific digits: European digits will be used in Sibe books. See [Section 13.5, “Mongolian”](https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-13/#G27803) and the [code chart for the Mongolian block](https://www.unicode.org/charts/PDF/U1800.pdf).
+Ten Mongolian digits are encoded in the Mongolian block, <Cp cp="1810" />–<Cp cp="1819" />, named MONGOLIAN DIGIT ZERO through MONGOLIAN DIGIT NINE. In the Unicode Character Database they are decimal digits (general category `Nd`) of the Mongolian script, and they are the digits used by Hudum and Todo. They derive from the Tibetan digits <Cp cp="0F20" />–<Cp cp="0F29" />, whose glyphs the vertical script has turned for its own orientation. Manchu and Sibe use no script-specific digits: European digits will be used in Sibe books. See [Section 13.5, “Mongolian”](https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-13/#G27803) and the [code chart for the Mongolian block](https://www.unicode.org/charts/PDF/U1800.pdf).
 
 Mongolian digits from zero to nine are not used in modern China: Mongolian (Hudum) text printed in China today writes numbers with European digits, and the Mongolian digits appear in the older literature. The Hudum and Todo literatures use these digits; they also appear a bit different between Hudum and Todo, but they are still in one system (the same ten code points).
 
@@ -57,6 +59,6 @@ The Mongolian digits behave identically to European digits: they are decimal dig
 
 <PunctuationTable />
 
-Note that many punctuation marks are visually set with a space on both sides, but none of that space is built into the glyph: no punctuation glyph carries any space in its own advance, on either side. The space before a mark is not an actual space character — if a plain space were typed before the mark, a line could break there and move the mark to the beginning of the following line, and a line must not begin with that punctuation mark — so it is set with a non-breaking space [U+00A0](https://www.unicode.org/Public/18.0.0/charts/nameslist/0080/#00a0), which permits no line break. The space after a mark, by contrast, is a real breaking space character (U+0020) that still has to be typed. In short: to open the space before a mark, insert U+00A0 before it; to open the space after a mark, insert U+0020 after it.
+Note that many punctuation marks are visually set with a space on both sides, but none of that space is built into the glyph: no punctuation glyph carries any space in its own advance, on either side. The space before a mark is not an actual space character — if a plain space were typed before the mark, a line could break there and move the mark to the beginning of the following line, and a line must not begin with that punctuation mark — so it is set with a non-breaking space <Cp cp="00A0" />, which permits no line break. The space after a mark, by contrast, is a real breaking space character (<Cp cp="0020" />) that still has to be typed. In short: to open the space before a mark, insert <Cp cp="00A0" /> before it; to open the space after a mark, insert <Cp cp="0020" /> after it.
 
-**Sibe quotation marks.** The quotation marks of the table above are used by Sibe alone (see the Sibe column), and from Unicode 17.0 their Sibe form is requested with VS3 (U+FE02), a standardized variation selector that follows the quotation mark it modifies ([L2/25-028, “Proposal to Add VS3 for Sibe Quotation Marks”](https://www.unicode.org/L2/L2025/25028-vs3-sibe-quotation-marks.pdf)); see the [format controls](/architecture/#format-controls) of the character set.
+**Sibe quotation marks.** The quotation marks of the table above are used by Sibe alone (see the Sibe column), and from Unicode 17.0 their Sibe form is requested with VS3 (<Cp cp="FE02" />), a standardized variation selector that follows the quotation mark it modifies ([L2/25-028, “Proposal to Add VS3 for Sibe Quotation Marks”](https://www.unicode.org/L2/L2025/25028-vs3-sibe-quotation-marks.pdf)); see the [format controls](/architecture/#format-controls) of the character set.

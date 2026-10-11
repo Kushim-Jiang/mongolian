@@ -76,6 +76,33 @@ table {
   color: var(--helper-gray);
 }
 
+/* The written-unit figures: a punctuation mark is drawn turned in a vertical line, and the
+   mark under discussion is boxed; the letters that make up a particle are blue against the
+   rest of it, and a particle table sets its shapes tight. */
+.wu-rotated {
+  display: inline-block;
+  white-space: nowrap;
+  transform: rotate(90deg);
+  padding: 10pt 0pt;
+}
+
+.wu-box {
+  display: inline-block;
+  white-space: pre;
+  border: 2px solid var(--helper-blue);
+  margin: 0 1px;
+  transform: translateY(-1px);
+}
+
+.wu-particle {
+  color: var(--particle-blue);
+}
+
+td.shape .wu {
+  line-height: 1;
+  white-space: nowrap;
+}
+
 .locale-label {
   display: block;
   color: var(--sl-color-gray-3);
@@ -97,14 +124,14 @@ td {
 /* The site title is as long as the UTN’s own title, so let it truncate instead
    of crowding the search box, which keeps a workable width of its own. */
 
-.site-title>span {
+.site-title > span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 @media (min-width: 50rem) {
-  .header>div:nth-child(2) {
+  .header > div:nth-child(2) {
     min-width: 11rem;
   }
 }
@@ -182,7 +209,6 @@ a {
 }
 
 @media print {
-
   html,
   body {
     font-family: "Segoe UI", "Noto Sans", Arial, sans-serif;
@@ -285,7 +311,7 @@ a {
     vertical-align: -0.15em;
   }
 
-  .starlight-aside__title+.starlight-aside__content {
+  .starlight-aside__title + .starlight-aside__content {
     margin-top: 0.4em;
   }
 
@@ -357,7 +383,7 @@ a {
     color: #888;
   }
 
-  .toc .toc-l0>a {
+  .toc .toc-l0 > a {
     font-weight: 600;
   }
 

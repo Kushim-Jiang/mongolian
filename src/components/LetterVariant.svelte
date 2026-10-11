@@ -15,6 +15,7 @@
   import type { FVS } from "../../data/variants";
   import type { WrittenUnitID } from "../../data/writtenUnits";
   import { nameToCP, buildWrittenText, niText, ctxBefore, ctxAfter } from "./utils";
+  import Wu from "./Wu.svelte";
 
   const units = $derived(id ? [id] : written);
   const effectiveCtx = $derived(ctxPosition ?? position);
@@ -32,9 +33,7 @@
   });
 </script>
 
-<span class="wu"
-  >{#if showBefore}<span class="wu-context">{niText("init")}</span>{/if}{text}{#if showAfter}<span class="wu-context">{niText("fina")}</span>{/if}</span
->
+<Wu parts={[...(showBefore ? [{ text: niText("init"), class: "wu-context" }] : []), { text }, ...(showAfter ? [{ text: niText("fina"), class: "wu-context" }] : [])]} />
 {#if aliases.length}
   <br />
   <i>
