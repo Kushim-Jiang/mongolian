@@ -139,6 +139,11 @@ class MongFeaComposer(FeaComposer):
                     if locale in variant.locales:
                         yield position, variant, locale
 
+    def targeted(self, locales: Iterable[LocaleID]) -> list[LocaleID]:
+        """The writing systems of *locales* the font is composed for, in the given order."""
+
+        return [locale for locale in locales if locale in self.locales]
+
     def constructPredefinedGlyphs(self) -> None:
         sources = list[GlyphDescriptor]()
         for name in self.glyphs:
@@ -374,9 +379,7 @@ class MongFeaComposer(FeaComposer):
         for position in joiningPositions:
             for alias in getAliasesByLocale("MNG"):
                 positionalClass = self.classes[f"MNG-{alias}.{position}"]
-                charName = getCharNameByAlias("MNG", alias)
-                default = str(GlyphDescriptor.fromData(charName, position))
-                self.sub(positionalClass, by=default)
+                self.sub(positionalClass, by=self.getDefault(alias, position))
 
     def initAliasVariants(
         self,
@@ -560,26 +563,24 @@ class MongFeaComposer(FeaComposer):
         )
         aliases = aliases or getAliasesByLocale(locale)
         if isinstance(writtens, Callable):
-            filter, writtens = (
-                writtens,
-                [
-                    "".join(variantGlyphDescriptor(locale, alias, position, fvs).units)
-                    for alias in aliases
-                    for position in positions
-                    for fvs in data.variants[getCharNameByAlias(locale, alias)][position]
-                ],
-            )
+            keep = writtens
+            writtens = [
+                "".join(variantGlyphDescriptor(locale, alias, position, fvs).units)
+                for alias in aliases
+                for position in positions
+                for fvs in data.variants[getCharNameByAlias(locale, alias)][position]
+            ]
         else:
             writtens = [writtens] if isinstance(writtens, str) else list(writtens)
 
-            def filter(units: list[str], /) -> bool:
+            def keep(units: list[str], /) -> bool:
                 return True
 
-        glyphs = []
+        glyphs = list[str]()
         for alias in aliases:
             for position in positions:
                 for written in writtens:
-                    variants = self.writtenVariants(locale, alias, position, written, filter)
+                    variants = self.writtenVariants(locale, alias, position, written, keep)
                     glyphs.extend(str(v) for v in variants if str(v) not in glyphs)
         return self.glyphClass(glyphs)
 
@@ -589,7 +590,7 @@ class MongFeaComposer(FeaComposer):
         alias: str,
         position: JoiningPosition,
         written: str,
-        filter: Callable[[list[str]], bool],
+        keep: Callable[[list[str]], bool],
     ) -> list[GlyphDescriptor]:
         """The variants of *alias* in *position* whose written form is *written*.
 
@@ -605,7 +606,7 @@ class MongFeaComposer(FeaComposer):
             return [
                 GlyphDescriptor.parse(g.glyph)
                 for g in self.classes[key].glyphs.glyphs
-                if written in g.glyph and filter(GlyphDescriptor.parse(g.glyph).units)
+                if written in g.glyph and keep(GlyphDescriptor.parse(g.glyph).units)
             ]
 
         charName = getCharNameByAlias(locale, alias)
@@ -614,7 +615,7 @@ class MongFeaComposer(FeaComposer):
             for fvs in data.variants[charName][position]
             if (w := variantGlyphDescriptor(locale, alias, position, fvs)).units
             == splitWrittens(written)
-            and filter(w.units)
+            and keep(w.units)
             and locale in data.variants[charName][position][fvs].locales
         ]
 

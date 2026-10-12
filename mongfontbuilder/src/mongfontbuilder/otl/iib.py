@@ -15,8 +15,27 @@ from . import MongFeaComposer, preMvsSuffixes
 # The writing systems that draw the final form of the letter _m_ with a large tail, and the
 # written units the localized treatment swaps: the form this font draws the character with,
 # and the form the writing systems write instead.
-LARGE_TAIL = ["SIB", "MCH"]
+LARGE_TAIL: list[LocaleID] = ["SIB", "MCH"]
 LOCALIZED_M_FINA = ("u182E.M.fina", "u182E.M3.fina")
+
+# The bowed written units of Hudum Ali Gali, which take a `Wp` and an `_a_`, or an _i_.
+BOWED_CONSONANTS = ["G", "K", "K2", "Bg", "Pg", "B"]
+
+# The joining positions a bowed written form is written in, and the one it is drawn at: the
+# form is written in the position the word joins on the bow, and drawn from the bow at the
+# position before it, where the `Wp`/`_a_` that follows makes it a ligature.
+BOWED_POSITIONS: list[tuple[JoiningPosition, JoiningPosition]] = [
+    ("isol", "init"),
+    ("fina", "medi"),
+]
+
+# The written form of a bowed written unit that the word joins on the bow, and the writing
+# system that writes it: the bow is drawn `_{consonant}{drawn}.{base}`, and a form that takes
+# a written form after the bow — the `_a_` in the shape it takes after a `Wp` — lists it.
+BOWED_FORMS: dict[str, tuple[LocaleID, str, list[str]]] = {
+    "WpA": ("MCHx", "O", ["_A.fina.Wp_"]),
+    "I4": ("MNGx", "I", []),
+}
 
 
 def compose(c: MongFeaComposer) -> None:
@@ -35,27 +54,12 @@ def constructBowedForms(c: MongFeaComposer) -> None:
     `Wp`, and the `‹C›I4` of the bow with the Ali Gali _i_ that ends the word.
     """
 
-    # The bowed written units of Hudum Ali Gali, which take a `Wp` and an `_a_`, or an _i_.
-    BOWED_CONSONANTS = ["G", "K", "K2", "Bg", "Pg", "B"]
-
-    # The written form of a bowed written unit that the word joins on the bow, the locale that
-    # writes it, and the members it is drawn from — the bow at the joining position before the
-    # one the written form is written in, where a `Wp`/`_a_` that follows makes it a ligature.
-    BOWED_FORMS = {
-        "WpA": (
-            "MCHx",
-            [("isol", "init"), ("fina", "medi")],
-            lambda x, b: [f"_{x}O.{b}", "_A.fina.Wp_"],
-        ),
-        "I4": ("MNGx", [("isol", "init"), ("fina", "medi")], lambda x, b: [f"_{x}I.{b}"]),
-    }
-
-    for name, (locale, positions, members) in BOWED_FORMS.items():
+    for name, (locale, drawn, followers) in BOWED_FORMS.items():
         if locale not in c.locales:
             continue
-        for position, base in positions:
+        for position, base in BOWED_POSITIONS:
             for consonant in BOWED_CONSONANTS:
-                written = members(consonant, base)
+                written = [f"_{consonant}{drawn}.{base}", *followers]
                 if all(i in c.glyphs for i in written):
                     c.spec.newGlyphs[f"_{consonant}{name}.{position}"] = GlyphSpec(written)
 
@@ -310,7 +314,7 @@ def iib4(c: MongFeaComposer) -> None:
     writing systems at once.
     """
 
-    if not (languages := [i for i in LARGE_TAIL if i in c.locales]):
+    if not (languages := c.targeted(LARGE_TAIL)):
         return
     if not all(hasGlyph(c, i) for i in LOCALIZED_M_FINA):
         return

@@ -29,15 +29,12 @@ def initOutsideLetters(
 
     outside: dict[int, dict[JoiningPosition, list[WrittenUnitID]]] = {}
     for codePoint, positionToUnits in codePointToOutsideUnits.items():
-        default = next(
-            (
-                member
-                for position in joiningPositions
-                if (member := str(GlyphDescriptor([], positionToUnits[position], position)))
-                in c.glyphs
-            ),
-            None,
-        )
+        default = None
+        for position in joiningPositions:
+            member = str(GlyphDescriptor([], positionToUnits[position], position))
+            if member in c.glyphs:
+                default = member
+                break
         if default is None:
             # A source font without the written units draws no such letter.
             continue
