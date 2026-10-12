@@ -4,6 +4,7 @@ import re
 from collections.abc import Iterator
 from copy import deepcopy
 from dataclasses import dataclass, field
+from typing import cast
 
 from fontTools import unicodedata
 
@@ -17,7 +18,7 @@ from .data import (
     writtenUnits,
 )
 from .data.logic import variantFromReference
-from .data.types import VariantReference, fina, init, isol, joiningPositions, medi
+from .data.types import VariantReference, Written, fina, init, isol, joiningPositions, medi
 from .utils import getCharNameByAlias
 
 
@@ -27,9 +28,7 @@ def splitWrittens(writtens: str) -> list[WrittenUnitID]:
     ['A', 'Bb', 'Ccc']
     """
 
-    if isinstance(writtens, str):
-        return re.sub(r"[A-Z]", lambda x: " " + x[0], writtens).removeprefix(" ").split(" ")
-    return list(writtens)
+    return re.sub(r"[A-Z]", lambda x: " " + x[0], writtens).removeprefix(" ").split(" ")
 
 
 def getPosition(index: int, length: int) -> JoiningPosition:
@@ -71,6 +70,25 @@ def writtenCombinations(writtens: list[str], position: JoiningPosition) -> Itera
         ][leftJoin : len(comb) - rightJoin]
         if result and sum(len(splitWrittens(i)) for i in result) == len(writtens):
             yield result
+
+
+def _writtenForLocale(variantData: VariantData, locale: LocaleID | None) -> Written | None:
+    """The written form *locale* gives *variantData*, or `None` where it names none.
+
+    A writing system falls back to its Ali Gali extension only where it names no written
+    form of its own at all — a Hudum letter takes what Hudum Ali Gali gives it — so the
+    extension is looked up under the locale, and a locale that is already an extension has
+    none to fall back to.
+    """
+
+    if locale is None:
+        return None
+    if locale in variantData.locales:
+        return variantData.locales[locale].written
+    if locale.endswith("x"):
+        return None
+    xLocale = cast(LocaleID, locale + "x")
+    return variantData.locales[xLocale].written if xLocale in variantData.locales else None
 
 
 @dataclass
@@ -116,26 +134,15 @@ class GlyphDescriptor:
         suffixes: list[str] | None = None,
         locale: LocaleID | None = None,
     ) -> GlyphDescriptor:
-        if suffixes is None:
-            suffixes = []
         if not variantData:
             variantData = next(i for i in variants[charName][position].values() if i.default)
 
-        written = None
-        if locale and locale in variantData.locales:
-            localeWritten = variantData.locales[locale].written
-            if localeWritten is not None:
-                written = localeWritten
-        elif locale and not locale.endswith("x"):
-            xLocale = f"{locale}x"
-            if xLocale in variantData.locales:
-                xWritten = variantData.locales[xLocale].written
-                if xWritten is not None:
-                    written = xWritten
+        written = _writtenForLocale(variantData, locale)
         if written is None:
             written = variantData.written
         assert written, variantData
 
+        suffixes = list(suffixes or [])
         if isinstance(written, VariantReference):
             units = variantFromReference(written, variants[charName])
             suffixes = ["_" + position, *suffixes]

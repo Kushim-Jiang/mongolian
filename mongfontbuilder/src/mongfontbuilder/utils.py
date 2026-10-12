@@ -6,23 +6,29 @@ from .data.types import FVS, CharacterName, JoiningPosition, LocaleID, LocaleNam
 
 namespaces: list[LocaleNamespace] = [*get_args(LocaleNamespace)]
 
-charNameByNamespaceAlias: dict[tuple[LocaleNamespace, str], CharacterName] = {}
-"""The character each alias names in each namespace.
 
-`data.aliases` is read in the order it is written, so the character that answers an alias
-first is the one the alias names. An alias written as a string is not specific to a
-namespace, and names its character in every one of them.
-"""
+def _buildCharNameByNamespaceAlias() -> dict[tuple[LocaleNamespace, str], CharacterName]:
+    """The character each alias names in each namespace.
 
-for _charName, _aliasData in data.aliases.items():
-    _aliasPairs: list[tuple[LocaleNamespace, str]] = (
-        [(_namespace, _aliasData) for _namespace in namespaces]
-        if isinstance(_aliasData, str)
-        else [*_aliasData.items()]
-    )
-    for _namespace, _alias in _aliasPairs:
-        if _alias is not None:
-            charNameByNamespaceAlias.setdefault((_namespace, _alias), _charName)
+    `data.aliases` is read in the order it is written, so the character that answers an alias
+    first is the one the alias names. An alias written as a string is not specific to a
+    namespace, and names its character in every one of them.
+    """
+
+    index = dict[tuple[LocaleNamespace, str], CharacterName]()
+    for charName, aliasData in data.aliases.items():
+        aliasPairs: list[tuple[LocaleNamespace, str]] = (
+            [(namespace, aliasData) for namespace in namespaces]
+            if isinstance(aliasData, str)
+            else [*aliasData.items()]
+        )
+        for namespace, alias in aliasPairs:
+            if alias is not None:
+                index.setdefault((namespace, alias), charName)
+    return index
+
+
+charNameByNamespaceAlias = _buildCharNameByNamespaceAlias()
 
 
 def namespaceFromLocale(locale: LocaleID) -> LocaleNamespace:
