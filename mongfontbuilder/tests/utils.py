@@ -112,7 +112,7 @@ def getWrittenUnits(utnName: UTNGlyphName) -> str:
 
 
 def parseAliases(text: str, locale: LocaleID) -> str:
-    result = []
+    result = list[str]()
     for char in text:
         alias = aliases[unicodedata.name(char)]
         if isinstance(alias, str):
@@ -124,7 +124,7 @@ def parseAliases(text: str, locale: LocaleID) -> str:
 
 
 def parseLetter(names: str, locale: LocaleID) -> str:
-    result = []
+    result = list[str]()
 
     for name in names.split():
         try:

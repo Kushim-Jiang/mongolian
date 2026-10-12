@@ -19,7 +19,7 @@ from re import match as reMatch
 
 import pytest
 import uharfbuzz as hb
-from _pytest.mark.structures import ParameterSet
+from _pytest.mark.structures import Mark, MarkDecorator, ParameterSet
 from fontTools.feaLib import ast
 from ufoLib2 import Font
 from ufoLib2.objects import Glyph
@@ -493,21 +493,23 @@ class UnifiedMongFeaComposer(MongFeaComposer):
 
         with self.Lookup("IIb.nirugu.extending", feature="rclt", flags={"IgnoreMarks": True}):
             extendingClass = self.namedGlyphClass("IIb.extending", EXTENDING)
-            bowedClass = self.namedGlyphClass("IIb.bowed", bowed)
+            # `bowedWrittens` also carries the `GlyphName` expressions a glyph class is
+            # built of, which `glyphClass` accepts as they are though its hint says not.
+            bowedClass = self.namedGlyphClass("IIb.bowed", bowed)  # type: ignore[arg-type]
             self.sub(self.input(bowedClass, extending), extendingClass, by=None)
             self.sub(self.input("u1821.A.init", extending), by=None)
             if q := self.qWrittens():
                 vowels = self.vowelWrittens()
                 self.sub(self.input(self.namedGlyphClass("IIb.q", q), extending), vowels, by=None)
 
-    def bowedWrittens(self) -> list:
+    def bowedWrittens(self) -> list[ast.GlyphClassDefinition | ast.GlyphName]:
         """The bowed written forms of every targeted writing system.
 
         The treatment acts on written units that every writing system shares, so each
         writing system contributes the written forms of the letters it draws with a bow.
         """
 
-        members = []
+        members: list[ast.GlyphClassDefinition | ast.GlyphName] = []
         for locale in self.locales:
             aliases = getAliasesByLocale(locale)
             for alias in BOWED:
@@ -517,7 +519,7 @@ class UnifiedMongFeaComposer(MongFeaComposer):
             members.extend(self.writtens(locale, ["G", "Gx"]).glyphSet())
         return members
 
-    def qWrittens(self) -> list:
+    def qWrittens(self) -> list[ast.GlyphClassDefinition]:
         """The written forms of the Ali Gali letter _q_, which the bows join."""
 
         for locale in self.locales:
@@ -525,7 +527,7 @@ class UnifiedMongFeaComposer(MongFeaComposer):
                 return [self.classes[f"{locale}-qX"]]
         return []
 
-    def vowelWrittens(self):
+    def vowelWrittens(self) -> ast.GlyphClass:
         """The vowel written forms that an extended written form stands before."""
 
         return self.glyphClass(
@@ -801,7 +803,7 @@ def caseValues(case: Case) -> tuple[str, str, LocaleID, str]:
     return tuple(case.values) if isinstance(case, ParameterSet) else case  # type: ignore
 
 
-def caseMarks(case: Case) -> list:
+def caseMarks(case: Case) -> list[Mark | MarkDecorator]:
     """The marks made on *case*, which a plain tuple carries none of."""
 
     return [*case.marks] if isinstance(case, ParameterSet) else []
@@ -813,7 +815,7 @@ def caseIsXfail(case: Case) -> bool:
     return any(mark.name == "xfail" for mark in caseMarks(case))
 
 
-def conformanceCases() -> list:
+def conformanceCases() -> list[Case]:
     """The cases of the suites, marked where the unified font answers differently.
 
     The EAC suite settles the cases below by one writing system alone, and another writing
@@ -822,7 +824,7 @@ def conformanceCases() -> list:
     one of them answers them as the suite expects.
     """
 
-    cases = []
+    cases: list[Case] = []
     for case in loadRawTestCases(TEST_SUITES):
         values = caseValues(case)
         marks = caseMarks(case)
@@ -832,7 +834,7 @@ def conformanceCases() -> list:
     return cases
 
 
-def caseIndexes(cases: list) -> Iterator[str]:
+def caseIndexes(cases: list[Case]) -> Iterator[str]:
     """The `‹suite› > ‹index›` name of every case of *cases*."""
 
     for case in cases:
