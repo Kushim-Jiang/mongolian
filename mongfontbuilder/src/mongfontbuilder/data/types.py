@@ -1,7 +1,9 @@
 from dataclasses import dataclass, field
-from typing import Literal, NamedTuple, get_args
+from typing import Any, Literal, NamedTuple, TypeVar, get_args
 
 from cattrs import register_structure_hook
+
+_T = TypeVar("_T")
 
 JoiningPosition = Literal["isol", "init", "medi", "fina"]
 joiningPositions: list[JoiningPosition] = [*get_args(JoiningPosition)]
@@ -15,7 +17,15 @@ FVS = int
 
 LocaleNamespace = Literal["MNG", "TOD", "SIB", "MCH"]
 AliasData = str | dict[LocaleNamespace, str]
-register_structure_hook(AliasData, lambda x, _: x)
+
+
+def _identity(obj: _T, _: type[Any]) -> _T:
+    """Keep a value as the data writes it, structuring no member of it."""
+
+    return obj
+
+
+register_structure_hook(AliasData, _identity)
 
 
 @dataclass
@@ -40,12 +50,18 @@ class ParticleData:
 Written = list[WrittenUnitID] | VariantReference
 
 
-def _structureWritten(x, _):
-    return VariantReference(*x) if x[0] in joiningPositions else x
+def _structureWritten(obj: Any, _: type[Any]) -> Written:
+    """A written form is a reference when it names a joining position, and units otherwise."""
+
+    return VariantReference(*obj) if obj[0] in joiningPositions else obj
+
+
+def _structureOptionalWritten(obj: Any, _: type[Any]) -> Written | None:
+    return _structureWritten(obj, type(None)) if obj else None
 
 
 register_structure_hook(Written, _structureWritten)
-register_structure_hook(Written | None, lambda x, _: _structureWritten(x, None) if x else None)
+register_structure_hook(Written | None, _structureOptionalWritten)
 
 
 @dataclass

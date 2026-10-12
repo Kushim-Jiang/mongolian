@@ -1,6 +1,6 @@
 import json
 from importlib.resources import files
-from typing import Literal
+from typing import Any, Literal, TypeVar
 
 from cattrs import structure
 
@@ -20,54 +20,45 @@ from .types import (
 )
 
 assert __package__
-dir = files(__package__)
+_dataDir = files(__package__)
 
-with (dir / "writtenUnits.json").open(encoding="utf-8") as f:
-    # The drawing of each written unit at each joining position: the code it is drawn with,
-    # and the codes of the shapes it takes in a context of its own, such as `pre_mvs`.
-    writtenUnits: dict[WrittenUnitID, dict[JoiningPosition, dict[str, int]]] = json.load(f)
+_T = TypeVar("_T")
 
-with (dir / "ligatures.json").open(encoding="utf-8") as f:
-    ligatures: dict[
-        Literal["required", "optional"],
-        dict[str, list[JoiningPosition]],
-    ] = json.load(f)
 
-with (dir / "locales.json").open(encoding="utf-8") as f:
-    locales = structure(
-        json.load(f),
-        dict[LocaleID, LocaleData],
-    )
+def _read(name: str) -> Any:
+    """The JSON document *name* of the data directory."""
 
-with (dir / "aliases.json").open(encoding="utf-8") as f:
-    aliases = structure(
-        json.load(f),
-        dict[CharacterName, AliasData],
-    )
+    with (_dataDir / name).open(encoding="utf-8") as f:
+        return json.load(f)
 
-with (dir / "variants.json").open(encoding="utf-8") as f:
-    variants = structure(
-        json.load(f),
-        dict[CharacterName, dict[JoiningPosition, dict[FVS, VariantData]]],
-    )
 
-with (dir / "particles.json").open(encoding="utf-8") as f:
-    particles = structure(
-        json.load(f),
-        dict[LocaleID, dict[str, ParticleData]],
-    )
+def _model(name: str, model: type[_T]) -> _T:
+    """The JSON document *name*, structured as *model*."""
 
-with (dir / "outsideLetters.json").open(encoding="utf-8") as f:
-    outsideLetters = structure(
-        json.load(f),
-        dict[CharacterName, dict[JoiningPosition, dict[FVS, OutsideLetterData]]],
-    )
+    return structure(_read(name), model)
 
-with (dir / "nonJoining.json").open(encoding="utf-8") as f:
-    nonJoining = structure(
-        json.load(f),
-        dict[LocaleID, NonJoiningData],
-    )
+
+# The drawing of each written unit at each joining position: the code it is drawn with,
+# and the codes of the shapes it takes in a context of its own, such as `pre_mvs`.
+writtenUnits: dict[WrittenUnitID, dict[JoiningPosition, dict[str, int]]] = _read(
+    "writtenUnits.json"
+)
+
+ligatures: dict[Literal["required", "optional"], dict[str, list[JoiningPosition]]] = _read(
+    "ligatures.json"
+)
+
+locales = _model("locales.json", dict[LocaleID, LocaleData])
+aliases = _model("aliases.json", dict[CharacterName, AliasData])
+variants = _model(
+    "variants.json", dict[CharacterName, dict[JoiningPosition, dict[FVS, VariantData]]]
+)
+particles = _model("particles.json", dict[LocaleID, dict[str, ParticleData]])
+outsideLetters = _model(
+    "outsideLetters.json",
+    dict[CharacterName, dict[JoiningPosition, dict[FVS, OutsideLetterData]]],
+)
+nonJoining = _model("nonJoining.json", dict[LocaleID, NonJoiningData])
 
 codePointToCmapVariant = resolveCmapVariants(variants)
 codePointToOutsideUnits = resolveOutsideUnits(outsideLetters)
