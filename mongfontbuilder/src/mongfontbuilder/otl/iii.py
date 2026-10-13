@@ -396,10 +396,11 @@ def iii2a(c: MongFeaComposer) -> None:
                 c.sub(initials, marked, by=None)
 
     if "MNG" in c.locales:
-        # The `marked` that an initial consonant asks for is carried to the vowel that ends
-        # the syllable, across the consonants of the cluster between them, so that
-        # `k2 l ue` draws the marked `ue` as `k2 l ue` does when the vowel follows the
-        # initial consonant alone. GB 25914—2023 requires it.
+        # The `marked` that an initial consonant asks for is carried to the medial vowel
+        # that ends the syllable, across the consonants of the cluster between them, so
+        # that `k2 l ue` draws the marked `ue` as `k2 ue` does when the vowel follows the
+        # initial consonant alone. GB 25914—2023 requires it of the medial form alone: a
+        # word-final vowel after a consonant cluster keeps its default form.
         with c.Lookup("III.o_u_oe_ue.marked.emit", feature="rclt", flags={"IgnoreMarks": True}):
             for default in defaultGlyphs(c, categories["consonant"], (init,)):
                 c.sub(default, by=[default, MARKER_INITIAL])
@@ -419,7 +420,10 @@ def iii2a(c: MongFeaComposer) -> None:
         ):
             c.sub(
                 MARKER_INITIAL,
-                c.input(c.variants("MNG", ["o", "u", "oe", "ue"]), c.conditions["MNG:marked"]),
+                c.input(
+                    c.variants("MNG", ["o", "u", "oe", "ue"], medi),
+                    c.conditions["MNG:marked"],
+                ),
                 by=None,
             )
 
