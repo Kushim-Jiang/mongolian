@@ -1107,35 +1107,11 @@
       "init",
       "medi"
     ],
-    "FL": [
-      "init",
-      "medi"
-    ],
-    "FM": [
-      "init",
-      "medi"
-    ],
     "GL": [
       "init",
       "medi"
     ],
     "GM": [
-      "init",
-      "medi"
-    ],
-    "K2L": [
-      "init",
-      "medi"
-    ],
-    "K2M": [
-      "init",
-      "medi"
-    ],
-    "KL": [
-      "init",
-      "medi"
-    ],
-    "KM": [
       "init",
       "medi"
     ],
@@ -1146,14 +1122,6 @@
       "medi"
     ],
     "MM": [
-      "medi"
-    ],
-    "PL": [
-      "init",
-      "medi"
-    ],
-    "PM": [
-      "init",
       "medi"
     ]
   }

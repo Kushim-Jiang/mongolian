@@ -81,7 +81,7 @@ class LigatureCollector:
 
     def collect(self) -> dict[tuple[GlyphDescriptor, ...], tuple[GlyphDescriptor, bool]]:
         for locale in self.c.locales:
-            for category, ligatureToPositions in data.ligatures.items():
+            for category, ligatureToPositions in self.c.ligatureTable().items():
                 self.collectCategory(locale, category, ligatureToPositions)
         return self.substitutions
 

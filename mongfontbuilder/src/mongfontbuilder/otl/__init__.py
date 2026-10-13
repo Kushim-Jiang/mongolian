@@ -1,6 +1,7 @@
 import re
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, replace
+from typing import Literal
 
 from fontTools import unicodedata
 from fontTools.feaLib import ast
@@ -143,6 +144,18 @@ class MongFeaComposer(FeaComposer):
         """The writing systems of *locales* the font is composed for, in the given order."""
 
         return [locale for locale in locales if locale in self.locales]
+
+    def ligatureTable(
+        self,
+    ) -> dict[Literal["required", "optional"], dict[str, list[JoiningPosition]]]:
+        """The ligatures the composition writes, by category.
+
+        The data document lists the ligatures every font writes. A font that draws ligatures
+        the document does not list answers with the table it extends, so that the ligatures
+        it takes stay a choice of that font rather than a rule of the library.
+        """
+
+        return data.ligatures
 
     def constructPredefinedGlyphs(self) -> None:
         sources = list[GlyphDescriptor]()

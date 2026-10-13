@@ -16,6 +16,7 @@ from collections.abc import Iterator
 from functools import cache
 from pathlib import Path
 from re import match as reMatch
+from typing import Literal
 
 import pytest
 import uharfbuzz as hb
@@ -26,7 +27,7 @@ from ufoLib2.objects import Glyph
 
 from fixtures import EAC_UNIFIED_XFAIL, compileOTFForDebugging, loadRawTestCases
 from mongfontbuilder import GlyphDescriptor, data
-from mongfontbuilder.data.types import LocaleID
+from mongfontbuilder.data.types import JoiningPosition, LocaleID
 from mongfontbuilder.otl import MARK_GLYPHS, MongFeaComposer
 from mongfontbuilder.otl.iii import lvsVariants
 from mongfontbuilder.spec import FontSpec, GlyphSpec
@@ -263,6 +264,20 @@ LVS_FORMS: list[tuple[str, dict[str, list[str]]]] = [
     ),
 ]
 
+# The ligatures of _p_, _f_, _k_ and _kh_ with _l_ and _m_, which this font draws and takes.
+# GB 25914—2023 does not require them, so the library's ligature table does not list them and
+# the per-writing-system fonts stay as they are; the choice is this font's, so it is made here.
+OPTIONAL_LIGATURES: dict[str, list[JoiningPosition]] = {
+    "FL": ["init", "medi"],
+    "FM": ["init", "medi"],
+    "K2L": ["init", "medi"],
+    "K2M": ["init", "medi"],
+    "KL": ["init", "medi"],
+    "KM": ["init", "medi"],
+    "PL": ["init", "medi"],
+    "PM": ["init", "medi"],
+}
+
 
 def inkBox(glyph: Glyph) -> tuple[float, float, float, float]:
     """The box the drawing of *glyph* fills, as the least and most of x and of y.
@@ -461,6 +476,21 @@ class UnifiedMongFeaComposer(MongFeaComposer):
 
         for name in self.verticalFormNames():
             font[name].move((UPRIGHT_SHIFT, 0))
+
+    def ligatureTable(
+        self,
+    ) -> dict[Literal["required", "optional"], dict[str, list[JoiningPosition]]]:
+        """Take the ligatures of _p_, _f_, _k_ and _kh_ with _l_ and _m_.
+
+        The library's table lists the ligatures the standard asks for. This font draws
+        ligatures beyond them, and a font takes the ligatures it draws here.
+        """
+
+        table = super().ligatureTable()
+        return {
+            "required": table["required"],
+            "optional": {**table["optional"], **OPTIONAL_LIGATURES},
+        }
 
     def iib5(self) -> None:
         """**Phase IIb.5: Stretching the stem where a bow is followed by an extending form**
