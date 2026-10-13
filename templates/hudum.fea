@@ -1769,7 +1769,7 @@ feature rclt {
     language dflt;
     lookup III.o_u_oe_ue.marked.mark_vowel {
         lookupflag UseMarkFilteringSet [marker.initial];
-        sub marker.initial [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
+        sub marker.initial [@MNG-o.medi @MNG-u.medi @MNG-oe.medi @MNG-ue.medi]' lookup MNG.marked;
     } III.o_u_oe_ue.marked.mark_vowel;
 
 } rclt;
