@@ -2147,7 +2147,7 @@ feature rclt {
         sub @MNG-t' lookup MNG.devsger [@MNG-ee @MNG-consonant];
         sub @MNG-sh.init' lookup MNG.dotless @MNG-i.medi;
         sub @MNG-sh.medi' lookup MNG.dotless [@MNG-i.medi @MNG-i.fina];
-        sub [@MNG-s @MNG-d] @MNG-g.medi' lookup MNG.dotless @MNG-vowelMasculine;
+        sub [@MNG-s.medi @MNG-d.medi] @MNG-g.medi' lookup MNG.dotless @MNG-vowelMasculine;
         sub [@MNG-s @MNG-d] @MNG-g.fina' lookup MNG.dotless @mvs u1820.Aa.isol;
     } III.t_sh_g.MNG.GB;
 

@@ -800,7 +800,10 @@ def iii2g(c: MongFeaComposer) -> None:
 
     (2) When _sh_ precedes _i_ and not in Twelve Syllabaries, apply `dotless`.
 
-    (3) When _g_ follows _s_ or _d_, apply `dotless`.
+    (3) When _g_ follows an _s_ or _d_ that a letter precedes, and a masculine vowel follows,
+    apply `dotless`.
+
+    (4) When _g_ follows an _s_ or _d_, and precedes MVS and _a_, apply `dotless`.
     """
 
     if "MNG" in c.locales:
@@ -813,8 +816,14 @@ def iii2g(c: MongFeaComposer) -> None:
             c.sub(dotlessMedi, c.variants("MNG", "i", (medi, fina)), by=None)
             gMedi = c.input(c.classes["MNG-g.medi"], c.conditions["MNG:dotless"])
             gFina = c.input(c.classes["MNG-g.fina"], c.conditions["MNG:dotless"])
+            # GB (Table B.21, No. 1 ②) names a letter before the _s_ or _d_ it holds, so an
+            # _s_ or _d_ that opens the word takes the dotted form of No. 2 ①; only the rule
+            # of No. 6 ①, the one before an MVS and an _a_, allows a word-initial _s_ or _d_.
+            # A word-initial _s_ or _d_ is drawn initial, so the medial _s_ and _d_ are what
+            # the rule of No. 1 ② follows.
+            sMedi = c.variants("MNG", ["s", "d"], medi)
+            c.sub(sMedi, gMedi, c.classes["MNG-vowelMasculine"], by=None)
             sLike = c.variants("MNG", ["s", "d"])
-            c.sub(sLike, gMedi, c.classes["MNG-vowelMasculine"], by=None)
             c.sub(sLike, gFina, c.classes["mvs"], "u1820.Aa.isol", by=None)
 
 
