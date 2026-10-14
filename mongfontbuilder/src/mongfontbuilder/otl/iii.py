@@ -294,12 +294,18 @@ def iii0b(c: MongFeaComposer) -> None:
         for default in defaultGlyphs(c, allAliases, (init, medi, fina)):
             c.sub(default, MARKER_MASCULINE_FALSE, by=default)
 
+    # The _g_ and _h_ of Hudum carry the masculine marker of an earlier vowel on to the
+    # next step, where the gender of the letter is chosen; a marker that follows any other
+    # letter is dropped here. The two letters take the same rule, as the spec gives them.
+    carriesMasculine = ("g", "h")
     with c.Lookup("III.ig.preprocessing.K", feature="rclt"):
-        for default in defaultGlyphs(c, ["g"], (init, medi, fina)):
+        for default in defaultGlyphs(c, carriesMasculine, (init, medi, fina)):
             c.sub(default, c.input(MARKER_MASCULINE_TRUE), by=MARKER_MASCULINE)
 
     with c.Lookup("III.ig.preprocessing.L", feature="rclt"):
-        for default in defaultGlyphs(c, [i for i in allAliases if i != "g"], (init, medi, fina)):
+        for default in defaultGlyphs(
+            c, [i for i in allAliases if i not in carriesMasculine], (init, medi, fina)
+        ):
             c.sub(default, MARKER_MASCULINE_TRUE, by=default)
 
     with c.Lookup("III.ig.preprocessing.M", feature="rclt"):
