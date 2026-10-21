@@ -48,6 +48,13 @@ The harness builds each test font on the fly using the package API, shapes the t
 
 A font that writes with every writing system at once, from `tests/fonts/unified.ufo`, is validated against the same cases by `tests/test_unified.py`; the font it composes and the cases it runs are in `tests/unified.py`.
 
+`tests/corpora/` holds real-world text, which no run reads, for checking the font by eye:
+
+- `nmg-2026-10.md` — 500 articles from the Mongolian portal of the Inner Mongolia Autonomous Region Government (`mgl.nmg.gov.cn`) and its prefectural and departmental sub-sites;
+- `mgyxw-2026-10.md` — 500 articles from the China Mongolian News Network (`mgyxw.cn`).
+
+Neither collection contains a private-use character: the articles that carry any are left out.
+
 ### Test suites
 
 - `core-*.tsv` — the core test suite of the Chinese national standard, one file per writing system: `core-hudum` and `core-hudum-ali-gali` (Hudum and its Ali Gali), `core-todo` and `core-todo-ali-gali` (Todo and its Ali Gali), `core-sibe` (Sibe), and `core-manchu` and `core-manchu-ali-gali` (Manchu and its Ali Gali);
