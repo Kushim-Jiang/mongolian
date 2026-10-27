@@ -17,6 +17,13 @@ from fontTools.ttLib import TTFont
 from ufoLib2 import Font
 
 from mongfontbuilder.data.types import LocaleID
+from mongfontbuilder.otl.iii import (
+    MARKER_FEMININE,
+    MARKER_INITIAL,
+    MARKER_MASCULINE,
+    MARKER_MASCULINE_FALSE,
+    MARKER_MASCULINE_TRUE,
+)
 
 from unified import (
     CASES,
@@ -30,7 +37,7 @@ from unified import (
     inkBox,
     languageOf,
 )
-from utils import assertWrittenUnits
+from utils import assertWrittenUnits, parseLetter, parseWrittenUnits, tempDir
 
 
 @pytest.fixture(scope="session")
@@ -107,6 +114,45 @@ def test_upright_placement(unifiedFont: Path) -> None:
         assert composed[name].width == source[name].width, name
         assert hmtx[name][0] == source[name].width, name
         assert (cMin + cMax) / 2 - (sMin + sMax) / 2 == UPRIGHT_SHIFT, name
+
+
+def test_gender_markers(unifiedFont: Path) -> None:
+    """The layout reads past a gender marker whether or not GDEF classifies it.
+
+    Phase III.0 writes a marker between a _g_ or _h_ and the vowel it is read against, and
+    the rules that read past it are written both without and with the marker: a font whose
+    GDEF carries the classes of the markers skips them where a rule does not name them, and
+    a build that does not take the glyph classes of the composed UFO — the markers are added
+    by the composition, so the classes are the composed UFO's to give — reads them where a
+    rule names them. A font of either kind writes the same units, which is what the cases
+    below shape out.
+    """
+
+    marked = TTFont(unifiedFont)
+    classDefs = marked["GDEF"].table.GlyphClassDef.classDefs
+    markers = [
+        MARKER_MASCULINE,
+        MARKER_FEMININE,
+        MARKER_INITIAL,
+        MARKER_MASCULINE_FALSE,
+        MARKER_MASCULINE_TRUE,
+    ]
+    # The markers a rule is meant to skip are marks; the two the gender harmony reads through
+    # phases III.0 are read as letters, and a lookup never skips them.
+    assert all(classDefs.get(name) == 3 for name in markers[:3])
+    for name in markers:
+        classDefs.pop(name, None)
+    unclassified = tempDir / "unified-unclassified-markers.otf"
+    marked.save(unclassified)
+
+    # The word of the report, a chachlag, an onset and a word-final vowel the marker of the
+    # initial consonant asks the marked form of.
+    for letters in ("m o ng g o l", "a g mvs a", "a g a", "h o"):
+        text = parseLetter(letters, "MNG")
+        language = languageOf(LANGUAGE["MNG"])
+        assert parseWrittenUnits(text, unifiedFont, language) == parseWrittenUnits(
+            text, unclassified, language
+        ), letters
 
 
 # The cases of the suites, and how far a run of them has come. There are thousands of

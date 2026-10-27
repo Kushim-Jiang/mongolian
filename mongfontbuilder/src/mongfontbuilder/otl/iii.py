@@ -1,7 +1,7 @@
 from collections.abc import Iterable, Iterator
 
 from fontTools.feaLib import ast
-from tptq.feacomposer import ContextualInput
+from tptq.feacomposer import ContextualInput, LookupFlagDict
 
 from .. import GlyphDescriptor, data, getPosition
 from ..glyph import lvsDescriptor
@@ -372,17 +372,20 @@ def iii2a(c: MongFeaComposer) -> None:
     categories = data.locales["MNG"].categories
 
     if {"MNG", "MNGx", "MCH", "MCHx", "SIB"}.intersection(c.locales):
+        markers = genderMarkers(c)
         with c.Lookup(
             "III.o_u_oe_ue.marked",
             feature="rclt",
-            flags={"IgnoreMarks": True},
+            flags=genderLookupFlags(c),
         ):
             if "MNG" in c.locales:
-                c.sub(
-                    c.classes["MNG-consonant.init"],
-                    c.input(c.variants("MNG", ["o", "u", "oe", "ue"]), c.conditions["MNG:marked"]),
-                    by=None,
+                initials = c.classes["MNG-consonant.init"]
+                marked = c.input(
+                    c.variants("MNG", ["o", "u", "oe", "ue"]), c.conditions["MNG:marked"]
                 )
+                c.sub(initials, marked, by=None)
+                for marker in markers:
+                    c.sub(initials, marker, marked, by=None)
             if "MNGx" in c.locales:
                 c.sub(
                     c.classes["MNGx-consonant.init"],
@@ -459,12 +462,12 @@ def iii2a(c: MongFeaComposer) -> None:
                 by=None,
             )
 
-        with c.Lookup("III.d.marked", feature="rclt", flags={"IgnoreMarks": True}):
-            c.sub(
-                c.input(c.classes["MNG-d.init"], c.conditions["MNG:marked"]),
-                c.classes["MNG-vowel.fina"],
-                by=None,
-            )
+        with c.Lookup("III.d.marked", feature="rclt", flags=genderLookupFlags(c)):
+            dMarked = c.input(c.classes["MNG-d.init"], c.conditions["MNG:marked"])
+            vowels = c.classes["MNG-vowel.fina"]
+            c.sub(dMarked, vowels, by=None)
+            for marker in genderMarkers(c):
+                c.sub(dMarked, marker, vowels, by=None)
 
         with c.Lookup(
             "III.d.marked.GB", feature="rclt", flags={"UseMarkFilteringSet": c.classes["fvs"]}
@@ -521,6 +524,35 @@ def iii2b(c: MongFeaComposer) -> None:
                 )
 
 
+def genderMarkers(c: MongFeaComposer) -> list[str]:
+    """The gender markers that phase III.0 leaves in a run of Hudum.
+
+    A rule that looks past such a marker — to the vowel, or to the MVS, that the letter
+    before it is read against — has to name it: a build that does not carry the glyph
+    classes of the markers does not skip them, and the rule would read the marker as the
+    glyph it looks ahead at.
+    """
+
+    return [MARKER_MASCULINE, MARKER_FEMININE] if "MNG" in c.locales else []
+
+
+def genderLookupFlags(c: MongFeaComposer) -> LookupFlagDict:
+    """The lookup flags of a rule that reads past the marks of a run, markers included.
+
+    A mark filtering set names the markers, which keeps them visible to the rules written
+    with them, while the marks of the font that the set does not name are still skipped,
+    which is what `IgnoreMarks` skips. A font the composition writes the markers into but
+    does not classify — a build that only carries the glyph classes of the source font —
+    leaves them visible to every rule anyway, so the rules written with the markers are the
+    ones that answer there.
+    """
+
+    markers = genderMarkers(c)
+    if not markers:
+        return {"IgnoreMarks": True}
+    return {"UseMarkFilteringSet": c.glyphClass(markers)}
+
+
 def iii2c(c: MongFeaComposer) -> None:
     """
     When Hudum _n_, _j_, _w_ precede an MVS that precedes chachlag _a_ or _e_, apply `chachlag_onset`. When Hudum _h_, _g_, Hudum Ali Gali _a_ precede an MVS that precedes chachlag _a_, apply `chachlag_onset`.
@@ -529,10 +561,11 @@ def iii2c(c: MongFeaComposer) -> None:
     """
 
     if {"MNG", "MNGx"}.intersection(c.locales):
+        markers = genderMarkers(c)
         with c.Lookup(
             "III.n_j_w_h_g_a.chachlag_onset.MNG_MNGx",
             feature="rclt",
-            flags={"IgnoreMarks": True},
+            flags=genderLookupFlags(c),
         ):
             njwVariants = c.variants("MNG", ["n.fina", "j.isol", "j.fina", "w.fina"])
             hgVariants = c.variants("MNG", ["h", "g"], "fina")
@@ -543,12 +576,11 @@ def iii2c(c: MongFeaComposer) -> None:
                     c.glyphClass(["u1820.Aa.isol", "u1821.Aa.isol"]),
                     by=None,
                 )
-                c.sub(
-                    c.input(hgVariants, c.conditions["MNG:chachlag_onset"]),
-                    c.classes["mvs.valid"],
-                    "u1820.Aa.isol",
-                    by=None,
-                )
+                hg = c.input(hgVariants, c.conditions["MNG:chachlag_onset"])
+                aAfterMvs = "u1820.Aa.isol"
+                c.sub(hg, c.classes["mvs.valid"], aAfterMvs, by=None)
+                for marker in markers:
+                    c.sub(hg, marker, c.classes["mvs.valid"], aAfterMvs, by=None)
             if "MNGx" in c.locales:
                 c.sub(
                     c.input(c.classes["MNGx-a.fina"], c.conditions["MNG:chachlag_onset"]),
@@ -558,13 +590,16 @@ def iii2c(c: MongFeaComposer) -> None:
                 )
 
     if "MNG" in c.locales:
-        with c.Lookup("III.g.chachlag_onset.MNG.GB", feature="rclt", flags={"IgnoreMarks": True}):
-            c.sub(
-                c.input(c.classes["MNG-g.fina"], c.conditions["MNG:chachlag_onset_gb"]),
-                c.classes["mvs.valid"],
-                "u1821.Aa.isol",
-                by=None,
-            )
+        with c.Lookup(
+            "III.g.chachlag_onset.MNG.GB",
+            feature="rclt",
+            flags=genderLookupFlags(c),
+        ):
+            g = c.input(c.classes["MNG-g.fina"], c.conditions["MNG:chachlag_onset_gb"])
+            eAfterMvs = "u1821.Aa.isol"
+            c.sub(g, c.classes["mvs.valid"], eAfterMvs, by=None)
+            for marker in genderMarkers(c):
+                c.sub(g, marker, c.classes["mvs.valid"], eAfterMvs, by=None)
 
 
 def iii2d(c: MongFeaComposer) -> None:
@@ -696,6 +731,13 @@ def iii2f(c: MongFeaComposer) -> None:
     (3) Delete all the masculine indicators and the feminine indicators after _g_ or _h_.
     """
 
+    # The gender marker that phase III.0 leaves after a medial _g_ or _h_ stands between the
+    # letter and the vowel, or the MVS, that the rules below look at, so the rules are
+    # written past the marker as well; `genderLookupFlags` holds what keeps the marker
+    # visible to them.
+    markers = genderMarkers(c)
+    genderFlags = genderLookupFlags(c)
+
     if {"MNG", "TOD", "SIB", "MCH"}.intersection(c.locales):
 
         def makeGLike(locale: LocaleID) -> ast.GlyphClass:
@@ -704,20 +746,31 @@ def iii2f(c: MongFeaComposer) -> None:
         with c.Lookup(
             "III.k_g_h.onset_and_devsger_and_gender.MNG_TOD_SIB_MCH",
             feature="rclt",
-            flags={"IgnoreMarks": True},
+            flags=genderFlags,
         ):
             if "MNG" in c.locales:
                 gLike = c.input(makeGLike("MNG"))
-                c.sub(gLike, c.classes["mvs"], c.variants("MNG", ["a", "e"], isol), by=None)
+                aAfterMvs = c.variants("MNG", ["a", "e"], isol)
+                c.sub(gLike, c.classes["mvs"], aAfterMvs, by=None)
+                for marker in markers:
+                    c.sub(gLike, marker, c.classes["mvs"], aAfterMvs, by=None)
             for locale in c.targeted(["MNG", "TOD", "SIB", "MCH"]):
                 onset = c.input(makeGLike(locale), c.conditions[f"{locale}:masculine_onset"])
-                c.sub(onset, c.classes[f"{locale}-vowelMasculine"], by=None)
+                masculineVowels = c.classes[f"{locale}-vowelMasculine"]
+                c.sub(onset, masculineVowels, by=None)
+                if locale == "MNG":
+                    for marker in markers:
+                        c.sub(onset, marker, masculineVowels, by=None)
 
             for locale in c.targeted(["MNG", "TOD", "SIB", "MCH"]):
                 feminine = c.input(makeGLike(locale), c.conditions[f"{locale}:feminine"])
                 feminineVowels = c.classes[f"{locale}-vowelFeminine"]
                 neuterVowels = c.classes[f"{locale}-vowelNeuter"]
-                c.sub(feminine, c.glyphClass([feminineVowels, neuterVowels]), by=None)
+                vowels = c.glyphClass([feminineVowels, neuterVowels])
+                c.sub(feminine, vowels, by=None)
+                if locale == "MNG":
+                    for marker in markers:
+                        c.sub(feminine, marker, vowels, by=None)
 
             if "MNG" in c.locales:
                 masculineDevsger = c.input(makeGLike("MNG"), c.conditions["MNG:masculine_devsger"])
@@ -755,10 +808,12 @@ def iii2f(c: MongFeaComposer) -> None:
         with c.Lookup(
             "III.g_h.onset_and_devsger_and_gender.B.MNG",
             feature="rclt",
-            flags={"IgnoreMarks": True},
+            flags=genderFlags,
         ):
             feminine = c.input(c.variants("MNG", ["h", "g"], init), c.conditions["MNG:feminine"])
             c.sub(feminine, c.classes["MNG-consonant"], by=None)
+            for marker in markers:
+                c.sub(feminine, marker, c.classes["MNG-consonant"], by=None)
 
         for step, genderMarker in (("A", MARKER_MASCULINE), ("B", MARKER_FEMININE)):
             postprocessGender(c, step, genderMarker)

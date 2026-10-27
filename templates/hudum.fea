@@ -1641,8 +1641,10 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.o_u_oe_ue.marked {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         sub @MNG-consonant.init [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
+        sub @MNG-consonant.init marker.masculine [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
+        sub @MNG-consonant.init marker.feminine [@MNG-o @MNG-u @MNG-oe @MNG-ue]' lookup MNG.marked;
     } III.o_u_oe_ue.marked;
 
 } rclt;
@@ -1913,8 +1915,10 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.d.marked {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         sub @MNG-d.init' lookup MNG.marked @MNG-vowel.fina;
+        sub @MNG-d.init' lookup MNG.marked marker.masculine @MNG-vowel.fina;
+        sub @MNG-d.init' lookup MNG.marked marker.feminine @MNG-vowel.fina;
     } III.d.marked;
 
 } rclt;
@@ -1946,9 +1950,11 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.n_j_w_h_g_a.chachlag_onset.MNG_MNGx {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         sub [@MNG-n.fina @MNG-j.isol @MNG-j.fina @MNG-w.fina]' lookup MNG.chachlag_onset @mvs.valid [u1820.Aa.isol u1821.Aa.isol];
         sub [@MNG-h.fina @MNG-g.fina]' lookup MNG.chachlag_onset @mvs.valid u1820.Aa.isol;
+        sub [@MNG-h.fina @MNG-g.fina]' lookup MNG.chachlag_onset marker.masculine @mvs.valid u1820.Aa.isol;
+        sub [@MNG-h.fina @MNG-g.fina]' lookup MNG.chachlag_onset marker.feminine @mvs.valid u1820.Aa.isol;
     } III.n_j_w_h_g_a.chachlag_onset.MNG_MNGx;
 
 } rclt;
@@ -1963,8 +1969,10 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.g.chachlag_onset.MNG.GB {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         sub @MNG-g.fina' lookup MNG.chachlag_onset_gb @mvs.valid u1821.Aa.isol;
+        sub @MNG-g.fina' lookup MNG.chachlag_onset_gb marker.masculine @mvs.valid u1821.Aa.isol;
+        sub @MNG-g.fina' lookup MNG.chachlag_onset_gb marker.feminine @mvs.valid u1821.Aa.isol;
     } III.g.chachlag_onset.MNG.GB;
 
 } rclt;
@@ -2014,10 +2022,16 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.k_g_h.onset_and_devsger_and_gender.MNG_TOD_SIB_MCH {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         ignore sub [@MNG-h @MNG-g]' @mvs [@MNG-a.isol @MNG-e.isol];
+        ignore sub [@MNG-h @MNG-g]' marker.masculine @mvs [@MNG-a.isol @MNG-e.isol];
+        ignore sub [@MNG-h @MNG-g]' marker.feminine @mvs [@MNG-a.isol @MNG-e.isol];
         sub [@MNG-h @MNG-g]' lookup MNG.masculine_onset @MNG-vowelMasculine;
+        sub [@MNG-h @MNG-g]' lookup MNG.masculine_onset marker.masculine @MNG-vowelMasculine;
+        sub [@MNG-h @MNG-g]' lookup MNG.masculine_onset marker.feminine @MNG-vowelMasculine;
         sub [@MNG-h @MNG-g]' lookup MNG.feminine [@MNG-vowelFeminine @MNG-vowelNeuter];
+        sub [@MNG-h @MNG-g]' lookup MNG.feminine marker.masculine [@MNG-vowelFeminine @MNG-vowelNeuter];
+        sub [@MNG-h @MNG-g]' lookup MNG.feminine marker.feminine [@MNG-vowelFeminine @MNG-vowelNeuter];
         sub @MNG-vowelMasculine [@MNG-h @MNG-g]' lookup MNG.masculine_devsger;
         sub @MNG-vowelFeminine [@MNG-h @MNG-g]' lookup MNG.feminine;
     } III.k_g_h.onset_and_devsger_and_gender.MNG_TOD_SIB_MCH;
@@ -2055,8 +2069,10 @@ feature rclt {
     script DFLT;
     language dflt;
     lookup III.g_h.onset_and_devsger_and_gender.B.MNG {
-        lookupflag IgnoreMarks;
+        lookupflag UseMarkFilteringSet [marker.masculine marker.feminine];
         sub [@MNG-h.init @MNG-g.init]' lookup MNG.feminine @MNG-consonant;
+        sub [@MNG-h.init @MNG-g.init]' lookup MNG.feminine marker.masculine @MNG-consonant;
+        sub [@MNG-h.init @MNG-g.init]' lookup MNG.feminine marker.feminine @MNG-consonant;
     } III.g_h.onset_and_devsger_and_gender.B.MNG;
 
 } rclt;
