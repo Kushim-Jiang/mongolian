@@ -20,8 +20,8 @@ from typing import Literal
 
 import pytest
 import uharfbuzz as hb
-from _pytest.mark.structures import Mark, MarkDecorator, ParameterSet
 from fontTools.feaLib import ast
+from pytest import Mark, MarkDecorator, ParameterSet
 from ufoLib2 import Font
 from ufoLib2.objects import Glyph
 

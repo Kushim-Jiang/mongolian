@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import cast
 
 import pytest
-from _pytest.mark.structures import ParameterSet
 from fontTools.ttLib import TTFont
+from pytest import ParameterSet
 from ufo2ft import OTFCompiler
 from ufo2ft.constants import CFFOptimization
 from ufo2ft.featureWriters import GdefFeatureWriter
