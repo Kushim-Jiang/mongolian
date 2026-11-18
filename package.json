@@ -12,19 +12,26 @@
     "format": "prettier --write . !mongfontbuilder/src/mongfontbuilder/data/*.json !mongfontbuilder/tests/data/*.json"
   },
   "dependencies": {
-    "@astrojs/check": "0.9.10",
-    "@astrojs/markdown-satteri": "0.4.2",
-    "@astrojs/starlight": "0.42.5",
-    "@astrojs/svelte": "9.0.1",
-    "@types/node": "26.6.4",
+    "@astrojs/check": "0.9.12",
+    "@astrojs/markdown-satteri": "0.4.10",
+    "@astrojs/starlight": "0.43.1",
+    "@astrojs/svelte": "9.1.6",
+    "@types/node": "26.6.6",
     "@unicode/unicode-18.0.0": "2.0.7",
-    "astro": "7.3.5",
+    "astro": "7.4.12",
     "prettier": "3.9.9",
     "prettier-plugin-astro": "1.1.0",
     "prettier-plugin-svelte": "4.1.1",
-    "svelte": "5.57.1",
-    "svelte-check": "4.7.6",
+    "svelte": "5.58.0",
+    "svelte-check": "4.7.8",
     "typescript": "6.0.3"
+  },
+  "overrides": {
+    "fast-uri": "^3.1.9",
+    "postcss-selector-parser": "^6.1.5",
+    "undici": "^8.12.4",
+    "vite": "^8.3.8",
+    "zod": "^4.6.7"
   },
   "prettier": {
     "overrides": [
