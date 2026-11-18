@@ -12,13 +12,13 @@ export const locales = ["MNG", "MNGx", "TOD", "TODx", "SIB", "MCH", "MCHx"];
 
 The preceding chapters treat one writing system each, but the fonts in common use do not: they cover the whole Mongolian block, and with it Hudum, Todo, Sibe, and Manchu together with their Ali Gali extensions. Such a font is a _single-font implementation_: it integrates several writing systems into one, as [Structure](/architecture/#structure) anticipates. Because the block shares characters between its writing systems, the font must account for differences in written units and glyph shapes. [L2/26-207](https://www.unicode.org/L2/L2026/26207-mongolian.pdf) reviews these differences. At UTC \#189, the Script Encoding Working Group (SEW) reached consensus that language tags are expected to select language-dependent glyph shapes, including positional variants; when a positional variant does not occur in a language, its rendering is a don't-care, and a form defined for another language may be used. The report requests no action from the UTC ([L2/26-239](https://www.unicode.org/L2/L2026/26239-sew-report-utc189.pdf)).
 
-**Different letterforms.** The same written unit may be drawn differently: the final form of the letter _m_ (<Cp cp="182E" />) has a small tail in Hudum and a large one in Sibe and Manchu. The written unit is the same and only the design differs, so a font can keep each design and select it with the OpenType `locl` feature under the language system tag of the writing system (MNG, TOD, SIB, MCH), in keeping with SEW's guidance.
+**Different letterforms.** The same written unit may be drawn differently: the final form of the letter _m_ (<Cp cp="182E" />) has a small tail in Hudum and a large one in Sibe and Manchu. The written unit is the same and only the design differs, so a font can keep each design and select it under the language system tag of the writing system (MNG, TOD, SIB, MCH), in keeping with SEW's guidance.
 
 **Different FVS allocations.** The writing systems do not always agree on which FVS a letter uses. The letter _b_ (<Cp cp="182A" />), shared by Hudum, Sibe, and Manchu, selects its final form with FVS1 in Hudum, while for Sibe and Manchu the sequence `U+182A U+180B` is invalid and renders an error form. A writing system and its Ali Gali are declared in one national standard, so a sequence is judged valid by that standard alone: valid in Hudum Ali Gali means valid in Hudum.
 
 **A position absent from a writing system.** A writing system may have no form of its own at a joining position. For example, <Cp cp="188A" name /> serves both Hudum Ali Gali and Todo Ali Gali: word-finally Hudum Ali Gali has a final form, while Todo Ali Gali has none. Under SEW's guidance, Todo's rendering at that position is a don't-care; a positional form defined for another language may be used. The report does not prescribe a particular fallback for Ali Gali cases where no distinct language tag is available.
 
-**Implementing a single font.** Use language tags to select language-dependent glyph shapes where the text's language is known. If a positional form does not occur in that language, the font is not required to synthesize a particular replacement: the position is a don't-care, and a form used at that position in another language may be supplied instead. This guidance does not establish a universal precedence among writing systems or require one shared written unit at every position. Here, _fabricated form_ continues to describe a form borrowed from another joining position in this document's writing-system data; it is not a requirement that a font use that form as a fallback. Whether a variation sequence is valid, and which FVS allocation applies, remains the responsibility of the higher-level protocol that shapes the text—the application, or the shaping engine implementing this document—which knows the writing system of the text.
+**Implementing a single font.** Use language tags to select language-dependent glyph shapes where the text's language is known. If a positional form does not occur in that language, the font is not required to synthesize a particular replacement: the position is a don't-care, and a form used at that position in another language may be supplied instead. This guidance does not establish a universal precedence among writing systems or require one shared written unit at every position. Here, _fabricated form_ continues to describe a form borrowed from another joining position in this document's writing-system data; it is not a requirement that a font use that form as a fallback. Whether a variation sequence is valid, and which FVS allocation applies, remain the responsibility of the higher-level protocol that shapes the text—the application, or the shaping engine implementing this document—which knows the writing system of the text.
 
 ## Written units of all writing systems
 
@@ -36,9 +36,77 @@ Two characters lie at the edge of this document’s scope, and it specifies no d
 
 **<Cp cp="1878" name />**. Used in Buryat Mongolian, proposed by Andrew West, Amgalan Zhamsoev and Viacheslav Zaytsev in [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) and added in Unicode 14.0. Only its medial form is attested in the historical Buryat sources; its initial and final forms were also proposed, as fabricated glyphs.
 
-**<Cp cp="1898" name />**. Used in no writing system, and perhaps coined by Quejingzhabu. In one scheme the Todo Ali Gali letter _ta_ was analyzed as <Mong TODx links="Dp" />, and the letter _da_ shown the same way, so a stroke was added to tell _da_ apart. All of its glyphs are fabricated.
+**<Cp cp="1898" name />**. Used in no writing system, and perhaps coined by Quejingzhabu. In one scheme the Todo Ali Gali letter _ta_ was analyzed as <Mong TODx links="Dp" />, and the letter _da_ was shown the same way, so a stroke was added to tell _da_ apart. All of its glyphs are fabricated.
 
 The first concerns the specifications for Buryat Mongolian and, as [WG2 N4781](https://www.unicode.org/L2/L2017/17007-n4781-mongolian.pdf) indicates, goes beyond this document’s scope; the second appears in no Mongolian writing system, and the current Chinese national standard supports it only for compatibility.
+
+## Shaping process
+
+The chapters above give the shaping process of one writing system each, but a single font carries all of them. The phases and their order are the same for every writing system—the basic mapping (Ia), cursive joining (IIa), the Mongolian-specific phase (III), the variation within a written unit (IIb), and typography (Ib), as [Architecture](/architecture/#shaping-process) sets out—and the work inside phases III and IIb is what differs. A single font runs that one order for the whole block, and where the rules of several writing systems agree, one rule serves them all; where they do not, the classes and rules of each writing system are kept apart.
+
+**Language systems.** A single font declares one language system for each writing system—MNG, TOD, SIB, and MCH—and shapes a writing system's Ali Gali extension under the same language system, since the two are declared together in one national standard. The tag is what settles a difference of design: where a writing system draws a written form differently from the others, as Sibe and Manchu draw the final form of _m_ (<Cp cp="182E" />) with a large tail, the font keeps one form as the default and substitutes the others under that writing system's tag. The rules also apply under a default language system, so text that a layout does not resolve to a writing system still takes the process.
+
+**The default written form.** The cursive joining of phase IIa is one set of rules for the whole block, and it gives a character one written form for every writing system the font carries: the first form that one of them actually writes at the position, in the order the font carries them, and a form borrowed from another position only where none writes one. That form is what the font shows where no later rule replaces it. The rules that do replace it are the writing system's conditions in phase III, its FVS substitutions, and the localized treatment of phase IIb under its language tag; a position for which it has none of these keeps the shared form—the don't-care that the guidance above describes.
+
+### Letter classes
+
+The conditions of the phase are properties of the letters around the letter being shaped, and every condition is tested through a class of letters. The classes are not one set for the whole block, because a class gathers the written forms of one writing system: Hudum's _vowel_ class holds _ee_ (<Cp cp="1827" />), which Todo, Sibe, and Manchu do not write; Sibe's and Manchu's hold _ii_ (<Cp cp="185D" />); Todo's holds the long vowel sign (<Cp cp="1843" />). A single font therefore keeps the classes of each writing system apart, so that a glyph may sit in the classes of several writing systems while a class belongs to one. A condition is applied by selecting the variants that answer it, so the classes are what make a rule of one writing system act on the written forms of that writing system.
+
+The _vowel_ and _consonant_ classes are the inventories of each writing system, which its chapter lists; the classes that do not run through the whole block are those of gender, of the long vowel, and of the bow. Every writing system but Hudum Ali Gali has the masculine, feminine, and neuter vowel classes, though their members differ from one writing system to another, and Todo Ali Gali writes neither _u_ nor _oe_; Hudum Ali Gali tests no gender and has only its _vowel_, _consonant_, and bowed written unit classes. Only Todo and Todo Ali Gali have a long vowel class, which holds the vowels that take the long vowel sign. The bowed written units are one class in Hudum, Hudum Ali Gali, Todo, and Todo Ali Gali, while Sibe, Manchu, and Manchu Ali Gali divide them into a masculine, a feminine, and a neuter class, because their post-bowed step tests the gender of the bow as well as the vowel that follows it. The letters of every class are in the letter-class tables of the chapters on [Hudum](/hudum/#letter-classes), [Hudum Ali Gali](/hudum-ali-gali/#letter-classes), [Todo](/todo/#letter-classes), [Todo Ali Gali](/todo-ali-gali/#letter-classes), [Sibe](/sibe/#letter-classes), [Manchu](/manchu/#letter-classes), and [Manchu Ali Gali](/manchu-ali-gali/#letter-classes).
+
+### Mongolian-specific phase
+
+The reduction of phase III is a sequence of steps that the writing systems share, and each runs the steps it takes in the same order: the phonetic steps first—chachlag, syllabic, particle—then the graphemic ones—devsger, post-bowed—and the forms that no condition captures fall to the FVS-selected step, as [Architecture](/architecture/#iii-reduction-of-phonetic-letters-to-written-units) states. A single font does not run the steps writing system by writing system: it puts the rules of all of them in the one order, and each rule acts on the written forms of the writing system or systems it serves. The writing systems that take part in each step are as follows.
+
+<table>
+  <thead>
+    <tr>
+      <td>Shaping step</td>
+      <td>Writing systems</td>
+      <td>Conditions and mapping types</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1. Chachlag</td>
+      <td>Hudum, Hudum Ali Gali</td>
+      <td>`chachlag`; a Hudum _a_ or _e_ between an MVS and an FVS keeps its `default` form</td>
+    </tr>
+    <tr>
+      <td>2. Syllabic</td>
+      <td>all seven writing systems</td>
+      <td>`marked`, `chachlag_onset`, `chachlag_onset_gb`, `post_wa`, `onset`, `devsger`, `masculine_onset`, `masculine_devsger`, `feminine`, `feminine_marked`, `dotless`</td>
+    </tr>
+    <tr>
+      <td>3. Particle</td>
+      <td>Hudum, Todo, Sibe, Manchu</td>
+      <td>`particle`</td>
+    </tr>
+    <tr>
+      <td>4. Devsger</td>
+      <td>Hudum, Todo, Sibe, Manchu, Manchu Ali Gali</td>
+      <td>`vowel_devsger`</td>
+    </tr>
+    <tr>
+      <td>5. Post-bowed</td>
+      <td>all seven</td>
+      <td>`post_bowed`; `post_bowed_feminine` in Sibe, Manchu, and Manchu Ali Gali</td>
+    </tr>
+    <tr>
+      <td>6. FVS-selected</td>
+      <td>all seven</td>
+      <td>the variants that FVS1–FVS4 select</td>
+    </tr>
+  </tbody>
+</table>
+
+Only the conditions that a writing system names apply to it, and each chapter gives the letters and the context of those conditions.
+
+The phase is bracketed by two steps that the condition tables do not show. Before the first condition is tested, the format controls are turned into the states the conditions test: the nirugu, ZWJ, ZWNJ, and every FVS become zero-width ignored forms, the MVS is kept as the control that the chachlag and particle rules act on, and, where Todo is one of the writing systems, the final long vowel sign redraws the letter before it in the position that closes the word. After the last condition, the nirugu and the FVS that shaping did not consume are drawn as themselves again, so a control that no rule used is still drawn as itself when the phase ends.
+
+Hudum needs one more step that no condition table shows: its harmonic gender has to be known at a _g_ or an _h_ that no vowel stands near, so the phase carries it across the word with markers—inserted at the letters that fix it, passed through those that do not change it, read at the letter it conditions, and removed again (see [Architecture](/architecture/#iii-reduction-of-phonetic-letters-to-written-units)). A single font builds the markers only where it carries Hudum, and it also removes every marker it inserts.
+
+The reduction leaves the written units fixed, and phase IIb varies them. The chachlag onset's shape before the mark is written only where Hudum and its Ali Gali write the chachlag, and one rule serves both. The cleanup of the format controls splits a wide MVS, the separator that stands before a particle, into a non-breaking space and an ignored MVS, so that the separation is a space that does not break and the control kept with it takes no width. The localized treatment is the step that belongs to a single-font implementation: a written form that one writing system draws differently, as Sibe and Manchu draw the final form of _m_, is replaced under that writing system's language system tag, after cursive joining—in `rclt` rather than `locl`, because an engine applies `locl` before joining, when the written unit to replace does not exist yet.
 
 ## Reference implementations
 
