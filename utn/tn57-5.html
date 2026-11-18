@@ -1,0 +1,194 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+  Front page of UTN #57, version 5.
+
+  Published at https://www.unicode.org/notes/tn57/tn57-5.html, beside the
+  documentation site built with UTN_REVISION=5, whose `dist/` contents are
+  placed on the server as utn57-mong-5/. The Contents section below links to
+  that folder, so the two artifacts are published together.
+-->
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="en-us">
+<title>UTN #57, Encoding and Shaping of the Mongolian Script</title>
+
+<link rel="stylesheet" href="https://www.unicode.org/reports/reports-v2.css" type="text/css">
+
+</head>
+
+
+<body>
+
+  <table class="header">
+    <tr>
+          <td class="icon" style="width:38px; height:35px">
+          <a href="https://www.unicode.org/">
+          <img border="0" src="https://www.unicode.org/webscripts/logo60s2.gif" align="middle"
+          alt="[Unicode]" width="34" height="33"></a>
+          </td>
+
+          <td class="icon" style="vertical-align:middle">
+          <a class="bar"> </a>
+          <a class="bar" href="https://www.unicode.org/notes/"><font size="3">Unicode Technical Notes</font></a>
+          </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="gray">&nbsp;</td>
+    </tr>
+  </table>
+
+
+    <div class="body">
+      <h2 align="center">Unicode Technical Note #57</h2>
+      <h1>Encoding and Shaping of the Mongolian Script</h1>
+      <table class="simple" width="90%">
+        <tbody>
+          <tr>
+            <td width="20%">Version</td>
+            <td><a href="#TrackingNumber5">5</a></td>
+          </tr>
+          <tr>
+            <td>Authors</td>
+            <td>
+              <a href="http://www.unicode.org/reporting.html">Kushim Jiang</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Date</td>
+            <td>2026-11-18</td>
+          </tr>
+          <tr>
+            <td>This Version</td>
+            <td>
+              <a href="https://www.unicode.org/notes/tn57/tn57-5.html">https://www.unicode.org/notes/tn57/tn57-5.html</a>
+            </td>
+          </tr>
+          <tr>
+            <td>Previous Version</td>
+            <td>
+              <a href="https://www.unicode.org/notes/tn57/tn57-4.html">
+                https://www.unicode.org/notes/tn57/tn57-4.html</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Latest Version</td>
+            <td>
+              <a href="https://www.unicode.org/notes/tn57/"
+                >https://www.unicode.org/notes/tn57/</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>&nbsp;</p>
+
+      <h3><i>Summary</i></h3>
+      <p>
+        <i
+          >This document provides a system of text representation and text
+          shaping rules for the Mongolian script, covering the Hudum, Todo,
+          Sibe, and Manchu writing systems and their Ali Gali extensions. It
+          fixes the characters and the written units of each writing system,
+          gives the step-by-step shaping rules that turn a sequence of
+          characters into written units, and describes the architecture behind
+          them, their history, the relationship to the Unicode Standard, and
+          the data and toolchain that maintain the specification.</i
+        >
+      </p>
+      <h3><i>Status</i></h3>
+      <p>
+        <i
+          >This document is a <b>Unicode Technical Note</b>. Sole responsibility
+          for its contents rests with the author. Publication does not imply any
+          endorsement by the Unicode Consortium.</i
+        >
+      </p>
+
+      <p>
+        For information on Unicode Technical Notes including criteria for
+        acceptance, see
+        <a href="https://www.unicode.org/notes/"
+          >https://www.unicode.org/notes/</a
+        >.
+      </p>
+
+      <h3>Contents</h3>
+      <p>
+        The body of this note is published as the documentation site “<a
+          href="utn57-mong-5/">utn57-mong-5/</a
+        >”.
+      </p>
+
+      <h2><a name="Modifications"></a>Modifications</h2>
+      <p>
+        The following summarizes modifications from the previous version of this
+        document.
+      </p>
+
+      <p><a name="TrackingNumber5"><b>5</b></a></p>
+      <ul>
+        <li>
+          Rewrite the document throughout and reorganize it into chapters on the
+          architecture, the writing systems, non-joining characters, and
+          single-font implementation, with appendices on the background,
+          phonology, the Unicode Standard, and comparison.
+        </li>
+        <li>
+          Add the history of the encoding and a phonemic analysis of the written
+          languages.
+        </li>
+        <li>
+          Rename the Ali Gali letters <i>·H</i>, <i>·M</i>, <i>·T</i> to
+          <i>·X</i>, together with several letters and written units of the
+          writing systems.
+        </li>
+        <li>
+          Revise the data of every writing system: remove unattested forms,
+          correct the variants and their FVS assignments, renumber variants, and
+          update the shaping rules, letter classes, and mapping types
+          accordingly.
+        </li>
+        <li>
+          Add particle mapping tables for Hudum, Todo, Sibe, and Manchu, and add
+          tables of the written units and characters shared by the writing
+          systems.
+        </li>
+        <li>
+          Align the document with the Unicode Standard documents that cite this
+          UTN, and with the Script Encoding Working Group’s guidance at UTC #189.
+        </li>
+        <li>Publish the document as a website rather than as a PDF.</li>
+      </ul>
+      <p>
+        The <a href="utn57-mong-5/modifications/">Modifications</a> chapter of
+        the document lists the changes in detail.
+      </p>
+
+<p class="copyright">© 2024–2026 Kushim Jiang. This publication is
+protected by copyright, and permission must be obtained from the author and
+Unicode, Inc. prior to any reproduction, modification, or other use not
+permitted by the <a href="https://www.unicode.org/copyright.html">Terms of
+Use</a>.</p>
+
+<p class="copyright">Use of this publication is governed by the Unicode <a
+href="https://www.unicode.org/copyright.html">Terms of Use</a>. The
+authors, contributors, and publishers have taken care in the preparation of
+this publication, but make no express or implied representation or warranty
+of any kind and assume no responsibility or liability for errors or
+omissions or for consequential or incidental damages that may arise
+therefrom. This publication is provided “AS-IS” without charge as a
+convenience to users.</p>
+
+<p class="copyright">Unicode and the Unicode Logo are registered trademarks
+of Unicode, Inc. in the United States and other countries.</p>
+
+
+
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+---
+title: Modifications
+---
+
+The following summarizes modifications from the previous versions of this document.
+
+## Version 5
+
+- Polish the wording throughout.
+- Add an introduction to the history of the encoding and a phonemic analysis of the written languages.
+- Rename the Ali Gali letters _·H_, _·M_, _·T_ to _·X_.
+- Remove the transliterations of single-letter written units and phonetic letters. Add _bowed written unit_ to all letter class tables. Rename “Lookups” to “Mapping type” in all Mongolian-specific phase tables. Update the onset and devsger logic for _n_, _t_, _d_; rename `devsger` in “4. Devsger” to `vowel_devsger`; and split `post_bowed`/`post_bowed_feminine` and `feminine`/`feminine_marked` to trigger distinct shaping rules per consonant class. Add particle mapping tables for Hudum, Todo, Sibe and Manchu.
+- Align the document with the Unicode Standard documents that cite this UTN and with what their citations ask of it.
+- Align the document with the Script Encoding Working Group’s guidance on language-dependent glyph selection, given at UTC #189.
+- Reorganize the chapters: move the introduction’s structural overview into Architecture, give the phoneme inventory an appendix of its own, and make the toolchain a section of the introduction.
+- Publish the document as a website rather than as a PDF, with the Contents of the UTN page linking to it.
+- Add a chapter on non-joining characters—the other letters, digits, and punctuation.
+- Add a chapter on single-font implementation, gathering the written units and the characters of the supported writing systems into one table each.
+- For Hudum,
+  - Remove _Zr.medi_; the word _m o zr i k2 a n_ becomes _m o hh i k2 a n_.
+  - Note _W_ in letters _ee_ and _w_.
+  - Remove the EAC note: shaping is now required by GB 25914—2023 alone.
+  - Remove `vowel_devsger` for _u_: a _u_ that a vowel precedes is written with the feminine form of its position, which `feminine` selects as it does after a consonant, so that the gender a word’s first vowel fixes carries to the vowel that ends the word.
+  - Remove `devsger` for initial _n_: the initial _n_ that a consonant follows is written _N_ rather than _A_.
+- For Todo,
+  - Merge the written unit _I3_ into _Ip_: move _I.fina_ to _Ip.fina_, likewise the final ligated variant of _Ip_. The fabricated _Ip.fina_ and _i.fina.1_ are removed (contextual in the ligature).
+  - Remove the unattested _N.fina_, _Gp.fina_, _oe.medi.1_, _oe.fina.1_, the written unit _Y_, _O.medi_ and _U.fina_.
+  - Add _Zz2_ (of _zr_), as required by the Chinese national standard.
+  - Assign FVS2 to medial _N2_ of _n_ and add _n.isol.2_; update the related note.
+  - Remove the note on _ny_ and its reference: the form is attested in Todo literature only inside a Sanskrit word.
+  - Treat _lvs_ as a vowel.
+  - Add the missing “2. Syllabic”.
+- For Sibe,
+  - Add _Ni.medi_ (in _e_).
+  - Use _M3_ for _M.fina_.
+  - Remove the unattested _G.fina_, written unit _Gx_ (of _k_), _Ch.fina_, _Cc.fina_ and _W.fina_ (of _w_).
+  - Remove _Zs.fina_, analyzed as _Zs2.medi_ followed by _I.fina_; add _Zs2_ (of _z_), moving the initial and medial ligated variants of _Zs_ to _Zs2_; assign FVS1 to _Zs2_ and FVS2 to _Zs_ in _z_; update the related note. The Sibe _Zs_ + _I_ ligature has no Manchu counterpart, so it is a distinct written unit rather than a system-specific ligature judgment.
+  - Renumber _i.medi.2_ as _i.medi.1_ and _i.medi.3_ as _i.medi.2_; move _i.fina.3_ to _i.fina.0_; delete _i.fina.1_ (contextual in the ligature) and _i.fina.2_ (analyzed as _sbm.medi.0_ followed by _i.fina.0_); remove the related note.
+  - Swap _t.isol.0_ with _t.isol.1_, _t.init.1_ with _t.init.2_, and _t.medi.1_ with _t.medi.3_.
+  - Move the `marked` mapping of _z_ to _i_; update the onset and devsger logic for _k_, _g_, _h_.
+- For Manchu,
+  - Add _Ni.medi_ (in _e_).
+  - Use _Hx2_ (of _k_) for _Hx.fina_.
+  - Use _M3_ for _M.fina_.
+  - Remove _Zs.fina_, analyzed as _Zs.medi_ followed by _Iy.fina_; remove the unattested _Ch.fina_, _Cc.fina_, _J.fina_, _Jc.fina_ and _W.fina_.
+  - Renumber _i.medi.2_ as _i.medi.1_ and add _i.medi.2_; renumber _i.fina.2_ as _i.fina.1_ and _i.fina.3_ as _i.fina.2_; remove _i.fina.1_ (contextual in the ligature) and _i.fina.4_ (analyzed as _sbm.medi.0_ followed by _i.fina.2_); remove the related note.
+  - Swap _t.isol.0_ with _t.isol.1_, _t.init.1_ with _t.init.2_, and _t.medi.1_ with _t.medi.3_.
+- For Hudum Ali Gali,
+  - Move _A2.fina_ into the final ligated variant of _A_ (contextual in the ligature); remove the phonetic letter _aX_ and the related note.
+  - Remove the unattested _Pg.fina_, _Rh.fina_ and _Wp.init_.
+  - Rename the letter _h_ to _hh_.
+  - Move _hX.medi.1_ to _hh.medi.0_.
+  - Remove the mapping type `post_wa` (part of the ligature).
+- For Todo Ali Gali,
+  - Remove _Hp.init_, which is actually _N.init_.
+  - Rename the written unit _Zc_ to _Zz2_ and the letter _jX_ to _zr_.
+  - Rename the letter _phX_ to _p_.
+  - Remove _Ip.fina_ and _i.fina.1_ (contextual in the ligature).
+  - Move _hh.medi.1_ to _hX.medi.0_.
+  - Treat _lvs_ as a vowel.
+  - Remove `post_bowed` for _a_ (now via FVS).
+- For Manchu Ali Gali,
+  - Rename the written unit _Al_ to _Aw_ and _Ds_ to _Dw_.
+  - Use _Hx2_ (of _k_) for _Hx.fina_.
+  - Use _M3_ for _M.fina_.
+  - Remove the unattested _Jq.fina_, _Jh.fina_, _Cc.fina_, _Sc.fina_, _St.fina_, _St2.fina_ and _Sx.fina_.
+  - Add _Dt.init_.
+  - Remove the written unit _Pb2_ as an erroneous unit.
+  - Renumber _i.medi.2_ as _i.medi.1_ and add _i.medi.2_; renumber _i.fina.2_ as _i.fina.1_ and _i.fina.3_ as _i.fina.2_; remove _i.fina.1_ and _i.fina.4_.
+  - Assign FVS2 to medial _Hy_ of _ghX_.
+  - Swap _t.isol.0_ with _t.isol.1_, _t.init.1_ with _t.init.2_, and _t.medi.1_ with _t.medi.3_.
+  - Add _Nx_ for _n_ and _Wd_, _Wc_ for _bhX_ (Transitional Manchu).
+  - Remove `devsger` for _s_ (now via FVS).
+
+## Version 4
+
+- Fix a typo in the title.
+- Update the copyright text in the footer.
+
+## Version 3
+
+- Add a link to the latest version of the UTN.
+- Remove the use of the “word root separator” in Section 2.2.2, and ZWJ is no longer recommended as an indicator for word root boundaries.
+- Remove the use of the “word root separator” for Hudum in Table 6, and remove the lookup “toothed” for Hudum in Table 7.
+- Remove the use of the “word root separator” for Todo in Table 11, and remove the lookup “toothed” for Todo in Table 12.
+- Add GB 25914—2023 as a normative reference for Hudum Ali Gali in Section 7.3.
+- Add GB 36645—2018 as a normative reference for Manchu Ali Gali in Section 8.3, and remove WG2 N3041 and WG2 N3092 as references.
+- Add GB 36649—2018 as a normative reference for Todo Ali Gali in Section 9.3.
+- Fix several typos.
+
+## Version 2
+
+- Update the title of the document.
+- Update the term “writing unit” to “written unit”.
+- Complete the second paragraph of Section 2.4, where the original content was missing.
+- Update the FVS designation for Todo letter _oe_. In the medial context, _A Ot_ originally corresponded to FVS1, and _O_ corresponded to FVS2; now _A Ot_ corresponds to FVS2, and _O_ corresponds to FVS1.
+
+## Version 1
+
+- Initial version.

@@ -50,7 +50,13 @@ export default defineConfig({
         "single-font-implementation",
         {
           label: "Appendices",
-          items: ["background", "phonology", "unicode-standard", "comparison"],
+          items: [
+            "background",
+            "phonology",
+            "unicode-standard",
+            "comparison",
+            "modifications",
+          ],
         },
       ],
       social: [

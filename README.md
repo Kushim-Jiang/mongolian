@@ -35,6 +35,21 @@ The repository uses GitHub Actions:
 - [`.github/workflows/pypi.yml`](.github/workflows/pypi.yml) builds the package and publishes it to PyPI when a release is published;
 - [`.github/workflows/pdf.yml`](.github/workflows/pdf.yml) builds the site and renders the documentation PDF, which it uploads as a workflow artifact; it runs only when dispatched by hand, not on pushes.
 
+### Publishing a revision
+
+A revision of the UTN is published as two artifacts that sit side by side on the Unicode server, under `https://www.unicode.org/notes/tn57/`:
+
+- `tn57-<n>.html`, the front page, kept in [`utn/`](utn/): the metadata, the summary, the status, the Contents link, and a summary of the revision’s modifications;
+- `utn57-mong-<n>/`, the documentation site, built with `UTN_REVISION=<n>` and placed under that folder name; the front page’s Contents links to it, and its Modifications chapter lists the changes in detail.
+
+Build the site for the revision, then copy the contents of `dist/` to the folder:
+
+```sh
+UTN_REVISION=5 npm run build
+```
+
+The front page is edited by hand: copy the file of the previous revision, update its version, date, and Contents link, and add the summary of the new revision to its Modifications section. The detailed list of the changes goes in [`docs/modifications.mdx`](docs/modifications.mdx).
+
 ## Contributing
 
 [`CONTRIBUTING.md`](CONTRIBUTING.md) covers the development environment of each part of the repository.
